@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         requestContactPermission()
-        getContacts()
 
         // ViewPager Adapter 생성
         val viewPagerAdapter = ViewPagerAdapter(this@MainActivity)
@@ -170,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         private fun requestContactPermission() {
             //사용자가 퍼미션 허용 했는지 확인
             val status = ContextCompat.checkSelfPermission(this, "android.permission.READ_CONTACTS")
-            if (status == PackageManager.PERMISSION_GRANTED)
+            if (status == PackageManager.PERMISSION_GRANTED) getContacts()
             else {
                 //퍼미션 요청 다이얼로그 표시
                 ActivityCompat.requestPermissions(
