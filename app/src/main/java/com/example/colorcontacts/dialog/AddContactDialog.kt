@@ -8,6 +8,7 @@ import com.example.colorcontacts.databinding.DialogAddContactBinding
 
 class AddContactDialog(context : Context) : Dialog(context) {
     private val binding by lazy{DialogAddContactBinding.inflate(layoutInflater)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -15,6 +16,15 @@ class AddContactDialog(context : Context) : Dialog(context) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
 
+        // 콜백 버튼 구현
+        setCallBackFunction()
+
+        // 유효성 검사
+
+
+
+    }
+    private fun setCallBackFunction(){
         // Ok 버튼
         binding.btnAddContactOk.setOnClickListener {
             // 데이터 전달
@@ -27,6 +37,7 @@ class AddContactDialog(context : Context) : Dialog(context) {
             //종료
             dismiss()
         }
-
     }
+
+
 }
