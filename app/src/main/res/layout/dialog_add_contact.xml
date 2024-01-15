@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_add_contact_back_btn"
-        app:srcCompat="@drawable/img_add_contact_profile" />
+        app:srcCompat="@drawable/img_user_profile" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_layout_add_contact"

@@ -99,13 +99,13 @@ class AddContactDialog(context: Context) : Dialog(context) {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
                 isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if(!isCheckedPhoneNum) etPhoneNum.error = "01x-xxxx-xxxx 형태 이어야합니다."
+                if(!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if(!isCheckedPhoneNum) etPhoneNum.error = "01x-xxxx-xxxx 형태 이어야합니다."
+                if(!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }

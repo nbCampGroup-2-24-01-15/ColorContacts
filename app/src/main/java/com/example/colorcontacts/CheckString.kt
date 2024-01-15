@@ -5,7 +5,7 @@ package com.example.colorcontacts
  *  Regex(정규표현식)을 이용하여 구현
  *
  *  1. 이름 : 영문자 및 한글만 들어가야 한다.
- *  2. 폰번호 : 01x-xxxx-xxxx 으로만 구성 되어야 한다.
+ *  2. 폰번호 : 010-xxxx-xxxx 으로만 구성 되어야 한다.
  *  3. 이메일 : xxx@xxxxx.xxx 형태로 되어야 한다
  */
 class CheckString {
