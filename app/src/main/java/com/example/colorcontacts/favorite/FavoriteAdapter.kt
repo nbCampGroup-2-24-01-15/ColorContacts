@@ -81,6 +81,7 @@ class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView
         val name = binding.tvContactName
         val img = binding.ivContactImg
         val star =  binding.ivContactStar
+        val swipeLayout = binding.swipeItemContact
 
         init {
             itemView.setOnClickListener {

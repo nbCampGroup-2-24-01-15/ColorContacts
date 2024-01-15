@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.colorcontacts.LayoutType
 import com.example.colorcontacts.R
@@ -77,6 +78,8 @@ class ContactListFragment : Fragment() {
             }
             viewModel.setContactList(type) //실드 클래스에 넣어 타입 구분
         }
+        val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
+        itemTouchHelper.attachToRecyclerView(binding.rcContactList)
     }
 
     private fun setLayoutBtn() {

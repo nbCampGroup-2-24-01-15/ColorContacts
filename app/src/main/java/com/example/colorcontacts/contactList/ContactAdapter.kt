@@ -81,6 +81,7 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
         val name = binding.tvContactName
         val img = binding.ivContactImg
         val star =  binding.ivContactStar
+        val swipeLayout = binding.swipeItemContact
 
         init {
             itemView.setOnClickListener {

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.colorcontacts.LayoutType
 import com.example.colorcontacts.R
@@ -70,6 +71,9 @@ class FavoriteFragment : Fragment() {
             }
             viewModel.setFavoriteList(type)
         }
+
+        val itemHelper = ItemTouchHelper(FavoriteItemHelper(requireContext()))
+        itemHelper.attachToRecyclerView(binding.rcFavoriteList)
     }
 
     private fun setLayoutBtn() {
