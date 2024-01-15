@@ -1,0 +1,18 @@
+<resources>
+
+    <style name="Widget.Theme.ColorContacts.ButtonBar.Fullscreen" parent="">
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="android:fontFamily">@font/font_pretendard</item>
+    </style>
+
+    <style name="customTextViewFontStyle" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">@font/font_pretendard</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="customEditTextFontStyle" parent="@android:style/Widget.DeviceDefault.EditText">
+        <item name="android:fontFamily">@font/font_pretendard</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>
