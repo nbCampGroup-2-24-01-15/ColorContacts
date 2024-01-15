@@ -32,8 +32,7 @@
             android:id="@+id/iv_personal_arrow"
             android:layout_width="12sp"
             android:layout_height="12sp"
-            android:layout_gravity="end|center_vertical"
-            android:src="@drawable/baseline_arrow_forward_ios_24"/>
+            android:layout_gravity="end|center_vertical"/>
 
     </LinearLayout>
 
