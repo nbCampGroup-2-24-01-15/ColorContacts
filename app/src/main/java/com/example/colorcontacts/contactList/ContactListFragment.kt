@@ -20,14 +20,12 @@ class ContactListFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModel: ContactViewModel by lazy {
-        ViewModelProvider(requireActivity())[ContactViewModel::class.java]
-    }
-
+    private lateinit var viewModel: ContactViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]
         _binding = FragmentContactListBinding.inflate(inflater, container, false)
         init()
         return binding.root
@@ -38,13 +36,13 @@ class ContactListFragment : Fragment() {
     }
 
     private fun setList() {
-        val list = UserList.userList.map { ContactViewType.ContactUser(it) }
-        adapter = ContactAdapter(list)
+        viewModel.setContactList()
+        viewModel.list.observe(requireActivity()){ list ->
+            adapter = ContactAdapter(list)
+            adapter!!.load()
+        }
         binding.rcContactList.adapter = adapter
         binding.rcContactList.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.list.observe(requireActivity()){
-            adapter!!.getList(it)
-        }
         adapter?.itemClick = object : ContactAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 viewModel.onFavorite(position)

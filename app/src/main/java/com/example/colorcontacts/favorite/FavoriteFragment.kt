@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.colorcontacts.UserList
 import com.example.colorcontacts.contactList.ContactAdapter
+import com.example.colorcontacts.contactList.ContactViewModel
 import com.example.colorcontacts.databinding.FragmentFavoriteBinding
 
 class FavoriteFragment : Fragment() {
@@ -15,6 +17,7 @@ class FavoriteFragment : Fragment() {
 
     private var _binding: FragmentFavoriteBinding? = null
 
+    private lateinit var viewModel: ContactViewModel
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +28,7 @@ class FavoriteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         init()
         return binding.root
@@ -35,14 +39,16 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setList() {
-        var list = mutableListOf<FavoriteViewType>()
-        UserList.userList.forEach { if (it.favorites)list.add(FavoriteViewType.FavoriteUser(it)) }
-        adapter = FavoriteAdapter(list)
+        viewModel.setFavoriteList()
+        viewModel.favoriteList.observe(requireActivity()) { list ->
+            adapter = FavoriteAdapter(list)
+            adapter!!.load()
+        }
         binding.rcFavoriteList.adapter = adapter
         binding.rcFavoriteList.layoutManager = LinearLayoutManager(requireContext())
         adapter?.itemClick = object : FavoriteAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                UserList.userList[position].favorites = UserList.userList[position].favorites != true
+                viewModel.onFavorite(position)
             }
         }
     }
@@ -50,5 +56,10 @@ class FavoriteFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setList()
     }
 }

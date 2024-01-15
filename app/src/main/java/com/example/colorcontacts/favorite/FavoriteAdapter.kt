@@ -52,6 +52,9 @@ class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView
     override fun getItemCount(): Int {
         return mItem.size
     }
+    fun load(){
+        notifyDataSetChanged()
+    }
 
     override fun getItemViewType(position: Int): Int {
         return when (mItem[position]) {

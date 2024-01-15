@@ -53,8 +53,7 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
         return mItem.size
     }
 
-    fun getList(newList: List<ContactViewType>){
-        mItem = newList
+    fun load(){
         notifyDataSetChanged()
     }
     override fun getItemViewType(position: Int): Int {
