@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="widget">#a2d2ff</color>
+    <color name="search">#bde0f2</color>
 </resources>
