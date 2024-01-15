@@ -76,11 +76,14 @@ class AddContactDialog(context: Context) : Dialog(context) {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
+                isCheckedName = CheckString().checkName(s.toString())
+                if(!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedName = CheckString().checkName(s.toString())
+                if(!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
@@ -95,11 +98,14 @@ class AddContactDialog(context: Context) : Dialog(context) {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
+                isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
+                if(!isCheckedPhoneNum) etPhoneNum.error = "01x-xxxx-xxxx 형태 이어야합니다."
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
+                if(!isCheckedPhoneNum) etPhoneNum.error = "01x-xxxx-xxxx 형태 이어야합니다."
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
@@ -114,11 +120,14 @@ class AddContactDialog(context: Context) : Dialog(context) {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
+                isCheckedEmail = CheckString().checkEmail(s.toString())
+                if(!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedEmail = CheckString().checkEmail(s.toString())
+                if(!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
