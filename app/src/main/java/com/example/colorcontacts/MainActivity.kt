@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
+import com.example.colorcontacts.dialog.AddContactDialog
 import com.example.colorcontacts.dialpad.DialPadFragment
 import com.example.colorcontacts.favorite.FavoriteFragment
 import com.google.android.material.tabs.TabLayout
@@ -29,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
+
+
+        //임의의 다이얼로그 버튼(디버그용)
+        binding.button.setOnClickListener {
+            AddContactDialog(this).show()
+        }
     }
 
 
