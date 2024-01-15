@@ -1,5 +1,6 @@
 package com.example.colorcontacts.contactList
 
+import android.app.Notification
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class ContactAdapter (private val mItem: List<ContactViewType>) : RecyclerView.A
                     else star.setImageResource(R.drawable.baseline_star_outline_24)
                     star.setOnClickListener {
                         itemClick?.onClick(it, position)
+                        notifyDataSetChanged()
                     }
                 }
                 holder.itemView.setOnClickListener {
