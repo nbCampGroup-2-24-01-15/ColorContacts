@@ -12,27 +12,37 @@
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="10dp"
+        android:padding="20dp"
         android:background="@color/white">
 
+        <ImageView
+            android:id="@+id/iv_contact_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/img_user_profile"
+            android:background="@drawable/iv_round_background"
+            android:clipToOutline="true"
+            android:layout_marginEnd="16dp"/>
         <TextView
-            android:id="@+id/tv_personal_title"
+            android:id="@+id/tv_contact_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:text="계정 설정" />
+            android:textSize="16sp"
+            android:text="사용자1" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
-      
+
         <ImageView
-            android:id="@+id/iv_personal_arrow"
-            android:layout_width="12sp"
-            android:layout_height="12sp"
-            android:layout_gravity="end|center_vertical"/>
+            android:id="@+id/iv_Contact_star"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/baseline_star_outline_24"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
