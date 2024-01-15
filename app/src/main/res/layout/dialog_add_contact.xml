@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/iv_add_contact_back_btn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:rotation="-180"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_main_downarrow" />
+
+    <ImageView
+        android:id="@+id/iv_add_contact_profile_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_add_contact_back_btn"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_layout_add_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_add_contact_profile_img">
+
+        <EditText
+            android:id="@+id/et_add_contant_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contant_email"
+            app:layout_constraintEnd_toEndOf="@+id/et_add_contant_phone_number"
+            app:layout_constraintStart_toStartOf="@+id/et_add_contant_phone_number"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contant_email" />
+
+        <TextView
+            android:id="@+id/tv_add_contant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_add_contant_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="번호"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_add_contant_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_contant_name" />
+
+        <TextView
+            android:id="@+id/tv_add_contant_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="이메일"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_add_contant_phone_number"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_contant_phone_number" />
+
+        <TextView
+            android:id="@+id/tv_add_contant_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="이벤트"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_add_contant_phone_number"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_contant_email" />
+
+        <EditText
+            android:id="@+id/et_add_contant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contant_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_add_contant_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contant_name" />
+
+        <EditText
+            android:id="@+id/et_add_contant_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contant_phone_number"
+            app:layout_constraintEnd_toEndOf="@+id/et_add_contant_name"
+            app:layout_constraintStart_toStartOf="@+id/et_add_contant_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contant_phone_number" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contant_event"
+            app:layout_constraintEnd_toEndOf="@+id/et_add_contant_email"
+            app:layout_constraintStart_toStartOf="@+id/et_add_contant_email"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contant_event" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btn_add_contant_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="확인"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/const_layout_add_contact" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
