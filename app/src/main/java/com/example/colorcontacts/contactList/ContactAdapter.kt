@@ -32,8 +32,8 @@ class ContactAdapter (private val mItem: List<ContactViewType>) : RecyclerView.A
                 with((holder as ItemViewHolder)){
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-                    if (item.user.favorites) star.setImageResource(R.drawable.baseline_star_24)
-                    else star.setImageResource(R.drawable.baseline_star_outline_24)
+                    if (item.user.favorites) star.setImageResource(R.drawable.ic_detail_favorite_filled)
+                    else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                 }
                 holder.itemView.setOnClickListener {
                     itemClick?.onClick(it, position)
