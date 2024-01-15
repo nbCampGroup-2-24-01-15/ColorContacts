@@ -38,4 +38,6 @@
     <color name="widget">#a2d2ff</color>
     <color name="search">#bde0f2</color>
     <color name="icon">#07B2FF</color>
+    <color name="tab_select">#11264f</color>
+    <color name="tab_basic">#e9e9e9</color>
 </resources>
