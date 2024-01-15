@@ -16,7 +16,7 @@ class AddContactDialog(context : Context) : Dialog(context) {
         setContentView(binding.root)
 
         // Ok 버튼
-        binding.btnAddContantOk.setOnClickListener {
+        binding.btnAddContactOk.setOnClickListener {
             // 데이터 전달
             // 종료
             dismiss()
