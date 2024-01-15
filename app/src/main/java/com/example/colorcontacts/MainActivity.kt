@@ -37,7 +37,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         requestContactPermission()
+        setFragment()
+    }
 
+    private fun setFragment(){
         // ViewPager Adapter 생성
         val viewPagerAdapter = ViewPagerAdapter(this@MainActivity)
         viewPagerAdapter.addFragment(FavoriteFragment())
@@ -58,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.setIcon(icons[position])
         }.attach()
-
     }
 
     /**
@@ -141,6 +143,7 @@ class MainActivity : AppCompatActivity() {
                 UserList.userList.add(user)
             }
         }
+        setFragment()
     }
 
     /**

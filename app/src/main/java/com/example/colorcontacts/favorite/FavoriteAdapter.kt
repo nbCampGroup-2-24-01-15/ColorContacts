@@ -1,6 +1,6 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.favorite
 
-import android.app.Notification
+import com.example.colorcontacts.contactList.ContactViewType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
-class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private const val ITEM_VIEW_TYPE_ITEM = 1
     }
@@ -29,7 +29,7 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = mItem[position]){
-            is ContactViewType.ContactUser -> {
+            is FavoriteViewType.FavoriteUser -> {
                 with((holder as ItemViewHolder)){
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
@@ -53,13 +53,9 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
         return mItem.size
     }
 
-    fun getList(newList: List<ContactViewType>){
-        mItem = newList
-        notifyDataSetChanged()
-    }
     override fun getItemViewType(position: Int): Int {
         return when (mItem[position]) {
-            is ContactViewType.ContactUser -> ITEM_VIEW_TYPE_ITEM
+            is FavoriteViewType.FavoriteUser -> ITEM_VIEW_TYPE_ITEM
         }
     }
 

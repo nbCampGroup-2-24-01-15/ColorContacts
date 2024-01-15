@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.colorcontacts.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
@@ -17,6 +19,10 @@ class ContactListFragment : Fragment() {
     private var _binding: FragmentContactListBinding? = null
 
     private val binding get() = _binding!!
+
+    private val viewModel: ContactViewModel by lazy {
+        ViewModelProvider(requireActivity())[ContactViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,16 +42,16 @@ class ContactListFragment : Fragment() {
         adapter = ContactAdapter(list)
         binding.rcContactList.adapter = adapter
         binding.rcContactList.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.list.observe(requireActivity()){
+            adapter!!.getList(it)
+        }
         adapter?.itemClick = object : ContactAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                setFavorite(position)
+                viewModel.onFavorite(position)
             }
         }
     }
 
-    private fun setFavorite(position: Int) {
-        UserList.userList[position].favorites = UserList.userList[position].favorites != true
-    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
