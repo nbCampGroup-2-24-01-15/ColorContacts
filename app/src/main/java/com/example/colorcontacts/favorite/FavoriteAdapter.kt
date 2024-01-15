@@ -1,15 +1,17 @@
 package com.example.colorcontacts.favorite
 
-import com.example.colorcontacts.contactList.ContactViewType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
+import com.example.colorcontacts.contactList.ContactAdapter
+import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
-class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
+        private const val ITEM_VIEW_TYPE_GRID = 0
         private const val ITEM_VIEW_TYPE_ITEM = 1
     }
     interface ItemClick {
@@ -20,6 +22,10 @@ class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType){
+            ITEM_VIEW_TYPE_GRID -> {
+                val binding = ItemContactGridBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                GridViewHolder(binding)
+            }
             else -> {
                 val binding = ItemContactListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ItemViewHolder(binding)
@@ -28,13 +34,13 @@ class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = mItem[position]){
+        when (val item = mItem[position]) {
             is FavoriteViewType.FavoriteUser -> {
-                with((holder as ItemViewHolder)){
+                with((holder as ItemViewHolder)) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-                    if (item.user.favorites) star.setImageResource(R.drawable.baseline_star_24)
-                    else star.setImageResource(R.drawable.baseline_star_outline_24)
+                    if (item.user.favorites) star.setImageResource(R.drawable.ic_star_24)
+                    else star.setImageResource(R.drawable.ic_star_outline_24)
                     star.setOnClickListener {
                         itemClick?.onClick(it, position)
                         notifyDataSetChanged()
@@ -42,6 +48,13 @@ class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView
                 }
                 holder.itemView.setOnClickListener {
                     itemClick?.onClick(it, position)
+                }
+            }
+
+            is FavoriteViewType.FavoriteGrid -> {
+                with((holder as GridViewHolder)) {
+                    img.setImageURI(item.user.img)
+                    name.text = item.user.name
                 }
             }
         }
@@ -52,13 +65,15 @@ class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView
     override fun getItemCount(): Int {
         return mItem.size
     }
-    fun load(){
+    fun load(newItem: List<FavoriteViewType>){
+        mItem = newItem
         notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (mItem[position]) {
             is FavoriteViewType.FavoriteUser -> ITEM_VIEW_TYPE_ITEM
+            is FavoriteViewType.FavoriteGrid -> ITEM_VIEW_TYPE_GRID
         }
     }
 
@@ -73,6 +88,17 @@ class FavoriteAdapter (private val mItem: List<FavoriteViewType>) : RecyclerView
             }
         }
 
+    }
+
+    inner class GridViewHolder(binding: ItemContactGridBinding) : RecyclerView.ViewHolder(binding.root){
+        val name = binding.tvContactName
+        val img = binding.ivContactImg
+
+        init {
+            itemView.setOnClickListener {
+                itemClick?.onClick(it, adapterPosition)
+            }
+        }
     }
 
 }

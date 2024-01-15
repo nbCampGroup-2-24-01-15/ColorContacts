@@ -1,15 +1,18 @@
 package com.example.colorcontacts.contactList
 
-import android.app.Notification
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
+import com.example.colorcontacts.contactList.ContactViewType.GridUser
+import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
 class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    //그리드, 리스트 구분해주기
     companion object {
+        private const val ITEM_VIEW_TYPE_GRID = 0
         private const val ITEM_VIEW_TYPE_ITEM = 1
     }
     interface ItemClick {
@@ -20,6 +23,9 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType){
+            ITEM_VIEW_TYPE_GRID -> { val binding = ItemContactGridBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                GridViewHolder(binding)
+            }
             else -> {
                 val binding = ItemContactListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ItemViewHolder(binding)
@@ -33,8 +39,8 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
                 with((holder as ItemViewHolder)){
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-                    if (item.user.favorites) star.setImageResource(R.drawable.baseline_star_24)
-                    else star.setImageResource(R.drawable.baseline_star_outline_24)
+                    if (item.user.favorites) star.setImageResource(R.drawable.ic_star_24)
+                    else star.setImageResource(R.drawable.ic_star_outline_24)
                     star.setOnClickListener {
                         itemClick?.onClick(it, position)
                         notifyDataSetChanged()
@@ -42,6 +48,13 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
                 }
                 holder.itemView.setOnClickListener {
                     itemClick?.onClick(it, position)
+                }
+            }
+
+            is GridUser -> {
+                with((holder as GridViewHolder)) {
+                    img.setImageURI(item.user.img)
+                    name.text = item.user.name
                 }
             }
         }
@@ -53,12 +66,14 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
         return mItem.size
     }
 
-    fun load(){
+    fun load(newItems: List<ContactViewType>){
+        mItem = newItems
         notifyDataSetChanged()
     }
     override fun getItemViewType(position: Int): Int {
         return when (mItem[position]) {
             is ContactViewType.ContactUser -> ITEM_VIEW_TYPE_ITEM
+            is GridUser -> ITEM_VIEW_TYPE_GRID
         }
     }
 
@@ -72,7 +87,16 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
                 itemClick?.onClick(it, adapterPosition)
             }
         }
-
     }
 
+    inner class GridViewHolder(binding: ItemContactGridBinding) : RecyclerView.ViewHolder(binding.root){
+        val name = binding.tvContactName
+        val img = binding.ivContactImg
+
+        init {
+            itemView.setOnClickListener {
+                itemClick?.onClick(it, adapterPosition)
+            }
+        }
+    }
 }

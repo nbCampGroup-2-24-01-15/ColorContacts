@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.colorcontacts.UserList
-import com.example.colorcontacts.contactList.ContactAdapter
+import com.example.colorcontacts.LayoutType
+import com.example.colorcontacts.R
 import com.example.colorcontacts.contactList.ContactViewModel
 import com.example.colorcontacts.databinding.FragmentFavoriteBinding
 
@@ -35,21 +36,45 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun init() {
+        viewModel.setLayoutType()
         setList()
+        setLayoutBtn()
     }
 
     private fun setList() {
-        viewModel.setFavoriteList()
-        viewModel.favoriteList.observe(requireActivity()) { list ->
-            adapter = FavoriteAdapter(list)
-            adapter!!.load()
-        }
-        binding.rcFavoriteList.adapter = adapter
-        binding.rcFavoriteList.layoutManager = LinearLayoutManager(requireContext())
-        adapter?.itemClick = object : FavoriteAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                viewModel.onFavorite(position)
+        viewModel.favoriteList.observe(viewLifecycleOwner){ list ->
+            if (adapter == null) {
+                adapter = FavoriteAdapter(list).apply {
+                    itemClick = object : FavoriteAdapter.ItemClick {
+                        override fun onClick(view: View, position: Int) {
+                            viewModel.onFavorite(position)
+                        }
+                    }
+                }
+                binding.rcFavoriteList.adapter = adapter
+            } else {
+                adapter?.load(list)
             }
+        }
+
+        viewModel.layoutType.observe(viewLifecycleOwner) { type ->
+            when(type){
+                LayoutType.GRID -> {
+                    binding.ivFavoriteLayout.setImageResource(R.drawable.ic_fragment_linear)
+                    binding.rcFavoriteList.layoutManager = GridLayoutManager(requireContext(), 4)
+                }
+                else -> {
+                    binding.ivFavoriteLayout.setImageResource(R.drawable.ic_fragment_grid)
+                    binding.rcFavoriteList.layoutManager = LinearLayoutManager(requireContext())
+                }
+            }
+            viewModel.setFavoriteList(type)
+        }
+    }
+
+    private fun setLayoutBtn() {
+        binding.ivFavoriteLayout.setOnClickListener {
+            viewModel.getLayoutType()
         }
     }
 
