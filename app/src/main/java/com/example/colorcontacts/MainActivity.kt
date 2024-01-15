@@ -13,7 +13,6 @@ import com.example.colorcontacts.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialpad.DialPadFragment
 import com.example.colorcontacts.favorite.FavoriteFragment
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -24,11 +23,10 @@ class MainActivity : AppCompatActivity() {
 
     private val icons =
         listOf(
-            R.drawable.ic_tablayout_favorite,
-            R.drawable.ic_tablayout_user,
+            R.drawable.ic_tablayout_favorite_all,
+            R.drawable.ic_tablayout_contact_all,
             R.drawable.ic_tablayout_dialpad
         )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +50,6 @@ class MainActivity : AppCompatActivity() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    // TODO Tab에 텍스트 추가
                 }
             })
         }
@@ -61,18 +58,6 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.setIcon(icons[position])
         }.attach()
-
-        // Selected Listener
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                // TODO Tab에 텍스트 추가
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
-
-            override fun onTabReselected(tab: TabLayout.Tab?) = Unit
-
-        })
 
     }
 
