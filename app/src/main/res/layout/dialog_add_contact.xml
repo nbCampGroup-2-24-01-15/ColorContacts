@@ -17,13 +17,13 @@
 
     <ImageView
         android:id="@+id/iv_add_contact_profile_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_add_contact_back_btn"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/img_add_contact_profile" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_layout_add_contact"
