@@ -23,7 +23,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:background="@drawable/custom_ripple_effect"
-            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            android:src="@drawable/ic_detail_back"
             android:padding="5dp"
             android:clickable="true"
 
@@ -38,7 +38,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/custom_ripple_effect"
-            android:src="@drawable/baseline_edit_24"
+            android:src="@drawable/ic_detail_edit"
             android:padding="5dp"
             android:clickable="true"
             android:visibility="visible"
@@ -101,7 +101,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@drawable/custom_ripple_effect"
-                    android:src="@drawable/baseline_add_a_photo_24"
+                    android:src="@drawable/ic_detail_new_photo"
                     android:clickable="true"
 
                     app:layout_constraintTop_toTopOf="parent"
@@ -148,7 +148,7 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="40dp"
                     android:background="@drawable/selector_detail_circle_btn"
-                    android:src="@drawable/baseline_phone_24"
+                    android:src="@drawable/ic_detail_phone"
 
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +160,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@drawable/selector_detail_circle_btn"
-                    android:src="@drawable/baseline_chat_bubble_24"
+                    android:src="@drawable/ic_detail_message"
 
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ib_detail_phone"
@@ -174,7 +174,7 @@
                     android:layout_height="50dp"
                     android:layout_marginEnd="40dp"
                     android:background="@drawable/selector_detail_circle_btn"
-                    android:src="@drawable/baseline_star_outline_24"
+                    android:src="@drawable/ic_detail_favorite_outline"
 
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -200,7 +200,7 @@
                     android:layout_height="25dp"
                     android:layout_marginStart="20dp"
                     android:background="@color/transparent"
-                    android:src="@drawable/baseline_mail_outline_24"
+                    android:src="@drawable/ic_detail_email"
 
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -352,7 +352,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:padding="5dp"
-                    android:src="@drawable/baseline_add_24"
+                    android:src="@drawable/ic_detail_group_add"
 
                     app:layout_constraintTop_toTopOf="@id/iv_detail_group_circle"
                     app:layout_constraintStart_toStartOf="@id/iv_detail_group_circle"
