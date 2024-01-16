@@ -36,10 +36,7 @@ class MainActivity : AppCompatActivity() {
         initView()
 
 
-        //AddContactDialog 클릭시 추가 다이얼로그 출력
-        binding.btnAddContactDialog.setOnClickListener {
-            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
-        }
+
     }
 
     private fun initView() {
@@ -66,6 +63,11 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.setIcon(icons[position])
         }.attach()
+
+        //플로팅 버튼(주소록 추가 다이얼로그)
+        binding.btnAddContactDialog.setOnClickListener {
+            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
+        }
 
     }
 
