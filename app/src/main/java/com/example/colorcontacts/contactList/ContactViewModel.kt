@@ -3,7 +3,9 @@ package com.example.colorcontacts.contactList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.colorcontacts.ColorTheme
 import com.example.colorcontacts.LayoutType
+import com.example.colorcontacts.NowColor
 import com.example.colorcontacts.UserList
 import com.example.colorcontacts.favorite.FavoriteViewType
 
@@ -17,6 +19,9 @@ class ContactViewModel: ViewModel() {
 
     private val _layoutType: MutableLiveData<LayoutType> = MutableLiveData(LayoutType.LINEAR)
     val layoutType : LiveData<LayoutType> get() = _layoutType
+
+    private val _color: MutableLiveData<ColorTheme> = MutableLiveData()
+    val color: LiveData<ColorTheme> get() = _color
 
     //즐겨찾기 표시
     fun onFavorite(position: Int) {
@@ -45,4 +50,9 @@ class ContactViewModel: ViewModel() {
     fun setLayoutType() {
         _layoutType.value = UserList.layoutType
     }
+
+    fun setColor() {
+        _color.value = NowColor.color
+    }
+
 }

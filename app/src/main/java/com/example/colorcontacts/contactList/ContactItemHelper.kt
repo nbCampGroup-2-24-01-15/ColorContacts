@@ -25,8 +25,8 @@ class ContactItemHelper(val context: Context): ItemTouchHelper.Callback() {
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val swipeFlags = ItemTouchHelper.RIGHT
-        return makeMovementFlags(0, swipeFlags)
+        val swipeFqwelags = ItemTouchHelper.RIGHT
+        return makeMovementFlags(0, swipeFqwelags)
         //오른쪽으로만 슬라이드 가능하게 설정
     }
 
