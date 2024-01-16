@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("Range")
     private fun getContacts() {
         //연락처 URI 가져오기
+        UserList.userList = mutableListOf()
         val contactsUri = ContactsContract.Contacts.CONTENT_URI
 
         //URI 데이터 읽어 오고 데이터의 집합을 가리키는 객체 cursor선언

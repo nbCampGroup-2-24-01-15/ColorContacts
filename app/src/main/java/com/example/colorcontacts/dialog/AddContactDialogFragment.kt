@@ -14,9 +14,11 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.colorcontacts.CheckString
 import com.example.colorcontacts.User
 import com.example.colorcontacts.UserList
+import com.example.colorcontacts.contactList.ContactViewModel
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 
 class AddContactDialogFragment : DialogFragment() {
@@ -53,8 +55,7 @@ class AddContactDialogFragment : DialogFragment() {
             setOnClickListener {
 
                 // 데이터 전달
-                selectedImageUri =
-                    getUri(binding.ivAddContactProfileImg)
+
                 val user = User(
                     img = selectedImageUri,
                     name = binding.etAddContactName.text.toString() ?: "Unknown",
@@ -64,8 +65,13 @@ class AddContactDialogFragment : DialogFragment() {
                     info = null,
                     favorites = false
                 )
-                // 데이터 를 전달
+                // 데이터를 전달
                 UserList.userList.add(user)
+
+                // 뷰모델을 연결하여 UI를 업데이트(뷰모델의 라이브 데이터를 갱신)
+                val viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]
+                viewModel.setContactList(UserList.layoutType)
+
                 // 종료
                 dismiss()
             }
@@ -198,10 +204,6 @@ class AddContactDialogFragment : DialogFragment() {
      */
     private fun getUri(v: View): Uri {
         val resId = v.id
-        return Uri.Builder()
-            .scheme("android.resource")
-            .authority("com.example.colorcontacts")
-            .path(resId.toString())
-            .build()
+        return Uri.parse("android.resource://com.example.colorcontacts/$resId")
     }
 }
