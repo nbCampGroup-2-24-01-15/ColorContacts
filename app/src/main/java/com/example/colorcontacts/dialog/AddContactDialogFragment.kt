@@ -28,25 +28,24 @@ class AddContactDialogFragment() : DialogFragment() {
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        // 다이얼 로그 화면 등록
         var dialog = Dialog(requireContext())
         dialog.setContentView(binding.root)
 
-        // 콜백 버튼 구현
+        // 콜백 리스너 등록
         setCallBackFunction()
-
-        // 유효성 검사 리스너 등록
-        checkString()
 
         return dialog
     }
 
     private fun setCallBackFunction() {
+
         // Ok 버튼
         binding.btnAddContactOk.run {
             // 유효성 검사 전 확인 버튼 비활성화
             isEnabled = false
             setOnClickListener {
-
 
                 // 데이터 전달
 
@@ -61,6 +60,15 @@ class AddContactDialogFragment() : DialogFragment() {
             //종료
             dismiss()
         }
+
+
+
+
+        // 유효성 검사 리스너 등록
+        checkString()
+
+
+
 
         // 이미지 클릭시 이미지 등록
         binding.ivAddContactProfileImg.setOnClickListener {
@@ -164,7 +172,7 @@ class AddContactDialogFragment() : DialogFragment() {
 
     /**
      *  TODO : 갤러리 불러오기
-     *  setCallBackFunction() 에서 결과에 대한 처리를 등록한다.
+     *  setCallBackFunction() 에서 결과에 대한 처리를 등록 한다.
      */
     private fun openGallery() {
         //암시적 인텐트 이용

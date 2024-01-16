@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         //AddContactDialog 클릭시 추가 다이얼로그 출력
         binding.btnAddContactDialog.setOnClickListener {
-            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialog")
+            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
         }
     }
 
