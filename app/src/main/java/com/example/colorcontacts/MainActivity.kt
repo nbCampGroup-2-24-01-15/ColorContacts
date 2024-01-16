@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         initView()
 
 
-        //임의의 다이얼로그 버튼(디버그용)
-        binding.button.setOnClickListener {
+        //AddContactDialog 클릭시 추가 다이얼로그 출력
+        binding.btnAddContactDialog.setOnClickListener {
             AddContactDialog(this).show()
         }
     }
