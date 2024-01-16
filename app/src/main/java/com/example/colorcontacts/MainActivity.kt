@@ -5,12 +5,15 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
+import com.example.colorcontacts.dialog.AddContactDialogFragment
 import com.example.colorcontacts.dialog.AddContactDialogFragment
 import com.example.colorcontacts.dialpad.DialPadFragment
 import com.example.colorcontacts.favorite.FavoriteFragment
@@ -34,15 +37,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
-
-
-
     }
 
     private fun initView() {
         requestContactPermission()
+        getContacts()
+        setFragment()
+    }
 
-
+    private fun setFragment() {
         // ViewPager Adapter 생성
         val viewPagerAdapter = ViewPagerAdapter(this@MainActivity)
         viewPagerAdapter.addFragment(FavoriteFragment())
@@ -68,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnAddContactDialog.setOnClickListener {
             AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
         }
-
     }
 
     /**
@@ -151,6 +153,7 @@ class MainActivity : AppCompatActivity() {
                 UserList.userList.add(user)
             }
         }
+        setFragment()
     }
 
     /**
@@ -158,26 +161,57 @@ class MainActivity : AppCompatActivity() {
      *
      * 연락처에 접근할 권한이 없을때 사용자에게 권한을 요청하는 역할
      */
-        private fun requestContactPermission() {
-            //사용자가 퍼미션 허용 했는지 확인
-            val status = ContextCompat.checkSelfPermission(this, "android.permission.READ_CONTACTS")
-            if (status == PackageManager.PERMISSION_GRANTED) getContacts()
-            else {
-                //퍼미션 요청 다이얼로그 표시
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf("android.permission.READ_CONTACTS"),
-                    100
-                )
+    private fun requestContactPermission() {
+        //연락처 퍼미션, 사용자가 퍼미션 허용 했는지 확인
+        val status = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
+        if (status == PackageManager.PERMISSION_GRANTED)
+        else {
+            //퍼미션 요청 다이얼로그 표시
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_CONTACTS),
+                100
+            )
+            binding.pbMainLoading.isVisible = true
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        binding.pbMainLoading.visibility = View.GONE
+        when (requestCode) {
+            100 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 연락처 권한이 허용된 경우, 전화 권한 요청
+                    requestCallPermission()
+                } else {
+                    // 연락처 권한이 거부된 경우, 앱 종료
+                    finish()
+                }
+            }
+            55 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) finish()
+                else {
+                    getContacts()
+                    setFragment()
+                }
             }
         }
 
-        override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
-        ) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
-
     }
+    private fun requestCallPermission() {
+        val callPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
+        if (callPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.CALL_PHONE),
+                55
+            )
+            binding.pbMainLoading.isVisible = true
+        }
+    }
+}
