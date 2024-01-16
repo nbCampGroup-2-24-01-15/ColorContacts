@@ -187,14 +187,14 @@ class MainActivity : AppCompatActivity() {
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "No Email",
                     event = null,
-                    info = null,
-                    favorites = false
+                    info = null
                 )
 
                 //데이터 객체로 추가
                 UserList.userList.add(user)
             }
         }
+        UserList.userList.sortBy { it.name }
         setFragment()
     }
 
