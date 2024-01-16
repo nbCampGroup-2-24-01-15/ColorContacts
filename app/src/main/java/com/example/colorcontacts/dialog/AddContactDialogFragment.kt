@@ -12,7 +12,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
@@ -54,7 +53,7 @@ class AddContactDialogFragment : DialogFragment() {
         val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinner.adapter= adapter
-        spinner.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
+        object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -62,14 +61,13 @@ class AddContactDialogFragment : DialogFragment() {
                 id: Long,
             ) {
                 selectedEvent = parent?.getItemAtPosition(position).toString()
-                Toast.makeText(requireContext(),selectedEvent,Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
 
-        })
+        }.also { spinner.onItemSelectedListener = it }
 
         return dialog
     }
@@ -88,7 +86,7 @@ class AddContactDialogFragment : DialogFragment() {
                     name = binding.etAddContactName.text.toString(),
                     phone = binding.etAddContactPhoneNumber.text.toString(),
                     email = binding.etAddContactEmail.text.toString(),
-                    event = null,
+                    event = selectedEvent,
                     info = null,
                     favorites = false
                 )
