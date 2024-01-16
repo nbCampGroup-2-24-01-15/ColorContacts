@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.colorcontacts.CheckString
+import com.example.colorcontacts.R
 import com.example.colorcontacts.User
 import com.example.colorcontacts.UserList
 import com.example.colorcontacts.contactList.ContactViewModel
@@ -55,9 +56,9 @@ class AddContactDialogFragment : DialogFragment() {
                 // 데이터 전달
                 val user = User(
                     img = selectedImageUri,
-                    name = binding.etAddContactName.text.toString() ?: "Unknown",
-                    phone = binding.etAddContactPhoneNumber.text.toString() ?: "No Phone",
-                    email = binding.etAddContactEmail.text.toString() ?: "No Email",
+                    name = binding.etAddContactName.text.toString(),
+                    phone = binding.etAddContactPhoneNumber.text.toString(),
+                    email = binding.etAddContactEmail.text.toString(),
                     event = null,
                     info = null,
                     favorites = false
@@ -128,13 +129,15 @@ class AddContactDialogFragment : DialogFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
                 isCheckedName = CheckString().checkName(s.toString())
-                if (!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
+                if (!isCheckedName) etName.error =
+                    getString(R.string.add_contact_dialog_name_error)
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedName = CheckString().checkName(s.toString())
-                if (!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
+                if (!isCheckedName) etName.error =
+                    getString(R.string.add_contact_dialog_name_error)
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
@@ -150,13 +153,15 @@ class AddContactDialogFragment : DialogFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
                 isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if (!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
+                if (!isCheckedPhoneNum) etPhoneNum.error =
+                    getString(R.string.add_contact_dialog_phone_number_error)
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if (!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
+                if (!isCheckedPhoneNum) etPhoneNum.error =
+                    getString(R.string.add_contact_dialog_phone_number_error)
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
@@ -172,13 +177,15 @@ class AddContactDialogFragment : DialogFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
                 isCheckedEmail = CheckString().checkEmail(s.toString())
-                if (!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
+                if (!isCheckedEmail) etEmail.error =
+                    getString(R.string.add_contact_dialog_email_error)
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedEmail = CheckString().checkEmail(s.toString())
-                if (!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
+                if (!isCheckedEmail) etEmail.error =
+                    getString(R.string.add_contact_dialog_email_error)
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
