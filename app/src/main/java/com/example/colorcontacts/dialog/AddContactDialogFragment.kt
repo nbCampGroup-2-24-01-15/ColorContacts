@@ -3,6 +3,7 @@ package com.example.colorcontacts.dialog
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,9 +16,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.example.colorcontacts.CheckString
 import com.example.colorcontacts.User
+import com.example.colorcontacts.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 
-class AddContactDialogFragment() : DialogFragment() {
+class AddContactDialogFragment : DialogFragment() {
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
     //유효성 검사 체크 변수들
@@ -28,15 +30,7 @@ class AddContactDialogFragment() : DialogFragment() {
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
-    private var selectedImageUri: Uri? = getUri(binding.ivAddContactProfileImg)
-    private fun getUri(v: View): Uri {
-        val id = v.id
-        return Uri.Builder()
-            .scheme("android.resource")
-            .authority("com.example.colorcontacts")
-            .path(id.toString())
-            .build()
-    }
+    private var selectedImageUri: Uri? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -59,6 +53,8 @@ class AddContactDialogFragment() : DialogFragment() {
             setOnClickListener {
 
                 // 데이터 전달
+                selectedImageUri =
+                    getUri(binding.ivAddContactProfileImg)
                 val user = User(
                     img = selectedImageUri,
                     name = binding.etAddContactName.text.toString() ?: "Unknown",
@@ -68,7 +64,8 @@ class AddContactDialogFragment() : DialogFragment() {
                     info = null,
                     favorites = false
                 )
-
+                // 데이터 를 전달
+                UserList.userList.add(user)
                 // 종료
                 dismiss()
             }
@@ -81,12 +78,8 @@ class AddContactDialogFragment() : DialogFragment() {
         }
 
 
-
-
         // 유효성 검사 리스너 등록
         checkString()
-
-
 
 
         // 이미지 클릭시 이미지 등록
@@ -101,8 +94,9 @@ class AddContactDialogFragment() : DialogFragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data
+                selectedImageUri = data?.data!!
                 binding.ivAddContactProfileImg.setImageURI(selectedImageUri)
+
             }
         }
 
@@ -197,5 +191,17 @@ class AddContactDialogFragment() : DialogFragment() {
         //암시적 인텐트 이용
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryResultLauncher.launch(galleryIntent)
+    }
+
+    /**
+     *  TODO 해당 VIEW ID-> URI 형식에 맞게 Parse(파싱)
+     */
+    private fun getUri(v: View): Uri {
+        val resId = v.id
+        return Uri.Builder()
+            .scheme("android.resource")
+            .authority("com.example.colorcontacts")
+            .path(resId.toString())
+            .build()
     }
 }
