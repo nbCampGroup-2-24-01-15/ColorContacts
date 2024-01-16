@@ -1,16 +1,15 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.favorite
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
-import com.example.colorcontacts.contactList.ContactViewType.GridUser
+import com.example.colorcontacts.contactList.ContactAdapter
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
-class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    //그리드, 리스트 구분해주기
+class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private const val ITEM_VIEW_TYPE_GRID = 0
         private const val ITEM_VIEW_TYPE_ITEM = 1
@@ -23,7 +22,8 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType){
-            ITEM_VIEW_TYPE_GRID -> { val binding = ItemContactGridBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ITEM_VIEW_TYPE_GRID -> {
+                val binding = ItemContactGridBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 GridViewHolder(binding)
             }
             else -> {
@@ -34,13 +34,13 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = mItem[position]){
-            is ContactViewType.ContactUser -> {
-                with((holder as ItemViewHolder)){
+        when (val item = mItem[position]) {
+            is FavoriteViewType.FavoriteUser -> {
+                with((holder as ItemViewHolder)) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-                    if (item.user.favorites) star.setImageResource(R.drawable.ic_detail_favorite_filled)
-                    else star.setImageResource(R.drawable.ic_detail_favorite_outline)
+                    if (item.user.favorites) star.setImageResource(R.drawable.ic_star_24)
+                    else star.setImageResource(R.drawable.ic_star_outline_24)
                     star.setOnClickListener {
                         itemClick?.onClick(it, position)
                         notifyDataSetChanged()
@@ -51,7 +51,7 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
                 }
             }
 
-            is GridUser -> {
+            is FavoriteViewType.FavoriteGrid -> {
                 with((holder as GridViewHolder)) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
@@ -65,15 +65,15 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
     override fun getItemCount(): Int {
         return mItem.size
     }
-
-    fun load(newItems: List<ContactViewType>){
-        mItem = newItems
+    fun load(newItem: List<FavoriteViewType>){
+        mItem = newItem
         notifyDataSetChanged()
     }
+
     override fun getItemViewType(position: Int): Int {
         return when (mItem[position]) {
-            is ContactViewType.ContactUser -> ITEM_VIEW_TYPE_ITEM
-            is GridUser -> ITEM_VIEW_TYPE_GRID
+            is FavoriteViewType.FavoriteUser -> ITEM_VIEW_TYPE_ITEM
+            is FavoriteViewType.FavoriteGrid -> ITEM_VIEW_TYPE_GRID
         }
     }
 
@@ -88,6 +88,7 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
                 itemClick?.onClick(it, adapterPosition)
             }
         }
+
     }
 
     inner class GridViewHolder(binding: ItemContactGridBinding) : RecyclerView.ViewHolder(binding.root){
@@ -100,4 +101,5 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
             }
         }
     }
+
 }

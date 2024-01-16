@@ -15,4 +15,6 @@ data class User(
 )
 object UserList{
     var userList = mutableListOf<User>()
+
+    var layoutType = LayoutType.LINEAR
 }
