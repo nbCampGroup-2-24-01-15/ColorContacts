@@ -93,4 +93,11 @@ class ContactListFragment : Fragment() {
         _binding = null
     }
 
+    /**
+     * TODO Fragment RecyclerView 검색
+     */
+    fun updateItem(text: String) {
+        adapter?.performSearch(text)
+    }
+
 }
