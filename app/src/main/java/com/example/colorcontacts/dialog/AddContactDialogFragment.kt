@@ -1,17 +1,21 @@
 package com.example.colorcontacts.dialog
 
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.example.colorcontacts.CheckString
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 
-class AddContactDialogFragment(): DialogFragment() {
+class AddContactDialogFragment() : DialogFragment() {
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
     //유효성 검사 체크 변수들
@@ -20,6 +24,8 @@ class AddContactDialogFragment(): DialogFragment() {
     private var isCheckedPhoneNum = false
     private var isCheckedEmail = false
 
+    //이미지 결과값 받기
+    private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         var dialog = Dialog(requireContext())
@@ -56,9 +62,21 @@ class AddContactDialogFragment(): DialogFragment() {
             dismiss()
         }
 
-        // 이미지 클릭
+        // 이미지 클릭시 이미지 등록
         binding.ivAddContactProfileImg.setOnClickListener {
             openGallery()
+        }
+
+
+        //이미지 결과값 콜백 등록
+        galleryResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val selectedImageUri: Uri? = data?.data
+                binding.ivAddContactProfileImg.setImageURI(selectedImageUri)
+            }
         }
 
 
@@ -86,13 +104,13 @@ class AddContactDialogFragment(): DialogFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
                 isCheckedName = CheckString().checkName(s.toString())
-                if(!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
+                if (!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedName = CheckString().checkName(s.toString())
-                if(!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
+                if (!isCheckedName) etName.error = "한글이나 영문자만 가능합니다."
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
@@ -108,13 +126,13 @@ class AddContactDialogFragment(): DialogFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
                 isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if(!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
+                if (!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if(!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
+                if (!isCheckedPhoneNum) etPhoneNum.error = "010-xxxx-xxxx 형태 이어야합니다."
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
@@ -130,13 +148,13 @@ class AddContactDialogFragment(): DialogFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //텍스트 바뀌는 도중
                 isCheckedEmail = CheckString().checkEmail(s.toString())
-                if(!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
+                if (!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
             }
 
             override fun afterTextChanged(s: Editable?) {
                 //텍스트 바뀐후 수행
                 isCheckedEmail = CheckString().checkEmail(s.toString())
-                if(!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
+                if (!isCheckedEmail) etEmail.error = "이메일 형식에 맞춰주세요."
                 isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
                 btnOk.isEnabled = isChecked
             }
@@ -146,11 +164,11 @@ class AddContactDialogFragment(): DialogFragment() {
 
     /**
      *  TODO : 갤러리 불러오기
+     *  setCallBackFunction() 에서 결과에 대한 처리를 등록한다.
      */
-    private fun openGallery(){
-
+    private fun openGallery() {
         //암시적 인텐트 이용
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
+        galleryResultLauncher.launch(galleryIntent)
     }
 }
