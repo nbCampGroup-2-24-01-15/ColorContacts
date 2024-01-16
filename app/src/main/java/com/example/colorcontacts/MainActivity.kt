@@ -14,7 +14,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialog.AddContactDialogFragment
-import com.example.colorcontacts.dialog.AddContactDialogFragment
 import com.example.colorcontacts.dialpad.DialPadFragment
 import com.example.colorcontacts.favorite.FavoriteFragment
 import com.google.android.material.tabs.TabLayoutMediator

@@ -9,10 +9,12 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.example.colorcontacts.CheckString
+import com.example.colorcontacts.User
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 
 class AddContactDialogFragment() : DialogFragment() {
@@ -26,6 +28,15 @@ class AddContactDialogFragment() : DialogFragment() {
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
+    private var selectedImageUri: Uri? = getUri(binding.ivAddContactProfileImg)
+    private fun getUri(v: View): Uri {
+        val id = v.id
+        return Uri.Builder()
+            .scheme("android.resource")
+            .authority("com.example.colorcontacts")
+            .path(id.toString())
+            .build()
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -48,7 +59,15 @@ class AddContactDialogFragment() : DialogFragment() {
             setOnClickListener {
 
                 // 데이터 전달
-
+                val user = User(
+                    img = selectedImageUri,
+                    name = binding.etAddContactName.text.toString() ?: "Unknown",
+                    phone = binding.etAddContactPhoneNumber.text.toString() ?: "No Phone",
+                    email = binding.etAddContactEmail.text.toString() ?: "No Email",
+                    event = null,
+                    info = null,
+                    favorites = false
+                )
 
                 // 종료
                 dismiss()
@@ -82,7 +101,7 @@ class AddContactDialogFragment() : DialogFragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                val selectedImageUri: Uri? = data?.data
+                selectedImageUri = data?.data
                 binding.ivAddContactProfileImg.setImageURI(selectedImageUri)
             }
         }
