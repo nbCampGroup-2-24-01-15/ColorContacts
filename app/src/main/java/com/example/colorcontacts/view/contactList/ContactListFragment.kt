@@ -12,8 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.data.NowColor
+import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 import com.example.colorcontacts.utill.SharedViewModel
+import com.example.colorcontacts.view.contactList.adapter.ContactAdapter
+import com.example.colorcontacts.view.contactList.adapter.ContactItemHelper
+import com.example.colorcontacts.view.contactList.adapter.ContactViewType
+import com.example.colorcontacts.view.contactList.model.ContactViewModel
 
 
 class ContactListFragment : Fragment() {
@@ -25,12 +30,15 @@ class ContactListFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: SharedViewModel
+    private lateinit var sharedViewModel: SharedViewModel
+
+    private lateinit var viewModel: ContactViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]
         _binding = FragmentContactListBinding.inflate(inflater, container, false)
         init()
         return binding.root
@@ -38,7 +46,7 @@ class ContactListFragment : Fragment() {
 
     private fun init() {
         //레이아웃 타입 초기화
-        viewModel.setLayoutType()
+        sharedViewModel.setLayoutType()
         setList()
     }
 
@@ -55,12 +63,12 @@ class ContactListFragment : Fragment() {
             onRecyclerView(list, NowColor.color)
             nowList = list
         }
-        viewModel.color.observe(viewLifecycleOwner) { color ->
+        sharedViewModel.color.observe(viewLifecycleOwner) { color ->
             nowList?.let { onRecyclerView(it, color) }
         }
 
         //현재 보고 있는 레이아웃 타입 설정, 버튼도 그에 맞춰 변경
-        viewModel.layoutType.observe(viewLifecycleOwner) { type ->
+        sharedViewModel.layoutType.observe(viewLifecycleOwner) { type ->
             when (type) {
                 LayoutType.GRID -> {
                     binding.rcContactList.layoutManager = GridLayoutManager(requireContext(), 4)
@@ -80,8 +88,9 @@ class ContactListFragment : Fragment() {
         if (adapter == null) {
             adapter = ContactAdapter(list, color).apply {
                 itemClick = object : ContactAdapter.ItemClick {
-                    override fun onClick(view: View, position: Int) { //즐겨찾기 버튼
-                        viewModel.onFavorite(position)
+                    override fun onClick(view: View, position: Int, key:String) { //즐겨찾기 버튼
+                        if (TagMember.totalTags.any { it.member.contains(key) }) sharedViewModel.offFavorite(key)
+                        else sharedViewModel.onFavorite(key)
                     }
                 }
             }

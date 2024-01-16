@@ -1,4 +1,4 @@
-package com.example.colorcontacts.view.favorite
+package com.example.colorcontacts.view.favorite.adapter
 
 import android.content.Context
 import android.content.Intent

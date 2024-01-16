@@ -1,4 +1,4 @@
-package com.example.colorcontacts.view.contactList
+package com.example.colorcontacts.view.contactList.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,8 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.R
-import com.example.colorcontacts.view.contactList.ContactViewType.GridUser
+import com.example.colorcontacts.data.TagMember
+import com.example.colorcontacts.view.contactList.adapter.ContactViewType.GridUser
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
@@ -28,7 +29,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
     }
 
     interface ItemClick {
-        fun onClick(view: View, position: Int)
+        fun onClick(view: View, position: Int, key: String)
     }
 
     var itemClick: ItemClick? = null
@@ -62,10 +63,11 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
-                    if (item.user.favorites) star.setImageResource(R.drawable.ic_detail_favorite_filled)
+                    val favorite = TagMember.memberChk(item.user.key)
+                    if (favorite != null) star.setImageURI(favorite.img)
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     star.setOnClickListener {
-                        itemClick?.onClick(it, position)
+                        itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
                     swipeLayout.background.setTint(mColor.colorLinear)
@@ -74,7 +76,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
                     backFont.setTextColor(mColor.colorFont)
                 }
                 holder.itemView.setOnClickListener {
-                    itemClick?.onClick(it, position)
+                    itemClick?.onClick(it, position, item.user.key)
                 }
             }
 
@@ -103,6 +105,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
         filteredList = mItem
         notifyDataSetChanged()
     }
+
     fun updateColor(newColorTheme: ColorTheme) {
         mColor = newColorTheme
         notifyDataSetChanged()
@@ -128,7 +131,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
 
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition)
+                itemClick?.onClick(it, adapterPosition, "")
             }
         }
     }
@@ -138,9 +141,10 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
         val name = binding.tvContactName
         val img = binding.ivContactImg
         val layout = binding.itemLayout
+
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition)
+                itemClick?.onClick(it, adapterPosition, "")
             }
         }
     }

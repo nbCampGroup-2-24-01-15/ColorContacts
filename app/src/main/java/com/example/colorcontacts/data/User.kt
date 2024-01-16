@@ -12,7 +12,6 @@ data class User(
     var email: String,
     var event: String? = null,
     var info: String?,
-    var favorites: Boolean,
     var count: Int = 0
 )
 object UserList{
