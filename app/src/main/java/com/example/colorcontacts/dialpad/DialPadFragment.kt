@@ -1,5 +1,7 @@
 package com.example.colorcontacts.dialpad
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,6 +37,8 @@ class DialPadFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:01077777777"))
+        startActivity(intent)
         return inflater.inflate(R.layout.fragment_dial_pad, container, false)
     }
 
