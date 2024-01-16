@@ -39,8 +39,8 @@ class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView
                 with((holder as ItemViewHolder)) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-                    if (item.user.favorites) star.setImageResource(R.drawable.ic_star_24)
-                    else star.setImageResource(R.drawable.ic_star_outline_24)
+                    if (item.user.favorites) star.setImageResource(R.drawable.ic_detail_favorite_filled)
+                    else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     star.setOnClickListener {
                         itemClick?.onClick(it, position)
                         notifyDataSetChanged()
