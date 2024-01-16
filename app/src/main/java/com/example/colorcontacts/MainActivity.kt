@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         requestContactPermission()
         getContacts()
         setFragment()
+        setOnQueryTextListener()
     }
 
     private fun setFragment() {
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    binding.toolBar.visibility = if (position == 2) View.GONE else View.VISIBLE
                 }
             })
         }
@@ -73,6 +76,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * TODO 검색 기능
+     */
+    private fun setOnQueryTextListener() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                updateItemCurrentFragment(newText)
+                return false
+            }
+        })
+    }
+
+    private fun updateItemCurrentFragment(newText: String?) {
+        if (newText == null) {
+            return
+        }
+        val currentItem = binding.viewPager.currentItem
+        when (val currentFragment = supportFragmentManager.fragments[currentItem]) {
+            is FavoriteFragment -> currentFragment.updateItem(newText.trim())
+            is ContactListFragment -> currentFragment.updateItem(newText.trim())
+        }
+    }
+
+
+    /**
      * TODO 연락처에서 유저 정보 가져오기
      *
      * ContactsContract를 이용
@@ -81,6 +113,7 @@ class MainActivity : AppCompatActivity() {
      */
     @SuppressLint("Range")
     private fun getContacts() {
+//        UserList.userList = mutableListOf()
         //연락처 URI 가져오기
         UserList.userList = mutableListOf()
         val contactsUri = ContactsContract.Contacts.CONTENT_URI
@@ -163,7 +196,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun requestContactPermission() {
         //연락처 퍼미션, 사용자가 퍼미션 허용 했는지 확인
-        val status = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
+        val status =
+            ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
         if (status == PackageManager.PERMISSION_GRANTED)
         else {
             //퍼미션 요청 다이얼로그 표시
@@ -193,6 +227,7 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
             }
+
             55 -> {
                 if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) finish()
                 else {
@@ -203,8 +238,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
     private fun requestCallPermission() {
-        val callPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
+        val callPermission =
+            ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
         if (callPermission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this,
