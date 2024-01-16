@@ -92,9 +92,19 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_detail_photo"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/widget"
+                android:layout_height="250dp"
                 >
+
+                <View
+                    android:id="@+id/v_detail_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/widget"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
 
                 <ImageView
                     android:id="@+id/iv_detail_add_photo"
@@ -105,6 +115,19 @@
                     android:clickable="true"
 
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/v_detail_background"
+                    />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/iv_round_background"
+                    android:src="@drawable/img_user_profile"
+                    android:clipToOutline="true"
+                    android:clickable="true"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -211,8 +234,10 @@
                     android:id="@+id/et_detail_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="10dp"
                     android:textSize="15sp"
+                    android:ems="17"
+                    android:maxLength="30"
                     android:fontFamily="@font/pretendard_regular"
 
                     app:layout_constraintTop_toTopOf="@+id/iv_detail_email"
