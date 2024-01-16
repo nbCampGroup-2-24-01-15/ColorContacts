@@ -63,7 +63,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="end|center_vertical"
-            android:src="@drawable/ic_star_outline_24"/>
+            android:src="@drawable/ic_detail_favorite_outline"/>
 
     </LinearLayout>
 
