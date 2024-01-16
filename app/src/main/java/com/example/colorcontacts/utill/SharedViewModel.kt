@@ -1,14 +1,13 @@
-package com.example.colorcontacts.domain
+package com.example.colorcontacts.utill
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.colorcontacts.ColorTheme
-import com.example.colorcontacts.LayoutType
-import com.example.colorcontacts.NowColor
-import com.example.colorcontacts.UserList
-import com.example.colorcontacts.contactList.ContactViewType
-import com.example.colorcontacts.favorite.FavoriteViewType
+import com.example.colorcontacts.data.ColorTheme
+import com.example.colorcontacts.data.NowColor
+import com.example.colorcontacts.data.UserList
+import com.example.colorcontacts.view.contactList.ContactViewType
+import com.example.colorcontacts.view.favorite.FavoriteViewType
 
 class SharedViewModel : ViewModel() {
 

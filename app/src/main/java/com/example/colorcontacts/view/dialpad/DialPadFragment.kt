@@ -1,4 +1,4 @@
-package com.example.colorcontacts.dialpad
+package com.example.colorcontacts.view.dialpad
 
 import android.content.Intent
 import android.net.Uri

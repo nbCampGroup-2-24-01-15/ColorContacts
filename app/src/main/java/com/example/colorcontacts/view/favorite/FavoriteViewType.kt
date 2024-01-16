@@ -1,6 +1,6 @@
-package com.example.colorcontacts.favorite
+package com.example.colorcontacts.view.favorite
 
-import com.example.colorcontacts.User
+import com.example.colorcontacts.data.User
 
 sealed class FavoriteViewType{
     data class FavoriteUser(val user: User) : FavoriteViewType()

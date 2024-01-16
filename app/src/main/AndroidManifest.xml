@@ -25,10 +25,10 @@
             android:label="@string/title_activity_color"
             android:theme="@style/Theme.ColorContacts.NoActionBar" />
         <activity
-            android:name=".DetailPageActivity"
+            android:name=".view.detail.DetailPageActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

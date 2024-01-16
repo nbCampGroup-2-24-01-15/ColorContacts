@@ -1,6 +1,7 @@
-package com.example.colorcontacts
+package com.example.colorcontacts.data
 
 import android.net.Uri
+import com.example.colorcontacts.utill.LayoutType
 import java.util.UUID
 
 data class User(

@@ -1,4 +1,4 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.view.contactList
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.colorcontacts.ColorTheme
+import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.R
-import com.example.colorcontacts.contactList.ContactViewType.GridUser
+import com.example.colorcontacts.view.contactList.ContactViewType.GridUser
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 

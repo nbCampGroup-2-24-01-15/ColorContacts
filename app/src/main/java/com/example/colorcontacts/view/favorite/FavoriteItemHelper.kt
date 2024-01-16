@@ -1,4 +1,4 @@
-package com.example.colorcontacts.favorite
+package com.example.colorcontacts.view.favorite
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.graphics.Canvas
 import android.net.Uri
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.colorcontacts.UserList
+import com.example.colorcontacts.data.UserList
 
 /**
  * TODO 스와이프시 통화 기능

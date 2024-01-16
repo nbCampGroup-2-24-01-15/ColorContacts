@@ -1,4 +1,4 @@
-package com.example.colorcontacts.favorite
+package com.example.colorcontacts.view.favorite
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.view.contactList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,14 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.colorcontacts.ColorTheme
-import com.example.colorcontacts.LayoutType
-import com.example.colorcontacts.NowColor
-import com.example.colorcontacts.R
-import com.example.colorcontacts.User
-import com.example.colorcontacts.UserList
+import com.example.colorcontacts.data.ColorTheme
+import com.example.colorcontacts.utill.LayoutType
+import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.databinding.FragmentContactListBinding
-import com.example.colorcontacts.domain.SharedViewModel
+import com.example.colorcontacts.utill.SharedViewModel
 
 
 class ContactListFragment : Fragment() {

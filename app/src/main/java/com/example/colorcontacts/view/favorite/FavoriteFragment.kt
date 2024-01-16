@@ -1,4 +1,4 @@
-package com.example.colorcontacts.favorite
+package com.example.colorcontacts.view.favorite
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.colorcontacts.LayoutType
-import com.example.colorcontacts.R
-import com.example.colorcontacts.domain.SharedViewModel
+import com.example.colorcontacts.utill.LayoutType
+import com.example.colorcontacts.utill.SharedViewModel
 import com.example.colorcontacts.databinding.FragmentFavoriteBinding
 
 class FavoriteFragment : Fragment() {
