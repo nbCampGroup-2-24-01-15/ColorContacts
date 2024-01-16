@@ -3,38 +3,52 @@ package com.example.colorcontacts.favorite
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
-import com.example.colorcontacts.contactList.ContactAdapter
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
-class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+    private var filteredList: List<FavoriteViewType> = mItem
+
     companion object {
         private const val ITEM_VIEW_TYPE_GRID = 0
         private const val ITEM_VIEW_TYPE_ITEM = 1
     }
+
     interface ItemClick {
         fun onClick(view: View, position: Int)
     }
 
-    var itemClick : ItemClick? = null
+    var itemClick: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType){
+        return when (viewType) {
             ITEM_VIEW_TYPE_GRID -> {
-                val binding = ItemContactGridBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = ItemContactGridBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 GridViewHolder(binding)
             }
+
             else -> {
-                val binding = ItemContactListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = ItemContactListBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 ItemViewHolder(binding)
             }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = mItem[position]) {
+        when (val item = filteredList[position]) {
             is FavoriteViewType.FavoriteUser -> {
                 with((holder as ItemViewHolder)) {
                     img.setImageURI(item.user.img)
@@ -59,28 +73,33 @@ class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView
             }
         }
     }
+
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
+
     override fun getItemCount(): Int {
-        return mItem.size
+        return filteredList.size
     }
-    fun load(newItem: List<FavoriteViewType>){
+
+    fun load(newItem: List<FavoriteViewType>) {
         mItem = newItem
+        filteredList = mItem
         notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (mItem[position]) {
+        return when (filteredList[position]) {
             is FavoriteViewType.FavoriteUser -> ITEM_VIEW_TYPE_ITEM
             is FavoriteViewType.FavoriteGrid -> ITEM_VIEW_TYPE_GRID
         }
     }
 
-    inner class ItemViewHolder(binding: ItemContactListBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ItemViewHolder(binding: ItemContactListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val name = binding.tvContactName
         val img = binding.ivContactImg
-        val star =  binding.ivContactStar
+        val star = binding.ivContactStar
         val swipeLayout = binding.swipeItemContact
 
         init {
@@ -91,7 +110,8 @@ class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView
 
     }
 
-    inner class GridViewHolder(binding: ItemContactGridBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class GridViewHolder(binding: ItemContactGridBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val name = binding.tvContactName
         val img = binding.ivContactImg
 
@@ -100,6 +120,46 @@ class FavoriteAdapter (private var mItem: List<FavoriteViewType>) : RecyclerView
                 itemClick?.onClick(it, adapterPosition)
             }
         }
+    }
+
+
+    /**
+     * TODO 검색 기능
+     */
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            // 입력 받은 문자열에 대한 처리
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint.toString()
+                filteredList = if (charString.isBlank()) { // 공백, 아무런 값이 입력 되지 않았을 때는 원본 리스트
+                    mItem
+                } else {
+                    val filteredList = mItem.filter { // 이름, 전화 번호, 이메일 검색
+                        it is FavoriteViewType.FavoriteUser &&
+                                (it.user.name.contains(charString, true) ||
+                                        it.user.phone.contains(charString, true) ||
+                                        it.user.email.contains(charString, true))
+                    }
+                    filteredList // 검색 된 값으로 필터링 된 리스트
+                }
+
+                val filterResults = FilterResults()
+                filterResults.values = filteredList
+                return filterResults
+            }
+
+            // 처리에 대한 결과물
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredList = results?.values as List<FavoriteViewType>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    // Fragment에서 호출
+    fun performSearch(query: String) {
+        filter.filter(query)
     }
 
 }
