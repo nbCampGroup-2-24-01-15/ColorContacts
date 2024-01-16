@@ -11,10 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialpad.DialPadFragment
+import com.example.colorcontacts.domain.SharedViewModel
 import com.example.colorcontacts.favorite.FavoriteFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -22,6 +24,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val viewModel: SharedViewModel by lazy {
+        ViewModelProvider(this)[SharedViewModel::class.java]
     }
 
     private val icons =
@@ -43,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         getContacts()
         setFragment()
         setOnQueryTextListener()
+        setLayoutBtn()
+        setObserve()
     }
 
     private fun setFragment() {
@@ -230,6 +238,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setLayoutBtn() {
+        binding.ivMainLayout.setOnClickListener {
+            viewModel.getLayoutType()
+        }
+    }
+
+    private fun setObserve() {
+        viewModel.layoutType.observe(this){type ->
+            if (type == LayoutType.GRID) binding.ivMainLayout.setImageResource(R.drawable.ic_fragment_linear)
+            else binding.ivMainLayout.setImageResource(R.drawable.ic_fragment_grid)
+        }
+    }
     override fun onBackPressed() {
         super.onBackPressed()
         finish()

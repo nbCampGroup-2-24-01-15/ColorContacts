@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.colorcontacts.LayoutType
 import com.example.colorcontacts.R
 import com.example.colorcontacts.databinding.FragmentContactListBinding
+import com.example.colorcontacts.domain.SharedViewModel
 
 
 class ContactListFragment : Fragment() {
@@ -22,12 +23,12 @@ class ContactListFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: ContactViewModel
+    private lateinit var viewModel: SharedViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         _binding = FragmentContactListBinding.inflate(inflater, container, false)
         init()
         return binding.root
@@ -37,7 +38,6 @@ class ContactListFragment : Fragment() {
         //레이아웃 타입 초기화
         viewModel.setLayoutType()
         setList()
-        setLayoutBtn()
     }
 
     /**
@@ -68,11 +68,9 @@ class ContactListFragment : Fragment() {
         viewModel.layoutType.observe(viewLifecycleOwner) { type ->
             when (type) {
                 LayoutType.GRID -> {
-                    binding.ivContactLayout.setImageResource(R.drawable.ic_fragment_linear)
                     binding.rcContactList.layoutManager = GridLayoutManager(requireContext(), 4)
                 }
                 else -> {
-                    binding.ivContactLayout.setImageResource(R.drawable.ic_fragment_grid)
                     binding.rcContactList.layoutManager = LinearLayoutManager(requireContext())
                 }
             }
@@ -82,11 +80,6 @@ class ContactListFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
     }
 
-    private fun setLayoutBtn() {
-        binding.ivContactLayout.setOnClickListener {
-            viewModel.getLayoutType()
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

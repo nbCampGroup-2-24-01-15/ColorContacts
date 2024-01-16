@@ -1,4 +1,4 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.domain
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,9 +7,10 @@ import com.example.colorcontacts.ColorTheme
 import com.example.colorcontacts.LayoutType
 import com.example.colorcontacts.NowColor
 import com.example.colorcontacts.UserList
+import com.example.colorcontacts.contactList.ContactViewType
 import com.example.colorcontacts.favorite.FavoriteViewType
 
-class ContactViewModel: ViewModel() {
+class SharedViewModel: ViewModel() {
 
     private val _list: MutableLiveData<List<ContactViewType>> = MutableLiveData()
     val list : LiveData<List<ContactViewType>> get() = _list
@@ -30,7 +31,11 @@ class ContactViewModel: ViewModel() {
 
     //레이아웃 타입을 구별하고 실드클래스에 넣어줌
     fun setContactList(type: LayoutType){
-        if (type == LayoutType.LINEAR) _list.value = UserList.userList.map { ContactViewType.ContactUser(it) }
+        if (type == LayoutType.LINEAR) _list.value = UserList.userList.map {
+            ContactViewType.ContactUser(
+                it
+            )
+        }
         else _list.value = UserList.userList.map { ContactViewType.GridUser(it) }
     }
 
