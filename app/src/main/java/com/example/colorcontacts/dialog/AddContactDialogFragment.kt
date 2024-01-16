@@ -9,6 +9,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
@@ -33,6 +37,8 @@ class AddContactDialogFragment : DialogFragment() {
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
 
+    //이벤트 관련 변수
+    private lateinit var selectedEvent : String
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         // 다이얼 로그 화면 등록
@@ -41,6 +47,29 @@ class AddContactDialogFragment : DialogFragment() {
 
         // 콜백 리스너 등록
         setCallBackFunction()
+
+        // 이벤트 spinner 값
+        val spinner = binding.spinner
+        val items = arrayOf("1초","5초","1분","10분","1시간")
+        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        spinner.adapter= adapter
+        spinner.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                selectedEvent = parent?.getItemAtPosition(position).toString()
+                Toast.makeText(requireContext(),selectedEvent,Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        })
 
         return dialog
     }
