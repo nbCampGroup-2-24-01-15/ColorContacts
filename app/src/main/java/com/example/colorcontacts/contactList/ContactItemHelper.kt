@@ -25,9 +25,9 @@ class ContactItemHelper(val context: Context): ItemTouchHelper.Callback() {
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        val swipeFlags = ItemTouchHelper.RIGHT
         return makeMovementFlags(0, swipeFlags)
-        //드래그가 안되게 값을 설정 해줘야함 설정안하면 에러
+        //오른쪽으로만 슬라이드 가능하게 설정
     }
 
     //드래그시 호출
