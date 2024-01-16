@@ -55,4 +55,7 @@ dependencies {
     // viewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+
+    // motion
+    implementation ("androidx.constraintlayout:constraintlayout:2.0.0-beta1")
 }
