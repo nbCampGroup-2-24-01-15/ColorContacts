@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         viewPagerAdapter.addFragment(ContactListFragment())
         viewPagerAdapter.addFragment(DialPadFragment())
 
-        // Adapter 연경
+        // Adapter 연결
         binding.viewPager.apply {
             adapter = viewPagerAdapter
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                     profileImageUri = Uri.parse(photoUri)
                 }
 
-                val user = User(
+                val user = Contacts.User(
                     img = profileImageUri,
                     name = name ?: "Unknown",
                     phone = phoneNumber ?: "No Phone",
@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                 )
 
                 //데이터 객체로 추가
-                UserList.userList.add(user)
+                Contacts.UserList.userList.add(user)
             }
         }
     }
@@ -162,6 +162,8 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+
 
         override fun onRequestPermissionsResult(
             requestCode: Int,

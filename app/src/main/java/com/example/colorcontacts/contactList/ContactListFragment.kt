@@ -7,7 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.colorcontacts.UserList
+import com.example.colorcontacts.Contacts
+//import com.example.colorcontacts.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 
 
@@ -30,12 +31,14 @@ class ContactListFragment : Fragment() {
 
     private fun init() {
         setList()
-        Log.e("user", "${UserList.userList}")
+        Log.e("user", "${Contacts.UserList.userList}")
     }
 
     private fun setList() {
-        val list = UserList.userList.map { ContactViewType.ContactUser(it) }
-        adapter = ContactAdapter(list)
+        val myData = Contacts.MyData.myData.map { ContactViewType.ContactMy(it) }
+        val contactList = Contacts.UserList.userList.map { ContactViewType.ContactUser(it) }
+        val list = mutableListOf(myData + contactList)
+        adapter = ContactAdapter(contactList)
         binding.rcContactList.adapter = adapter
         binding.rcContactList.layoutManager = LinearLayoutManager(requireContext())
     }

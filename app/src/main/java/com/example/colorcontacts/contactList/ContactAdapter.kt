@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
 import com.example.colorcontacts.databinding.ItemContactListBinding
+import com.example.colorcontacts.databinding.MyItemContactListBinding
 
 class ContactAdapter (private val mItem: List<ContactViewType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
-        private const val ITEM_VIEW_TYPE_ITEM = 1
+        private const val ITEM_VIEW_TYPE_MY = 1
+        private const val ITEM_VIEW_TYPE_ITEM = 2
     }
     interface ItemClick {
         fun onClick(view: View, position: Int)
@@ -19,6 +21,10 @@ class ContactAdapter (private val mItem: List<ContactViewType>) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType){
+            ITEM_VIEW_TYPE_MY -> {
+                val binding = MyItemContactListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                MyViewHolder(binding)
+            }
             else -> {
                 val binding = ItemContactListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ItemViewHolder(binding)
@@ -39,6 +45,15 @@ class ContactAdapter (private val mItem: List<ContactViewType>) : RecyclerView.A
                     itemClick?.onClick(it, position)
                 }
             }
+            is ContactViewType.ContactMy -> {
+                with((holder as MyViewHolder)){
+                    img.setImageURI(item.my.img)
+                    name.text = item.my.name
+                }
+                holder.itemView.setOnClickListener {
+                    itemClick?.onClick(it, position)
+                }
+            }
         }
     }
     override fun getItemId(position: Int): Long {
@@ -51,6 +66,7 @@ class ContactAdapter (private val mItem: List<ContactViewType>) : RecyclerView.A
     override fun getItemViewType(position: Int): Int {
         return when (mItem[position]) {
             is ContactViewType.ContactUser -> ITEM_VIEW_TYPE_ITEM
+            is ContactViewType.ContactMy -> ITEM_VIEW_TYPE_MY
         }
     }
 
@@ -65,6 +81,17 @@ class ContactAdapter (private val mItem: List<ContactViewType>) : RecyclerView.A
             }
         }
 
+    }
+
+    inner class MyViewHolder(binding: MyItemContactListBinding) : RecyclerView.ViewHolder(binding.root) {
+        val name = binding.tvMyName
+        val img = binding.ivMyImg
+
+        init {
+            itemView.setOnClickListener {
+                itemClick?.onClick(it, adapterPosition)
+            }
+        }
     }
 
 }

@@ -6,7 +6,7 @@
     android:paddingTop="1dp">
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -16,33 +16,57 @@
         android:background="@color/white">
 
         <ImageView
-            android:id="@+id/iv_contact_img"
+            android:id="@+id/iv_my_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/img_user_profile"
             android:background="@drawable/iv_round_background"
+            android:backgroundTint="@color/icon"
             android:clipToOutline="true"
             android:layout_marginEnd="16dp"/>
         <TextView
-            android:id="@+id/tv_contact_name"
+            android:id="@+id/tv_my_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:textSize="16sp"
-            android:text="사용자1" />
+            android:text="@string/edit_name"
+            android:fontFamily="@font/pretendard_regular"
+            />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
         <ImageView
-            android:id="@+id/iv_contact_star"
+            android:id="@+id/iv_my_edit"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="end|center_vertical"
-            android:src="@drawable/ic_detail_favorite_outline"/>
+            android:src="@drawable/ic_detail_edit"
+            android:clickable="true"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/iv_my_detail"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:clickable="true"
+            android:src="@drawable/img_main_downarrow"
+            android:visibility="gone" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray"
+
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
