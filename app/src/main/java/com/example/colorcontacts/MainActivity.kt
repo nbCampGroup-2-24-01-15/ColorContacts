@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
+import com.example.colorcontacts.dialog.AddContactDialogFragment
 import com.example.colorcontacts.dialpad.DialPadFragment
 import com.example.colorcontacts.favorite.FavoriteFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -67,6 +68,11 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.setIcon(icons[position])
         }.attach()
+
+        //플로팅 버튼(주소록 추가 다이얼로그)
+        binding.btnAddContactDialog.setOnClickListener {
+            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
+        }
     }
 
     /**
@@ -109,6 +115,7 @@ class MainActivity : AppCompatActivity() {
     private fun getContacts() {
 //        UserList.userList = mutableListOf()
         //연락처 URI 가져오기
+        UserList.userList = mutableListOf()
         val contactsUri = ContactsContract.Contacts.CONTENT_URI
 
         //URI 데이터 읽어 오고 데이터의 집합을 가리키는 객체 cursor선언
@@ -229,6 +236,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     private fun requestCallPermission() {
