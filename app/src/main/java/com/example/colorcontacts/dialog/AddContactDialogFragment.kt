@@ -1,15 +1,17 @@
 package com.example.colorcontacts.dialog
 
+
 import android.app.Dialog
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Window
+import androidx.fragment.app.DialogFragment
 import com.example.colorcontacts.CheckString
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 
-class AddContactDialog(context: Context) : Dialog(context) {
+class AddContactDialogFragment(): DialogFragment() {
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
     //유효성 검사 체크 변수들
@@ -18,20 +20,18 @@ class AddContactDialog(context: Context) : Dialog(context) {
     private var isCheckedPhoneNum = false
     private var isCheckedEmail = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        // 화면 구성
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(binding.root)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        var dialog = Dialog(requireContext())
+        dialog.setContentView(binding.root)
 
         // 콜백 버튼 구현
         setCallBackFunction()
 
-        // 유효성 검사
+        // 유효성 검사 리스너 등록
         checkString()
 
-
+        return dialog
     }
 
     private fun setCallBackFunction() {
@@ -56,9 +56,18 @@ class AddContactDialog(context: Context) : Dialog(context) {
             dismiss()
         }
 
+        // 이미지 클릭
+        binding.ivAddContactProfileImg.setOnClickListener {
+            openGallery()
+        }
+
 
     }
 
+
+    /**
+     *  TODO : 유효성 검사 함수
+     */
     private fun checkString() {
         // 유효성 검사
         val etName = binding.etAddContactName
@@ -135,5 +144,13 @@ class AddContactDialog(context: Context) : Dialog(context) {
         })
     }
 
+    /**
+     *  TODO : 갤러리 불러오기
+     */
+    private fun openGallery(){
 
+        //암시적 인텐트 이용
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+    }
 }
