@@ -10,16 +10,16 @@ import com.example.colorcontacts.UserList
 import com.example.colorcontacts.contactList.ContactViewType
 import com.example.colorcontacts.favorite.FavoriteViewType
 
-class SharedViewModel: ViewModel() {
+class SharedViewModel : ViewModel() {
 
     private val _list: MutableLiveData<List<ContactViewType>> = MutableLiveData()
-    val list : LiveData<List<ContactViewType>> get() = _list
+    val list: LiveData<List<ContactViewType>> get() = _list
 
     private val _favoriteList: MutableLiveData<List<FavoriteViewType>> = MutableLiveData()
-    val favoriteList : LiveData<List<FavoriteViewType>> get() = _favoriteList
+    val favoriteList: LiveData<List<FavoriteViewType>> get() = _favoriteList
 
     private val _layoutType: MutableLiveData<LayoutType> = MutableLiveData(LayoutType.LINEAR)
-    val layoutType : LiveData<LayoutType> get() = _layoutType
+    val layoutType: LiveData<LayoutType> get() = _layoutType
 
     private val _color: MutableLiveData<ColorTheme> = MutableLiveData()
     val color: LiveData<ColorTheme> get() = _color
@@ -30,24 +30,23 @@ class SharedViewModel: ViewModel() {
     }
 
     //레이아웃 타입을 구별하고 실드클래스에 넣어줌
-    fun setContactList(type: LayoutType){
-        if (type == LayoutType.LINEAR) _list.value = UserList.userList.map {
-            ContactViewType.ContactUser(
-                it
-            )
-        }
+    fun setContactList(type: LayoutType) {
+        if (type == LayoutType.LINEAR) _list.value = UserList.userList.map { ContactViewType.ContactUser(it) }
         else _list.value = UserList.userList.map { ContactViewType.GridUser(it) }
     }
 
     //즐겨찾기 목록에 있는 유저를 레이아웃타입을 구별하고 실드클래스에 넣어줌
-    fun setFavoriteList(type: LayoutType){
-        if (type == LayoutType.LINEAR) _favoriteList.value = UserList.userList.filter { it.favorites }.map { FavoriteViewType.FavoriteUser(it) }
-        else _favoriteList.value = UserList.userList.filter { it.favorites }.map { FavoriteViewType.FavoriteGrid(it) }
+    fun setFavoriteList(type: LayoutType) {
+        if (type == LayoutType.LINEAR) _favoriteList.value =
+            UserList.userList.filter { it.favorites }.map { FavoriteViewType.FavoriteUser(it) }
+        else _favoriteList.value =
+            UserList.userList.filter { it.favorites }.map { FavoriteViewType.FavoriteGrid(it) }
     }
 
     //레이아웃 변경 버튼을 눌렀을때 갱신
     fun getLayoutType() {
-        UserList.layoutType = if (_layoutType.value == LayoutType.LINEAR) LayoutType.GRID else LayoutType.LINEAR
+        UserList.layoutType =
+            if (_layoutType.value == LayoutType.LINEAR) LayoutType.GRID else LayoutType.LINEAR
         _layoutType.value = UserList.layoutType
     }
 
@@ -56,6 +55,7 @@ class SharedViewModel: ViewModel() {
         _layoutType.value = UserList.layoutType
     }
 
+    //현재 적용중인 컬러 갱신
     fun setColor() {
         _color.value = NowColor.color
     }

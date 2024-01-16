@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
 import android.widget.SearchView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -18,6 +19,8 @@ import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialpad.DialPadFragment
 import com.example.colorcontacts.domain.SharedViewModel
 import com.example.colorcontacts.favorite.FavoriteFragment
+import com.github.dhaval2404.colorpicker.ColorPickerDialog
+import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -238,18 +241,110 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //상단 버튼
+    @SuppressLint("ResourceType")
     private fun setLayoutBtn() {
         binding.ivMainLayout.setOnClickListener {
             viewModel.getLayoutType()
         }
+
+        binding.ivMainEdit.setOnClickListener {
+            showColorSelection()
+        }
     }
 
+    /**
+     * TODO 테마색 변경 다이얼로그
+     *
+     * 화면 상단의 edit아이콘을 눌렀을때 작동
+     * 다이얼로그가 뜨며 바꿀 뷰의 색(위젯, 폰트컬러등)을 컬러피커를 이용해 선택하고
+     * 뷰를 갱신한다
+     */
+    private fun showColorSelection() {
+        val colorType = arrayOf(
+            getString(R.string.main_color_widget),
+            getString(R.string.main_color_search),
+            getString(R.string.main_color_icon),
+            getString(R.string.main_color_font),
+            getString(R.string.main_color_basic),
+            getString(R.string.main_color_select),
+            getString(R.string.main_color_list),
+            getString(R.string.main_color_header),
+            getString(R.string.main_color_back)
+        )
+        //색을 변경할 항목을 선택하고 컬러피커 다이얼로그 호출
+        AlertDialog.Builder(this).setTitle(R.string.main_dialog_title)
+            .setItems(colorType) { _, position ->
+                showColorPicker(colorType[position])
+            }.show()
+    }
+
+    /**
+     * TOOD 컬러피커 다이얼로그
+     *
+     * 스펙트럼표로 색을 고를수 있음
+     * 타입에 맞춰 객체로 저장
+     *
+     * module이랑 project Setting gradle설정 해야함
+     */
+    private fun showColorPicker(colorType: String) {
+        var nowColor = when (colorType) {
+            getString(R.string.main_color_widget) -> NowColor.color.colorWidget
+            getString(R.string.main_color_search) -> NowColor.color.colorSearch
+            getString(R.string.main_color_icon) -> NowColor.color.colorIcon
+            getString(R.string.main_color_font) -> NowColor.color.colorFont
+            getString(R.string.main_color_basic) -> NowColor.color.colorBasic
+            getString(R.string.main_color_select) -> NowColor.color.colorSelect
+            getString(R.string.main_color_list) -> NowColor.color.colorLinear
+            getString(R.string.main_color_header) -> NowColor.color.colorHeader
+            else -> NowColor.color.colorBackground
+        }
+        ColorPickerDialog.Builder(this).setTitle(colorType)
+            .setColorShape(ColorShape.SQAURE)   // Default ColorShape.CIRCLE
+            .setDefaultColor(nowColor)     // Pass Default Color
+            .setColorListener { color, _ ->
+                setColor(colorType,color)
+            }
+            .show()
+    }
+
+    //선택한 값을 현재 객체로 저장, 라이브데이터를 갱신해 옵저빙하는 뷰들의 색을 갱신해줌
+    private fun setColor(colorType: String, color: Int){
+        when (colorType) {
+            getString(R.string.main_color_widget) -> NowColor.color.colorWidget = color
+            getString(R.string.main_color_search) -> NowColor.color.colorSearch = color
+            getString(R.string.main_color_icon) -> NowColor.color.colorIcon = color
+            getString(R.string.main_color_font) -> NowColor.color.colorFont = color
+            getString(R.string.main_color_basic) -> NowColor.color.colorBasic = color
+            getString(R.string.main_color_select) -> NowColor.color.colorSelect = color
+            getString(R.string.main_color_list) -> NowColor.color.colorLinear = color
+            getString(R.string.main_color_header) -> NowColor.color.colorHeader = color
+            else -> NowColor.color.colorBackground = color
+        }
+        viewModel.setColor()
+    }
+
+    @SuppressLint("ResourceType")
     private fun setObserve() {
-        viewModel.layoutType.observe(this){type ->
+        viewModel.layoutType.observe(this) { type ->
             if (type == LayoutType.GRID) binding.ivMainLayout.setImageResource(R.drawable.ic_fragment_linear)
             else binding.ivMainLayout.setImageResource(R.drawable.ic_fragment_grid)
         }
+
+        //View 색 변경
+        viewModel.color.observe(this) {color ->
+            with(binding){
+                tabLayout.background.setTint(color.colorWidget)
+                searchView.background.setTint(color.colorSearch)
+                ivMainLayout.setColorFilter(color.colorIcon)
+                ivMainEdit.setColorFilter(color.colorIcon)
+                csMainHeader.background.setTint(color.colorHeader)
+                csMainBackground.setBackgroundColor(color.colorBackground)
+            }
+            window.statusBarColor = color.colorWidget
+        }
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         finish()

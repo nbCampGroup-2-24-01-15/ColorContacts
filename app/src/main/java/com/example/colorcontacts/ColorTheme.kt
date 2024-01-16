@@ -12,12 +12,17 @@ data class ColorTheme(
 
     var colorFont: Int = Color.parseColor("#000000"),
 
-    var colorBasic: Int = Color.parseColor("e9e9e9"),
+    var colorBasic: Int = Color.parseColor("#e9e9e9"),
 
     var colorSelect: Int = Color.parseColor("#11264f"),
 
-    var colorList: Int = Color.parseColor("#ffffff")
+    var colorLinear: Int = Color.parseColor("#ffffff"),
+
+    var colorHeader: Int = Color.parseColor("#ffffff"),
+
+    var colorBackground: Int = Color.parseColor("#D3D3D3")
 )
-object NowColor{
-    var color:ColorTheme = ColorTheme()
+
+object NowColor {
+    var color: ColorTheme = ColorTheme()
 }

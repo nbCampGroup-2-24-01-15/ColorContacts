@@ -9,8 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.colorcontacts.ColorTheme
 import com.example.colorcontacts.LayoutType
+import com.example.colorcontacts.NowColor
 import com.example.colorcontacts.R
+import com.example.colorcontacts.User
+import com.example.colorcontacts.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 import com.example.colorcontacts.domain.SharedViewModel
 
@@ -20,6 +24,7 @@ class ContactListFragment : Fragment() {
     private var adapter: ContactAdapter? = null
 
     private var _binding: FragmentContactListBinding? = null
+    private var nowList: List<ContactViewType>? = null
 
     private val binding get() = _binding!!
 
@@ -50,18 +55,11 @@ class ContactListFragment : Fragment() {
     private fun setList() {
         //list는 뷰에 넣어줄 데이터값, viewLifecycleOwner는  Fragment의 View의 생명주기에 맞춰 데이터를 관찰함
         viewModel.list.observe(viewLifecycleOwner) { list ->
-            if (adapter == null) {
-                adapter = ContactAdapter(list).apply {
-                    itemClick = object : ContactAdapter.ItemClick {
-                        override fun onClick(view: View, position: Int) { //즐겨찾기 버튼
-                            viewModel.onFavorite(position)
-                        }
-                    }
-                }
-                binding.rcContactList.adapter = adapter
-            } else {
-                adapter?.load(list)
-            }
+            onRecyclerView(list, NowColor.color)
+            nowList = list
+        }
+        viewModel.color.observe(viewLifecycleOwner) { color ->
+            nowList?.let { onRecyclerView(it, color) }
         }
 
         //현재 보고 있는 레이아웃 타입 설정, 버튼도 그에 맞춰 변경
@@ -70,6 +68,7 @@ class ContactListFragment : Fragment() {
                 LayoutType.GRID -> {
                     binding.rcContactList.layoutManager = GridLayoutManager(requireContext(), 4)
                 }
+
                 else -> {
                     binding.rcContactList.layoutManager = LinearLayoutManager(requireContext())
                 }
@@ -80,6 +79,21 @@ class ContactListFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
     }
 
+    private fun onRecyclerView(list: List<ContactViewType>, color: ColorTheme) {
+        if (adapter == null) {
+            adapter = ContactAdapter(list, color).apply {
+                itemClick = object : ContactAdapter.ItemClick {
+                    override fun onClick(view: View, position: Int) { //즐겨찾기 버튼
+                        viewModel.onFavorite(position)
+                    }
+                }
+            }
+            binding.rcContactList.adapter = adapter
+        } else {
+            adapter?.updateColor(color)
+            adapter?.load(list)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
