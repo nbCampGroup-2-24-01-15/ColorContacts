@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
     private fun requestContactPermission() {
         //연락처 퍼미션, 사용자가 퍼미션 허용 했는지 확인
         val status = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
-        if (status == PackageManager.PERMISSION_GRANTED) getContacts()
+        if (status == PackageManager.PERMISSION_GRANTED)
         else {
             //퍼미션 요청 다이얼로그 표시
             ActivityCompat.requestPermissions(
@@ -187,6 +187,10 @@ class MainActivity : AppCompatActivity() {
             }
             55 -> {
                 if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) finish()
+                else {
+                    getContacts()
+                    setFragment()
+                }
             }
         }
     }
