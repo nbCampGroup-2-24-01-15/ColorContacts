@@ -3,14 +3,12 @@ package com.example.colorcontacts.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
@@ -55,7 +53,6 @@ class AddContactDialogFragment : DialogFragment() {
             setOnClickListener {
 
                 // 데이터 전달
-
                 val user = User(
                     img = selectedImageUri,
                     name = binding.etAddContactName.text.toString() ?: "Unknown",
@@ -202,8 +199,5 @@ class AddContactDialogFragment : DialogFragment() {
     /**
      *  TODO 해당 VIEW ID-> URI 형식에 맞게 Parse(파싱)
      */
-    private fun getUri(v: View): Uri {
-        val resId = v.id
-        return Uri.parse("android.resource://com.example.colorcontacts/$resId")
-    }
+
 }
