@@ -13,6 +13,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,6 +27,7 @@ import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
+import com.example.colorcontacts.utill.SharedViewModel
 import com.example.colorcontacts.view.contactList.model.ContactViewModel
 import kotlin.math.roundToInt
 
@@ -34,6 +37,10 @@ class AddContactDialogFragment : DialogFragment() {
     private val validChk get() = CheckString()
     //유효성 검사 체크 변수들
     private var isChecked = false
+
+
+    //이벤트 관련 변수
+    private lateinit var selectedEvent : String
 
     private val editTexts get() = with(binding) {
         listOf(
@@ -56,17 +63,30 @@ class AddContactDialogFragment : DialogFragment() {
         // 콜백 리스너 등록
         setCallBackFunction()
 
+        // 스피너 값 설정
+        // 이벤트 spinner 값
+        val spinner = binding.spinner
+        val items = arrayOf("1초","5초","1분","10분","1시간")
+        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        spinner.adapter= adapter
+        object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                selectedEvent = parent?.getItemAtPosition(position).toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }.also { spinner.onItemSelectedListener = it }
         return dialog
     }
-
-    /*override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = DialogAddContactBinding.inflate(layoutInflater)
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }*/
 
     private fun setAlpha(color: Int, factor: Float): Int {
         val alpha = (Color.alpha(color) * factor).roundToInt()
@@ -85,16 +105,18 @@ class AddContactDialogFragment : DialogFragment() {
                     name = binding.etAddContactName.text.toString(),
                     phone = binding.etAddContactPhoneNumber.text.toString(),
                     email = binding.etAddContactEmail.text.toString(),
-                    event = null,
+                    event = selectedEvent,
                     info = null,
                 )
                 // 데이터를 전달
                 UserList.userList.add(user)
 
                 // 뷰모델을 연결하여 UI를 업데이트(뷰모델의 라이브 데이터를 갱신)
-                val viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]
-                viewModel.setContactList(UserList.layoutType)
+                val viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+                viewModel.setLayoutType()
 
+                // 알람 등록
+                UserList.notification.setUserAlarm(user,requireContext())
                 // 종료
                 dismiss()
             }

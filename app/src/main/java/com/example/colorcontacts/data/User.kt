@@ -1,6 +1,7 @@
 package com.example.colorcontacts.data
 
 import android.net.Uri
+import com.example.colorcontacts.Notification
 import com.example.colorcontacts.utill.LayoutType
 import java.util.UUID
 
@@ -17,4 +18,6 @@ object UserList{
     var userList = mutableListOf<User>()
 
     var layoutType = LayoutType.LINEAR
+
+    var notification = Notification()
 }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.colorcontacts.Notification
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
@@ -49,14 +51,17 @@ class MainActivity : AppCompatActivity() {
             R.drawable.ic_tablayout_dialpad
         )
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        UserList.notification.settingNotification(this)
+
         initView()
 
     }
-
     private fun initView() {
         requestContactPermission()
         getContacts()
