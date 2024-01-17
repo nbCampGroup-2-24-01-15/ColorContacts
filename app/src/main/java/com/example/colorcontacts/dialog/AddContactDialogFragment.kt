@@ -35,6 +35,14 @@ class AddContactDialogFragment : DialogFragment() {
     //유효성 검사 체크 변수들
     private var isChecked = false
 
+    private val editTexts get() = with(binding) {
+        listOf(
+            etAddContactName,
+            etAddContactPhoneNumber,
+            etAddContactEmail
+        )
+    }
+
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
@@ -42,7 +50,7 @@ class AddContactDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         // 다이얼 로그 화면 등록
-        var dialog = Dialog(requireContext())
+        val dialog = Dialog(requireContext())
         dialog.setContentView(binding.root)
 
         // 콜백 리스너 등록
@@ -63,14 +71,6 @@ class AddContactDialogFragment : DialogFragment() {
     private fun setAlpha(color: Int, factor: Float): Int {
         val alpha = (Color.alpha(color) * factor).roundToInt()
         return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
-    }
-
-    private val editTexts = with(binding) {
-        listOf(
-            etAddContactName,
-            etAddContactPhoneNumber,
-            etAddContactEmail
-        )
     }
     private fun setCallBackFunction() {
         binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))

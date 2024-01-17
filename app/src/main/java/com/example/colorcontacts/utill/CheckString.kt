@@ -14,19 +14,19 @@ class CheckString {
     //1. 이름 유효성 검사
     fun checkName(str : String): Int? {
         val regex = Regex("^[가-힣a-zA-Z]+$")
-        return if (regex.matches(str)) R.string.add_contact_dialog_name_error
-        else null
+        return if (regex.matches(str)) null
+        else R.string.add_contact_dialog_name_error
     }
     //2. 폰번호 유효성 검사
     fun checkPhoneNumber(str : String): Int? {
         val regex = Regex("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}\$")
-        return if(regex.matches(str)) R.string.add_contact_dialog_phone_number_error
-        else null
+        return if(regex.matches(str)) null
+        else R.string.add_contact_dialog_phone_number_error
     }
     //3. 이메일 유효성 검사
     fun checkEmail(str: String): Int? {
         val regex = Regex("\\w+@\\w+\\.\\w+(\\.\\w+)?")
-        return if (regex.matches(str)) R.string.add_contact_dialog_phone_number_error
-        else null
+        return if (regex.matches(str)) null
+        else R.string.add_contact_dialog_email_error
     }
 }
