@@ -137,6 +137,7 @@
         android:background="@drawable/custom_button"
         android:text="@string/add_contact_dialog_ok_btn"
         android:textColor="@color/white"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
