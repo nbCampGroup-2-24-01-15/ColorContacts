@@ -21,17 +21,16 @@ import com.example.colorcontacts.data.TagMember
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.colorcontacts.DetailPageActivity
-import com.example.colorcontacts.LayoutType
 import com.example.colorcontacts.R
-import com.example.colorcontacts.User
-import com.example.colorcontacts.UserList
+import com.example.colorcontacts.data.User
+import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 import com.example.colorcontacts.utill.SharedViewModel
 import com.example.colorcontacts.view.contactList.adapter.ContactAdapter
 import com.example.colorcontacts.view.contactList.adapter.ContactItemHelper
 import com.example.colorcontacts.view.contactList.adapter.ContactViewType
 import com.example.colorcontacts.view.contactList.model.ContactViewModel
+import com.example.colorcontacts.view.detail.DetailPageActivity
 
 
 class ContactListFragment : Fragment() {
@@ -61,7 +60,7 @@ class ContactListFragment : Fragment() {
         //레이아웃 타입 초기화
         sharedViewModel.setLayoutType()
         setList()
-        setLayoutBtn()
+//        setLayoutBtn()
         setMyPageTab()
     }
 
@@ -127,7 +126,6 @@ class ContactListFragment : Fragment() {
                 email = "",
                 event = null,
                 info = null,
-                favorites = false
             )
             UserList.myData.add(myDefault)
 
