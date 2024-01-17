@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/iv_add_contact_back_btn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:rotation="-180"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_main_downarrow" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_add_contact_profile_img"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_rounded_view"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_add_contact_back_btn"
+        app:srcCompat="@drawable/img_user_profile" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_layout_add_contact"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_add_contact_profile_img">
+
+        <TextView
+            android:id="@+id/tv_add_contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_contact_dialog_name"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_add_contact_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/add_contact_dialog_phone_num"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_add_contact_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_contact_name" />
+
+        <TextView
+            android:id="@+id/tv_add_contact_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/add_contact_dialog_email"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_add_contact_phone_number"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_contact_phone_number" />
+
+        <TextView
+            android:id="@+id/tv_add_contact_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/add_contact_dialog_event"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_add_contact_phone_number"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_contact_email" />
+
+        <EditText
+            android:id="@+id/et_add_contact_email"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/add_contact_dialog_email_hint"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contact_email"
+            app:layout_constraintEnd_toEndOf="@+id/et_add_contact_phone_number"
+            app:layout_constraintStart_toStartOf="@+id/et_add_contact_phone_number"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contact_email" />
+
+        <EditText
+            android:id="@+id/et_add_contact_name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:ems="10"
+            android:hint="@string/add_contact_dialog_name_hint"
+            android:inputType="text"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contact_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_add_contact_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contact_name" />
+
+        <EditText
+            android:id="@+id/et_add_contact_phone_number"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/add_contact_dialog_phone_number_hint"
+            android:inputType="phone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contact_phone_number"
+            app:layout_constraintEnd_toEndOf="@+id/et_add_contact_name"
+            app:layout_constraintStart_toStartOf="@+id/et_add_contact_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contact_phone_number" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contact_event"
+            app:layout_constraintEnd_toEndOf="@+id/et_add_contact_email"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="@+id/et_add_contact_email"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_contact_event" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_contact_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_button"
+        android:text="@string/add_contact_dialog_ok_btn"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/const_layout_add_contact" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

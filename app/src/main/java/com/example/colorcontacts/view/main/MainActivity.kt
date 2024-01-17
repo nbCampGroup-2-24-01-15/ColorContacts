@@ -1,34 +1,25 @@
 package com.example.colorcontacts.view.main
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
 import android.widget.SearchView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.example.colorcontacts.utill.LayoutType
-import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.adapter.ViewPagerAdapter
 import com.example.colorcontacts.view.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
-import com.example.colorcontacts.test.TestActivity
 import com.example.colorcontacts.view.dialpad.DialPadFragment
-import com.example.colorcontacts.utill.SharedViewModel
 import com.example.colorcontacts.view.favorite.FavoriteFragment
-import com.github.dhaval2404.colorpicker.ColorPickerDialog
-import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -77,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    binding.toolBar.visibility = if (position == 2) View.GONE else View.VISIBLE
                 }
             })
         }
@@ -85,6 +77,11 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.setIcon(icons[position])
         }.attach()
+
+        //플로팅 버튼(주소록 추가 다이얼로그)
+        binding.btnAddContactDialog.setOnClickListener {
+            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
+        }
     }
 
     /**
@@ -127,6 +124,7 @@ class MainActivity : AppCompatActivity() {
     private fun getContacts() {
         UserList.userList = mutableListOf()
         //연락처 URI 가져오기
+        UserList.userList = mutableListOf()
         val contactsUri = ContactsContract.Contacts.CONTENT_URI
 
         //URI 데이터 읽어 오고 데이터의 집합을 가리키는 객체 cursor선언

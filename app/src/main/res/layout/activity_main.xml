@@ -93,4 +93,18 @@
         app:tabIconTint="@color/selector_tab_icon_color"
         app:tabIndicatorColor="#00ffffff" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_contact_dialog"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/custom_button"
+        android:text="+"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
