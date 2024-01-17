@@ -1,25 +1,35 @@
 package com.example.colorcontacts.view.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
 import android.widget.SearchView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.adapter.ViewPagerAdapter
+import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.view.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
+import com.example.colorcontacts.dialog.AddContactDialogFragment
+import com.example.colorcontacts.test.TestActivity
+import com.example.colorcontacts.utill.LayoutType
+import com.example.colorcontacts.utill.SharedViewModel
 import com.example.colorcontacts.view.dialpad.DialPadFragment
 import com.example.colorcontacts.view.favorite.FavoriteFragment
+import com.github.dhaval2404.colorpicker.ColorPickerDialog
+import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -259,7 +269,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.testBtn.setOnClickListener {
-            startActivity(Intent(this,TestActivity::class.java))
+            startActivity(Intent(this, TestActivity::class.java))
         }
     }
 

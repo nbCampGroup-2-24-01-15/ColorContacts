@@ -23,11 +23,6 @@
             android:name=".test.TestActivity"
             android:exported="false" />
         <activity
-            android:name=".coloredit.ColorActivity"
-            android:exported="false"
-            android:label="@string/title_activity_color"
-            android:theme="@style/Theme.ColorContacts.NoActionBar" />
-        <activity
             android:name=".view.detail.DetailPageActivity"
             android:exported="false" />
         <activity
