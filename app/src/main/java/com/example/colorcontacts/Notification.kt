@@ -11,7 +11,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -39,18 +38,36 @@ class Notification : BroadcastReceiver() {
     private lateinit var notificationManager: NotificationManager
 
 
-    fun settingNotification(context: Context) {
-        setSystemService(context)
+    fun settingNotification(activity: Activity) {
+        requestPermissionNotification(activity)
+        setSystemService(activity)
         createChannel()
     }
 
-    private fun setSystemService(context: Context) {
 
+    //권한 확인후 실행 해야함
+    fun setSystemService(context: Context) {
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     }
+
+    //권한 확인 이 놈이 문제네
+    private fun requestPermissionNotification(activity: Activity){
+        val status =
+            ContextCompat.checkSelfPermission(activity, android.Manifest.permission.SCHEDULE_EXACT_ALARM)
+        if (status == PackageManager.PERMISSION_GRANTED)
+        else {
+            //퍼미션 요청 다이얼로그 표시
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(android.Manifest.permission.SCHEDULE_EXACT_ALARM,android.Manifest.permission.USE_EXACT_ALARM,android.Manifest.permission.POST_NOTIFICATIONS),
+                101
+            )
+        }
+    }
+
 
 
     // 최초 채널 생성

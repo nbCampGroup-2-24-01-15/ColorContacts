@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.example.colorcontacts.Notification
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
@@ -389,4 +388,5 @@ class MainActivity : AppCompatActivity(){
             binding.pbMainLoading.isVisible = true
         }
     }
+
 }
