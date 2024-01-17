@@ -1,10 +1,18 @@
 package com.example.colorcontacts.contactList
 
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.colorcontacts.R
+import com.example.colorcontacts.User
 import com.example.colorcontacts.contactList.ContactViewType.GridUser
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
@@ -14,6 +22,8 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
     companion object {
         private const val ITEM_VIEW_TYPE_GRID = 0
         private const val ITEM_VIEW_TYPE_ITEM = 1
+//        private const val ITEM_VIEW_TYPE_MY_LIST = 2
+//        private const val ITEM_VIEW_TYPE_MY_GRID = 3
     }
     interface ItemClick {
         fun onClick(view: View, position: Int)
@@ -38,6 +48,21 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)){
                     img.setImageURI(item.user.img)
+                    //glide로 item의 background 이미지 적용
+                    Glide.with(itemView.context)
+                        .load(item.user.backgroundImg)
+                        .into(object : CustomTarget<Drawable>() {
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                            ) {
+                                background.background = resource
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                                Toast.makeText(itemView.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
+                            }
+                        })
                     name.text = item.user.name
                     if (item.user.favorites) star.setImageResource(R.drawable.ic_detail_favorite_filled)
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
@@ -57,6 +82,7 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
                     name.text = item.user.name
                 }
             }
+            else -> {}
         }
     }
     override fun getItemId(position: Int): Long {
@@ -74,12 +100,15 @@ class ContactAdapter (private var mItem: List<ContactViewType>) : RecyclerView.A
         return when (mItem[position]) {
             is ContactViewType.ContactUser -> ITEM_VIEW_TYPE_ITEM
             is GridUser -> ITEM_VIEW_TYPE_GRID
+//            is ContactViewType.ContactListMy -> ITEM_VIEW_TYPE_MY_LIST
+//            is ContactViewType.GridMy -> ITEM_VIEW_TYPE_MY_GRID
         }
     }
 
     inner class ItemViewHolder(binding: ItemContactListBinding) : RecyclerView.ViewHolder(binding.root){
         val name = binding.tvContactName
         val img = binding.ivContactImg
+        val background = binding.swipeItemContact
         val star =  binding.ivContactStar
         val swipeLayout = binding.swipeItemContact
 

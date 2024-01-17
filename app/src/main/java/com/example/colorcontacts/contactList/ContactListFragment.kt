@@ -1,16 +1,27 @@
 package com.example.colorcontacts.contactList
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.colorcontacts.DetailPageActivity
 import com.example.colorcontacts.LayoutType
 import com.example.colorcontacts.R
+import com.example.colorcontacts.User
+import com.example.colorcontacts.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 
 
@@ -38,6 +49,7 @@ class ContactListFragment : Fragment() {
         viewModel.setLayoutType()
         setList()
         setLayoutBtn()
+        setMyPageTab()
     }
 
     /**
@@ -71,6 +83,7 @@ class ContactListFragment : Fragment() {
                     binding.ivContactLayout.setImageResource(R.drawable.ic_fragment_linear)
                     binding.rcContactList.layoutManager = GridLayoutManager(requireContext(), 4)
                 }
+
                 else -> {
                     binding.ivContactLayout.setImageResource(R.drawable.ic_fragment_grid)
                     binding.rcContactList.layoutManager = LinearLayoutManager(requireContext())
@@ -85,6 +98,50 @@ class ContactListFragment : Fragment() {
     private fun setLayoutBtn() {
         binding.ivContactLayout.setOnClickListener {
             viewModel.getLayoutType()
+        }
+    }
+
+    private fun setMyPageTab() {
+
+        if (UserList.myData.isEmpty()) {
+            val myDefault = User(
+                img = Uri.EMPTY,
+                backgroundImg = Uri.EMPTY,
+                name = getString(R.string.edit_name),
+                phone = "",
+                email = "",
+                event = null,
+                info = null,
+                favorites = false
+            )
+            UserList.myData.add(myDefault)
+
+            binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
+            binding.tvMyName.text = myDefault.name
+        } else {
+            binding.ivMyImg.setImageURI(UserList.myData[1].img ?: Uri.EMPTY)
+            binding.tvMyName.text = UserList.myData[1].name ?: ""
+            Glide.with(this)
+                .load(UserList.myData[1].backgroundImg)
+                .into(object : CustomTarget<Drawable>() {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        binding.linearLayout4.background = resource
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
+                    }
+                })
+
+        }
+
+        binding.linearLayout4.setOnClickListener {
+            val intent = Intent(activity, DetailPageActivity::class.java).apply {
+//                putExtra("myPage", )
+            }
+            startActivity(intent)
         }
     }
 
