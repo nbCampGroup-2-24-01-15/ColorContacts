@@ -6,6 +6,7 @@ import java.util.UUID
 data class User(
     var key: String = UUID.randomUUID().toString(),
     var img: Uri?,
+    var backgroundImg: Uri?,
     var name: String,
     var phone: String,
     var email: String,
@@ -14,6 +15,8 @@ data class User(
     var favorites: Boolean
 )
 object UserList{
+    var myData = mutableListOf<User>()
+
     var userList = mutableListOf<User>()
 
     var layoutType = LayoutType.LINEAR
