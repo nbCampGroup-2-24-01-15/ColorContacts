@@ -13,12 +13,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.colorcontacts.CheckString
+import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.R
-import com.example.colorcontacts.User
-import com.example.colorcontacts.UserList
-import com.example.colorcontacts.contactList.ContactViewModel
+import com.example.colorcontacts.data.User
+import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
+import com.example.colorcontacts.view.contactList.model.ContactViewModel
 
 class AddContactDialogFragment : DialogFragment() {
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
@@ -61,7 +61,6 @@ class AddContactDialogFragment : DialogFragment() {
                     email = binding.etAddContactEmail.text.toString(),
                     event = null,
                     info = null,
-                    favorites = false
                 )
                 // 데이터를 전달
                 UserList.userList.add(user)

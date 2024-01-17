@@ -1,4 +1,4 @@
-package com.example.colorcontacts.favorite
+package com.example.colorcontacts.view.favorite.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
@@ -20,7 +21,7 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
     }
 
     interface ItemClick {
-        fun onClick(view: View, position: Int)
+        fun onClick(view: View, position: Int,key: String)
     }
 
     var itemClick: ItemClick? = null
@@ -53,15 +54,19 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
                 with((holder as ItemViewHolder)) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-                    if (item.user.favorites) star.setImageResource(R.drawable.ic_detail_favorite_filled)
+
+                    //유저가 속한 태그의 이미지 세팅
+                    val favorite = TagMember.memberChk(item.user.key)
+                    if (favorite != null) star.setImageURI(favorite.img)
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     star.setOnClickListener {
-                        itemClick?.onClick(it, position)
+                        //유저의 key값 반환해서 버튼클릭시 즐겨찾기 갱신
+                        itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
                 }
                 holder.itemView.setOnClickListener {
-                    itemClick?.onClick(it, position)
+                    itemClick?.onClick(it, position, "")
                 }
             }
 
@@ -104,7 +109,7 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
 
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition)
+                itemClick?.onClick(it, adapterPosition,"")
             }
         }
 
@@ -117,7 +122,7 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
 
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition)
+                itemClick?.onClick(it, adapterPosition, "")
             }
         }
     }

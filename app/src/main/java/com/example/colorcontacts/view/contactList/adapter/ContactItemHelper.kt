@@ -1,4 +1,4 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.view.contactList.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.graphics.Canvas
 import android.net.Uri
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.colorcontacts.UserList
+import com.example.colorcontacts.data.UserList
 
 /**
  * TODO 스와이프시 통화 기능
@@ -25,8 +25,8 @@ class ContactItemHelper(val context: Context): ItemTouchHelper.Callback() {
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val swipeFlags = ItemTouchHelper.RIGHT
-        return makeMovementFlags(0, swipeFlags)
+        val swipeFqwelags = ItemTouchHelper.RIGHT
+        return makeMovementFlags(0, swipeFqwelags)
         //오른쪽으로만 슬라이드 가능하게 설정
     }
 

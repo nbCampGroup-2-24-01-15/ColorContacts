@@ -58,4 +58,9 @@ dependencies {
 
     // motion
     implementation ("androidx.constraintlayout:constraintlayout:2.0.0-beta1")
+
+    // colorPicker
+    implementation ("com.github.Dhaval2404:ColorPicker:2.3")
+
 }
+
