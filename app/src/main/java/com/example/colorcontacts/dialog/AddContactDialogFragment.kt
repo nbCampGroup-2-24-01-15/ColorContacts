@@ -4,30 +4,44 @@ package com.example.colorcontacts.dialog
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 import com.example.colorcontacts.view.contactList.model.ContactViewModel
+import kotlin.math.roundToInt
 
 class AddContactDialogFragment : DialogFragment() {
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
+    private val validChk get() = CheckString()
     //유효성 검사 체크 변수들
     private var isChecked = false
-    private var isCheckedName = false
-    private var isCheckedPhoneNum = false
-    private var isCheckedEmail = false
+
+    private val editTexts get() = with(binding) {
+        listOf(
+            etAddContactName,
+            etAddContactPhoneNumber,
+            etAddContactEmail
+        )
+    }
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
@@ -36,7 +50,7 @@ class AddContactDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         // 다이얼 로그 화면 등록
-        var dialog = Dialog(requireContext())
+        val dialog = Dialog(requireContext())
         dialog.setContentView(binding.root)
 
         // 콜백 리스너 등록
@@ -45,12 +59,24 @@ class AddContactDialogFragment : DialogFragment() {
         return dialog
     }
 
+    /*override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = DialogAddContactBinding.inflate(layoutInflater)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }*/
+
+    private fun setAlpha(color: Int, factor: Float): Int {
+        val alpha = (Color.alpha(color) * factor).roundToInt()
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
+    }
     private fun setCallBackFunction() {
+        binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
 
         // Ok 버튼
         binding.btnAddContactOk.run {
-            // 유효성 검사 전 확인 버튼 비활성화
-            isEnabled = false
             setOnClickListener {
 
                 // 데이터 전달
@@ -74,6 +100,7 @@ class AddContactDialogFragment : DialogFragment() {
             }
         }
 
+
         // 뒤로가기 버튼
         binding.ivAddContactBackBtn.setOnClickListener {
             //종료
@@ -82,7 +109,7 @@ class AddContactDialogFragment : DialogFragment() {
 
 
         // 유효성 검사 리스너 등록
-        checkString()
+        setTextChangedListener()
 
 
         // 이미지 클릭시 이미지 등록
@@ -110,87 +137,30 @@ class AddContactDialogFragment : DialogFragment() {
     /**
      *  TODO : 유효성 검사 함수
      */
-    private fun checkString() {
-        // 유효성 검사
-        val etName = binding.etAddContactName
-        val etPhoneNum = binding.etAddContactPhoneNumber
-        val etEmail = binding.etAddContactEmail
-
-        val btnOk = binding.btnAddContactOk
-
-
-        // 이름 유효성 검사
-        etName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //텍스트 바뀌기 전
+    private fun setTextChangedListener() {
+        editTexts.forEach { editText ->
+            editText.addTextChangedListener{
+                validCheck(editText)
             }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //텍스트 바뀌는 도중
-                isCheckedName = CheckString().checkName(s.toString())
-                if (!isCheckedName) etName.error =
-                    getString(R.string.add_contact_dialog_name_error)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                //텍스트 바뀐후 수행
-                isCheckedName = CheckString().checkName(s.toString())
-                if (!isCheckedName) etName.error =
-                    getString(R.string.add_contact_dialog_name_error)
-                isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
-                btnOk.isEnabled = isChecked
-            }
-
-        })
-
-        //전화 번호 유효성 검사
-        etPhoneNum.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //텍스트 바뀌기 전
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //텍스트 바뀌는 도중
-                isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if (!isCheckedPhoneNum) etPhoneNum.error =
-                    getString(R.string.add_contact_dialog_phone_number_error)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                //텍스트 바뀐후 수행
-                isCheckedPhoneNum = CheckString().checkPhoneNumber(s.toString())
-                if (!isCheckedPhoneNum) etPhoneNum.error =
-                    getString(R.string.add_contact_dialog_phone_number_error)
-                isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
-                btnOk.isEnabled = isChecked
-            }
-
-        })
-
-        //이메일 유효성 검사
-        etEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //텍스트 바뀌기 전
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //텍스트 바뀌는 도중
-                isCheckedEmail = CheckString().checkEmail(s.toString())
-                if (!isCheckedEmail) etEmail.error =
-                    getString(R.string.add_contact_dialog_email_error)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                //텍스트 바뀐후 수행
-                isCheckedEmail = CheckString().checkEmail(s.toString())
-                if (!isCheckedEmail) etEmail.error =
-                    getString(R.string.add_contact_dialog_email_error)
-                isChecked = isCheckedName && isCheckedEmail && isCheckedPhoneNum
-                btnOk.isEnabled = isChecked
-            }
-
-        })
+        }
     }
+
+    private fun validCheck(editText: EditText) {
+        editText.error = with(binding) {
+            when (editText) {
+                etAddContactName -> validChk.checkName(editText.text.toString()) ?.let { getString(it) }
+                etAddContactPhoneNumber -> validChk.checkPhoneNumber(editText.text.toString()) ?.let { getString(it) }
+                else -> validChk.checkEmail(editText.text.toString()) ?.let { getString(it) }
+            }
+        }
+        isChecked = editTexts.all { it.error == null }
+        binding.btnAddContactOk.isEnabled = isChecked
+        if (isChecked) binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 1f))
+        else binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
+
+    }
+
+
 
     /**
      *  TODO : 갤러리 불러오기
@@ -206,4 +176,6 @@ class AddContactDialogFragment : DialogFragment() {
      *  TODO 해당 VIEW ID-> URI 형식에 맞게 Parse(파싱)
      */
 
+
 }
+

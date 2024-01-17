@@ -46,33 +46,7 @@ class TestActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         title = "Edit Profile"
+
+
     }
-
-    /*        init()
-        }
-
-        private fun init(){
-            binding.testImg.setOnClickListener {*/
-    /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-        openGallery()
-        // 버튼 텍스트 숨기기
-        button.text = null
-    } else {
-        requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)*/
 }
-//        }
-/*
-
-        binding.testTeg.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            startActivity(intent)
-        }
-    }
-*/
-
-    private fun openGallery() {
-        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-/*
-        pickImageLauncher.launch(gallery)
-*/
