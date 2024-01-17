@@ -133,6 +133,10 @@ class AddContactDialogFragment : DialogFragment() {
 
     }
 
+
+    /**
+     *  TODO : 유효성 검사 함수
+     */
     private fun setTextChangedListener() {
         editTexts.forEach { editText ->
             editText.addTextChangedListener{
@@ -156,10 +160,6 @@ class AddContactDialogFragment : DialogFragment() {
 
     }
 
-
-    /**
-     *  TODO : 유효성 검사 함수
-     */
 
 
     /**
