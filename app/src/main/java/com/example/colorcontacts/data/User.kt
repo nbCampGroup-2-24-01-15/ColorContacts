@@ -1,6 +1,7 @@
-package com.example.colorcontacts
+package com.example.colorcontacts.data
 
 import android.net.Uri
+import com.example.colorcontacts.utill.LayoutType
 import java.util.UUID
 
 data class User(
@@ -12,7 +13,6 @@ data class User(
     var email: String,
     var event: String? = null,
     var info: String?,
-    var favorites: Boolean
 )
 object UserList{
     var myData = mutableListOf<User>()

@@ -1,4 +1,4 @@
-package com.example.colorcontacts
+package com.example.colorcontacts.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
