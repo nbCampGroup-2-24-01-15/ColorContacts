@@ -360,6 +360,8 @@ class MainActivity : AppCompatActivity() {
                 ivMainEdit.setColorFilter(color.colorIcon)
                 csMainHeader.background.setTint(color.colorHeader)
                 csMainBackground.setBackgroundColor(color.colorBackground)
+                btnAddContactDialog.background.setTint(color.colorWidget)
+                btnAddContactDialog.setTextColor(color.colorBasic)
             }
             window.statusBarColor = color.colorWidget
         }
