@@ -1,4 +1,4 @@
-package com.example.colorcontacts
+package com.example.colorcontacts.view.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

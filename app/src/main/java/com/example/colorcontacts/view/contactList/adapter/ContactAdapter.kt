@@ -1,4 +1,4 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.view.contactList.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.R
-import com.example.colorcontacts.contactList.ContactViewType.GridUser
+import com.example.colorcontacts.data.TagMember
+import com.example.colorcontacts.view.contactList.adapter.ContactViewType.GridUser
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 
-class ContactAdapter(private var mItem: List<ContactViewType>) :
+class ContactAdapter(private var mItem: List<ContactViewType>, private var mColor: ColorTheme) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     /**
      * TODO Recyclerview 검색 기능
@@ -27,7 +29,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>) :
     }
 
     interface ItemClick {
-        fun onClick(view: View, position: Int)
+        fun onClick(view: View, position: Int, key: String)
     }
 
     var itemClick: ItemClick? = null
@@ -60,15 +62,21 @@ class ContactAdapter(private var mItem: List<ContactViewType>) :
                 with((holder as ItemViewHolder)) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-                    if (item.user.favorites) star.setImageResource(R.drawable.ic_detail_favorite_filled)
+                    name.setTextColor(mColor.colorFont)
+                    val favorite = TagMember.memberChk(item.user.key)
+                    if (favorite != null) star.setImageURI(favorite.img)
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     star.setOnClickListener {
-                        itemClick?.onClick(it, position)
+                        itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
+                    swipeLayout.background.setTint(mColor.colorLinear)
+                    back.setBackgroundColor(mColor.colorWidget)
+                    backCall.setColorFilter(mColor.colorFont)
+                    backFont.setTextColor(mColor.colorFont)
                 }
                 holder.itemView.setOnClickListener {
-                    itemClick?.onClick(it, position)
+                    itemClick?.onClick(it, position, item.user.key)
                 }
             }
 
@@ -76,6 +84,8 @@ class ContactAdapter(private var mItem: List<ContactViewType>) :
                 with((holder as GridViewHolder)) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
+                    name.setTextColor(mColor.colorFont)
+                    layout.setBackgroundColor(mColor.colorLinear)
                 }
             }
         }
@@ -96,6 +106,11 @@ class ContactAdapter(private var mItem: List<ContactViewType>) :
         notifyDataSetChanged()
     }
 
+    fun updateColor(newColorTheme: ColorTheme) {
+        mColor = newColorTheme
+        notifyDataSetChanged()
+    }
+
     override fun getItemViewType(position: Int): Int {
 //        return when (mItem[position]) {
         return when (filteredList[position]) { // TODO mItem -> filteredList
@@ -110,10 +125,13 @@ class ContactAdapter(private var mItem: List<ContactViewType>) :
         val img = binding.ivContactImg
         val star = binding.ivContactStar
         val swipeLayout = binding.swipeItemContact
+        val back = binding.itemListBack
+        val backCall = binding.ivBackCall
+        val backFont = binding.tvBackCall
 
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition)
+                itemClick?.onClick(it, adapterPosition, "")
             }
         }
     }
@@ -122,10 +140,11 @@ class ContactAdapter(private var mItem: List<ContactViewType>) :
         RecyclerView.ViewHolder(binding.root) {
         val name = binding.tvContactName
         val img = binding.ivContactImg
+        val layout = binding.itemLayout
 
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition)
+                itemClick?.onClick(it, adapterPosition, "")
             }
         }
     }

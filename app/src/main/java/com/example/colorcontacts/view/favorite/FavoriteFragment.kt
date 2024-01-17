@@ -1,4 +1,4 @@
-package com.example.colorcontacts.favorite
+package com.example.colorcontacts.view.favorite
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,17 +9,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.colorcontacts.LayoutType
-import com.example.colorcontacts.R
-import com.example.colorcontacts.contactList.ContactViewModel
+import com.example.colorcontacts.data.TagMember
+import com.example.colorcontacts.utill.LayoutType
+import com.example.colorcontacts.utill.SharedViewModel
 import com.example.colorcontacts.databinding.FragmentFavoriteBinding
+import com.example.colorcontacts.view.favorite.adapter.FavoriteAdapter
+import com.example.colorcontacts.view.favorite.adapter.FavoriteItemHelper
+import com.example.colorcontacts.view.favorite.model.FavoriteViewModel
 
 class FavoriteFragment : Fragment() {
     private var adapter: FavoriteAdapter? = null
 
     private var _binding: FragmentFavoriteBinding? = null
 
-    private lateinit var viewModel: ContactViewModel
+    private lateinit var sharedViewModel: SharedViewModel
+
+    private lateinit var viewModel: FavoriteViewModel
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,16 +35,16 @@ class FavoriteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         init()
         return binding.root
     }
 
     private fun init() {
-        viewModel.setLayoutType()
+        sharedViewModel.setLayoutType()
         setList()
-        setLayoutBtn()
     }
 
     private fun setList() {
@@ -47,8 +52,10 @@ class FavoriteFragment : Fragment() {
             if (adapter == null) {
                 adapter = FavoriteAdapter(list).apply {
                     itemClick = object : FavoriteAdapter.ItemClick {
-                        override fun onClick(view: View, position: Int) {
-                            viewModel.onFavorite(position)
+                        override fun onClick(view: View, position: Int, key: String) {
+                            //태그 목록에 있을때
+                            if (TagMember.totalTags.any { it.member.contains(key) }) sharedViewModel.offFavorite(key)
+                            else sharedViewModel.onFavorite(key)
                         }
                     }
                 }
@@ -58,14 +65,12 @@ class FavoriteFragment : Fragment() {
             }
         }
 
-        viewModel.layoutType.observe(viewLifecycleOwner) { type ->
+        sharedViewModel.layoutType.observe(viewLifecycleOwner) { type ->
             when(type){
                 LayoutType.GRID -> {
-                    binding.ivFavoriteLayout.setImageResource(R.drawable.ic_fragment_linear)
                     binding.rcFavoriteList.layoutManager = GridLayoutManager(requireContext(), 4)
                 }
                 else -> {
-                    binding.ivFavoriteLayout.setImageResource(R.drawable.ic_fragment_grid)
                     binding.rcFavoriteList.layoutManager = LinearLayoutManager(requireContext())
                 }
             }
@@ -76,11 +81,6 @@ class FavoriteFragment : Fragment() {
         itemHelper.attachToRecyclerView(binding.rcFavoriteList)
     }
 
-    private fun setLayoutBtn() {
-        binding.ivFavoriteLayout.setOnClickListener {
-            viewModel.getLayoutType()
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
