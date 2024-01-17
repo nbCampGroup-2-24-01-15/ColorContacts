@@ -59,14 +59,6 @@ class AddContactDialogFragment : DialogFragment() {
         return dialog
     }
 
-    /*override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = DialogAddContactBinding.inflate(layoutInflater)
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }*/
 
     private fun setAlpha(color: Int, factor: Float): Int {
         val alpha = (Color.alpha(color) * factor).roundToInt()
@@ -90,6 +82,7 @@ class AddContactDialogFragment : DialogFragment() {
                 )
                 // 데이터를 전달
                 UserList.userList.add(user)
+                UserList.userList.sortBy { it.name }
 
                 // 뷰모델을 연결하여 UI를 업데이트(뷰모델의 라이브 데이터를 갱신)
                 val viewModel = ViewModelProvider(requireActivity())[ContactViewModel::class.java]

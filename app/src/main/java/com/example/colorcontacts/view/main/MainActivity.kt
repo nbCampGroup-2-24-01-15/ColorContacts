@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         requestContactPermission()
-        getContacts()
         setFragment()
         setOnQueryTextListener()
         setLayoutBtn()
