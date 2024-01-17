@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity() {
 
                 val user = User(
                     img = profileImageUri,
+                    backgroundImg = null,
                     name = name ?: "Unknown",
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "No Email",
@@ -146,6 +147,8 @@ class MainActivity : AppCompatActivity() {
                 UserList.userList.add(user)
             }
         }
+
+
         setFragment()
     }
 
