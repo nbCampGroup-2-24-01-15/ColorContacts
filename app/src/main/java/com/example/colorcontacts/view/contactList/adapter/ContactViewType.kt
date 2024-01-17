@@ -1,6 +1,6 @@
-package com.example.colorcontacts.contactList
+package com.example.colorcontacts.view.contactList.adapter
 
-import com.example.colorcontacts.User
+import com.example.colorcontacts.data.User
 
 sealed class ContactViewType{
     data class ContactUser(val user: User) : ContactViewType()

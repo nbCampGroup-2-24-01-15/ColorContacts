@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#ffffffff">
 
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <corners android:radius="40dp" />
-            <solid android:color="@color/light_gray" />
+            <solid android:color="@color/transparent" />
         </shape>
     </item>
 
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="40dp" />
-            <solid android:color="@color/t_blue" />
+            <solid android:color="@color/transparent" />
         </shape>
     </item>
 
@@ -22,4 +23,4 @@
 
         </shape>
     </item>
-</selector>
+</ripple>
