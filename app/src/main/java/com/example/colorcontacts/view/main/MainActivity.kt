@@ -1,6 +1,7 @@
 package com.example.colorcontacts.view.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.adapter.ViewPagerAdapter
 import com.example.colorcontacts.view.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
+import com.example.colorcontacts.test.TestActivity
 import com.example.colorcontacts.view.dialpad.DialPadFragment
 import com.example.colorcontacts.utill.SharedViewModel
 import com.example.colorcontacts.view.favorite.FavoriteFragment
@@ -256,6 +258,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.ivMainEdit.setOnClickListener {
             showColorSelection()
+        }
+
+        binding.testBtn.setOnClickListener {
+            startActivity(Intent(this,TestActivity::class.java))
         }
     }
 

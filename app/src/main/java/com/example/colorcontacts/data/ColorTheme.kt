@@ -11,7 +11,7 @@ data class ColorTheme(
     var colorSelect: Int = Color.parseColor("#11264f"),
     var colorLinear: Int = Color.parseColor("#ffffff"),
     var colorHeader: Int = Color.parseColor("#ffffff"),
-    var colorBackground: Int = Color.parseColor("#D3D3D3")
+    var colorBackground: Int = Color.parseColor("#e9e9e9")
 )
 
 object NowColor {
