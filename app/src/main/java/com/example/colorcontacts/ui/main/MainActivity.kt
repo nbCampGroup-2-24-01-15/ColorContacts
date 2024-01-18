@@ -82,19 +82,17 @@ class MainActivity : AppCompatActivity() {
 
         setDialog()
     }
-
-    fun setDialog() {
+    fun setDialog(){
         //플로팅 버튼(주소록 추가 다이얼로그)
         val currentItem = binding.viewPager.currentItem
         val currentFragment = viewPagerAdapter.getFragment(currentItem)
         binding.btnAddContactDialog.setOnClickListener {
-            AddContactDialogFragment().dismissListener =
-                object : AddContactDialogFragment.DialogDismissListener {
-                    override fun onDialogDismissed() {
+            AddContactDialogFragment().dismissListener = object : AddContactDialogFragment.DialogDismissListener {
+                override fun onDialogDismissed() {
 //                    currentFragment.onResume()
-                    }
                 }
-            AddContactDialogFragment().show(supportFragmentManager, "AddContactDialogFragment")
+            }
+            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
         }
     }
 

@@ -47,10 +47,11 @@ class IntroActivity : AppCompatActivity() {
 
     private fun goMain() {
         Log.d("IntroActivity", "Navigating to MainActivity")
+        binding.introMotion.transitionToEnd()
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }, 1000)
+        }, 5000)
     }
 
     private fun requestContactPermission() {
@@ -194,7 +195,8 @@ class IntroActivity : AppCompatActivity() {
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "No Email",
                     event = null,
-                    info = null
+                    info = null,
+                    backgroundImg = null
                 )
                 UserList.userList.add(user)
             }
