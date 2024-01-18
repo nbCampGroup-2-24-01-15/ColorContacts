@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -179,11 +180,17 @@ class AddContactDialogFragment() : DialogFragment() {
 
     // 텍스트가 변경될때 실행
     private fun setTextChangedListener() {
+
+        //editTexts 유효성 검사
         editTexts.forEach { editText ->
             editText.addTextChangedListener {
                 validCheck(editText)
             }
         }
+
+        // phoneNumber 입력시 자동으로 하이픈 추가
+        editTexts[1].addTextChangedListener(PhoneNumberFormattingTextWatcher())
+
     }
 
 
