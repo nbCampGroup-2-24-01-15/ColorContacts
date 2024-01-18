@@ -37,6 +37,6 @@ object UserList{
  *  이벤트에 대한 알림의 시간을 저장
  */
 object EventTime{
-    val timeArray = arrayOf("5초","10초","1분","10분","1시간")
+    val timeArray = arrayOf("X","10초","1분","10분","1시간")
 }
 

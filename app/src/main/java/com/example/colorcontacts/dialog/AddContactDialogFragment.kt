@@ -55,8 +55,7 @@ class AddContactDialogFragment() : DialogFragment() {
         }
 
     //이벤트 관련 변수
-    private lateinit var selectedEvent: String
-
+    private var selectedEvent: String? = null
 
 
     //이미지 결과값 받기
@@ -95,6 +94,7 @@ class AddContactDialogFragment() : DialogFragment() {
                 id: Long,
             ) {
                 selectedEvent = parent?.getItemAtPosition(position).toString()
+                if (selectedEvent == EventTime.timeArray[0]) selectedEvent = null
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -103,8 +103,6 @@ class AddContactDialogFragment() : DialogFragment() {
 
         }.also { spinner.onItemSelectedListener = it }
     }
-
-
 
 
     private fun setCallBackFunction() {
@@ -130,7 +128,8 @@ class AddContactDialogFragment() : DialogFragment() {
 
 
                 // 알람 등록
-                UserList.notification.setUserAlarm(user, requireContext())
+                if (selectedEvent != null)
+                    UserList.notification.setUserAlarm(user, requireContext())
 
                 // 종료
                 dismiss()
@@ -206,23 +205,23 @@ class AddContactDialogFragment() : DialogFragment() {
                     ?.let { getString(it) }
 
                 else -> ""
-                }
             }
-            // 에러 값이 없고 동시에 문자열 이 비어 있지 않으면 true
-            isChecked = editTexts.all { it.error == null && it.text.toString() !=""}
-            binding.btnAddContactOk.isEnabled = isChecked
-
-            // 체크 상태에 따른 버튼 Alpha값 변경
-
-            if (isChecked) binding.btnAddContactOk.background.setTint(
-                setAlpha(
-                    NowColor.color.colorWidget,
-                    1f
-                )
-            )
-            else binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
-
         }
+        // 에러 값이 없고 동시에 문자열 이 비어 있지 않으면 true
+        isChecked = editTexts.all { it.error == null && it.text.toString() != "" }
+        binding.btnAddContactOk.isEnabled = isChecked
+
+        // 체크 상태에 따른 버튼 Alpha값 변경
+
+        if (isChecked) binding.btnAddContactOk.background.setTint(
+            setAlpha(
+                NowColor.color.colorWidget,
+                1f
+            )
+        )
+        else binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
+
+    }
 
     private fun setAlpha(color: Int, factor: Float): Int {
         val alpha = (Color.alpha(color) * factor).roundToInt()
