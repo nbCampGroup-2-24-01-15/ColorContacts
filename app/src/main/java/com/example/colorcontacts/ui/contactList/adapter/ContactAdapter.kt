@@ -1,20 +1,25 @@
-package com.example.colorcontacts.view.contactList.adapter
+package com.example.colorcontacts.ui.contactList.adapter
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.data.TagMember
-import com.example.colorcontacts.view.contactList.adapter.ContactViewType.GridUser
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
+import com.example.colorcontacts.ui.contactList.adapter.ContactViewType.GridUser
+import com.example.colorcontacts.utill.AdapterInterface
+import com.example.colorcontacts.utill.LayoutType
+import com.example.colorcontacts.utill.SharedDataListener
 
 class ContactAdapter(private var mItem: List<ContactViewType>, private var mColor: ColorTheme) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable, AdapterInterface {
     /**
      * TODO Recyclerview 검색 기능
      * 검색을 위한 리스트 추가
@@ -57,6 +62,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Log.d("ContactAdapter", "onBindViewHolder - Position: $position")
         when (val item = filteredList[position]) { // TODO mItem -> filteredList
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
@@ -66,6 +72,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
                     val favorite = TagMember.memberChk(item.user.key)
                     if (favorite != null) star.setImageURI(favorite.img)
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
+                    Log.d("ContactAdapter", "Star clicked - Position: $position, Key: ${item.user.key}")
                     star.setOnClickListener {
                         itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
@@ -100,14 +107,25 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
 //        return mItem.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun load(newItems: List<ContactViewType>) {
+        Log.d("ContactAdapter", "Loading new items")
         mItem = newItems
         filteredList = mItem
         notifyDataSetChanged()
     }
 
-    fun updateColor(newColorTheme: ColorTheme) {
+    @SuppressLint("NotifyDataSetChanged")
+    override fun updateColor(newColorTheme: ColorTheme) {
         mColor = newColorTheme
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun changeLayout(layoutType: LayoutType) {
+        Log.d("ContactAdapter", "Changing layout to $layoutType")
+        mItem = SharedDataListener().setContactList(layoutType)
+        filteredList = mItem
         notifyDataSetChanged()
     }
 
@@ -130,6 +148,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
         val backFont = binding.tvBackCall
 
         init {
+            Log.d("ContactAdapter", "Item clicked - Position: $adapterPosition")
             itemView.setOnClickListener {
                 itemClick?.onClick(it, adapterPosition, "")
             }
@@ -176,6 +195,7 @@ class ContactAdapter(private var mItem: List<ContactViewType>, private var mColo
             }
 
             // 처리에 대한 결과물
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredList = results?.values as List<ContactViewType>
                 notifyDataSetChanged()

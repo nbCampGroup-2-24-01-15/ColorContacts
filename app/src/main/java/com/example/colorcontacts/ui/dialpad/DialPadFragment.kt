@@ -1,7 +1,5 @@
-package com.example.colorcontacts.view.dialpad
+package com.example.colorcontacts.ui.dialpad
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
