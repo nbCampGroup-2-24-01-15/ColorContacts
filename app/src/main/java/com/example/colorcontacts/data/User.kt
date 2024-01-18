@@ -1,6 +1,9 @@
 package com.example.colorcontacts.data
 
 import android.net.Uri
+import android.os.Bundle
+import android.os.Parcel
+import com.example.colorcontacts.R
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.Notification
 import java.util.UUID
@@ -17,8 +20,23 @@ data class User(
     var backgroundImg: Uri?
 )
 
+object MyData {
+
+    var myData = User(
+        img = Uri.EMPTY,
+        backgroundImg = Uri.EMPTY,
+        name = "",
+        phone = "",
+        email = "",
+        event = null,
+        info = null,
+    )
+
+
+
+}
+
 object UserList{
-    var myData = mutableListOf<User>()
 
     var userList = mutableListOf<User>()
 
@@ -31,6 +49,7 @@ object UserList{
     fun findUser(key:String) : User? {
         return userList.find { it.key == key }
     }
+
 }
 
 /**

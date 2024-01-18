@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
@@ -196,8 +197,13 @@ class DetailPageActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
-        setProfile(user)
+        val type = intent.getStringExtra("TYPE")
+        if (type == "mypage") {
+            setProfile(myData)
+        } else {
+            user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
+            setProfile(user)
+        }
     }
 
     private fun setProfile(user: User){

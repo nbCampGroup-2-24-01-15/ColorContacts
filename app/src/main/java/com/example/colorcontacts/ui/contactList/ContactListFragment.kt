@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.User
@@ -63,6 +64,7 @@ class ContactListFragment : Fragment() {
         init()
         // other initialization
     }
+
     private fun init() {
         val loadedData = sharedDataListener.setContactList(UserList.layoutType)
         adapter.load(loadedData ?: emptyList())
@@ -88,10 +90,12 @@ class ContactListFragment : Fragment() {
 
         data.let { adapter.load(it) }
         Log.d("ContactListFragment", "Data loaded into adapter, size: ${adapter.itemCount}")
-        adapter.itemClick = object : ContactAdapter.ItemClick{
+        adapter.itemClick = object : ContactAdapter.ItemClick {
             override fun onClick(view: View, position: Int, key: String) {
                 Log.d("ContactListFragment", "Item clicked - Position: $position, Key: $key")
-                if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(key)
+                if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(
+                    key
+                )
                 else sharedDataListener.onFavorite(key)
 //                val intent = Intent(view.context, DetailPageActivity::class.java)
 //                intent.putExtra("USER_POSITION", position)
@@ -101,10 +105,11 @@ class ContactListFragment : Fragment() {
             }
         }
 
-        adapter.itemLongClick = object : ContactAdapter.ItemLongClick{
+        adapter.itemLongClick = object : ContactAdapter.ItemLongClick {
             override fun onLongClick(view: View, position: Int, key: String) {
                 val intent = Intent(requireActivity(), DetailPageActivity::class.java)
                 intent.putExtra("user", key)
+                intent.putExtra("TYPE", "others")
                 startActivity(intent)
             }
         }
@@ -117,42 +122,38 @@ class ContactListFragment : Fragment() {
 
     private fun setMyPageTab() {
 
-        if (UserList.myData.isEmpty()) {
-            val myDefault = User(
-                img = Uri.EMPTY,
-                backgroundImg = Uri.EMPTY,
-                name = getString(R.string.edit_name),
-                phone = "",
-                email = "",
-                event = null,
-                info = null,
-            )
-            UserList.myData.add(myDefault)
 
+        if (MyData.myData.img == Uri.EMPTY) {
             binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
-            binding.tvMyName.text = myDefault.name
         } else {
-            binding.ivMyImg.setImageURI(UserList.myData[0].img ?: Uri.EMPTY)
-            binding.tvMyName.text = UserList.myData[0].name ?: ""
-            Glide.with(this)
-                .load(UserList.myData[0].backgroundImg)
-                .into(object : CustomTarget<Drawable>() {
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        transition: Transition<in Drawable>?
-                    ) {
-                        binding.linearLayout4.background = resource
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
-                    }
-                })
-
+            binding.ivMyImg.setImageURI(MyData.myData.img)
         }
 
+        if (MyData.myData.name.isBlank()) {
+            binding.tvMyName.text = getString(R.string.edit_name)
+        } else {
+            binding.tvMyName.text = MyData.myData.name
+        }
+
+        Glide.with(this)
+            .load(MyData.myData.backgroundImg)
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    binding.linearLayout4.background = resource
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
         binding.linearLayout4.setOnClickListener {
-            val intent = Intent(activity, DetailPageActivity::class.java).apply {
-//                putExtra("MY_DATA", UserList.myData[0].key)
+            val intent = Intent(requireActivity(), DetailPageActivity::class.java).apply {
+                putExtra("TYPE", "mypage")
             }
             startActivity(intent)
         }
