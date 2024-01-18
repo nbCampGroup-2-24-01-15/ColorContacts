@@ -97,22 +97,21 @@ class ContactListFragment : Fragment() {
                     key
                 )
                 else sharedDataListener.onFavorite(key)
-//                val intent = Intent(view.context, DetailPageActivity::class.java)
-//                intent.putExtra("USER_POSITION", position)
-//                intent.putExtra("USER_DATA", UserList.userList[position].key)
-//                startActivity(intent)
-                //result launcher 안 써도 되나...?
-            }
-        }
-
-        adapter.itemLongClick = object : ContactAdapter.ItemLongClick {
-            override fun onLongClick(view: View, position: Int, key: String) {
-                val intent = Intent(requireActivity(), DetailPageActivity::class.java)
+                val intent = Intent(view.context, DetailPageActivity::class.java)
                 intent.putExtra("user", key)
                 intent.putExtra("TYPE", "others")
                 startActivity(intent)
             }
         }
+
+//        adapter.itemLongClick = object : ContactAdapter.ItemLongClick {
+//            override fun onLongClick(view: View, position: Int, key: String) {
+//                val intent = Intent(requireActivity(), DetailPageActivity::class.java)
+//                intent.putExtra("user", key)
+//                intent.putExtra("TYPE", "others")
+//                startActivity(intent)
+//            }
+//        }
 
         //스와이프 통화
         val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
@@ -146,7 +145,7 @@ class ContactListFragment : Fragment() {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-//                    Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
                 }
             })
 

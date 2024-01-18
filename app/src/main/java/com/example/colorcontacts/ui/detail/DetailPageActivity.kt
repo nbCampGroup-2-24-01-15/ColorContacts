@@ -32,7 +32,8 @@ class DetailPageActivity : AppCompatActivity() {
 
 
     //이미지 결과값 받기
-    private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var backgroundGalleryResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var profileGalleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
 
 
@@ -43,7 +44,6 @@ class DetailPageActivity : AppCompatActivity() {
 
         var isEditing = false
 
-        val hasBackground = false
 
         initView()
 
@@ -57,63 +57,25 @@ class DetailPageActivity : AppCompatActivity() {
 
         binding.ivDetailBackground.setOnClickListener {
 
-//            val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//            galleryIntent.type = "image/*"
-
-//            if (Build.VERSION.SDK_INT >= 31) {
-//                val pick =
-//                    registerForActivityResult(ActivityResultContracts.PickVisualMedia) { uri ->
-//                        if (uri != null) {
-//                            Log.d("photoPicker", uri)
-//                        } else {
-//                            Log.d("photoPicker", "no image selected")
-//                        }
-//                    }
-//
-//                pick.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-//
-//            }
-
-//            val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-//                if (uri != null) {
-//                    binding.ivDetailBackground.setImageURI(uri)
-//                } else {
-//                    Log.d("photoPicker", "no image selected")
-//                }
-//            }
-//
-//            getImage.launch("image/*")
-
-
             val galleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            galleryResultLauncher.launch(galleryIntent)
+            backgroundGalleryResultLauncher.launch(galleryIntent)
 
 
-//            when {
-//                ContextCompat.checkSelfPermission(
-//                    this,
-//                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-//                ) == PackageManager.PERMISSION_GRANTED -> {
-//
-//                }
-//
-//                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-//                    showPermissionAlertDialog()
-//                }
-//
-//                else -> {
-//                    requestPermissions(
-//                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-//                        PERMISSION_CODE
-//                    )
-//                }
-//            }
+            hasContext()
+
         }
 
-//        binding.ivDetailAddProfile.setImageResource()
+        binding.ivDetailAddProfile.setOnClickListener {
+            val galleryIntent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            profileGalleryResultLauncher.launch(galleryIntent)
 
-        galleryResultLauncher = registerForActivityResult(
+
+            hasContext()
+        }
+
+        backgroundGalleryResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -123,6 +85,29 @@ class DetailPageActivity : AppCompatActivity() {
 
             }
         }
+
+        profileGalleryResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                selectedImageUri = data?.data!!
+                binding.ivDetailAddProfile.setImageURI(selectedImageUri)
+
+            }
+        }
+
+//        galleryResultLauncher = registerForActivityResult(
+//            ActivityResultContracts.StartActivityForResult()
+//        ) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                val data: Intent? = result.data
+//                selectedImageUri = data?.data!!
+//                binding.ivDetailAddProfile.setImageURI(selectedImageUri)
+//
+//            }
+//        }
+
 
         binding.spDetailEvent.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("1분", "5분", "10분"))
 
@@ -174,13 +159,16 @@ class DetailPageActivity : AppCompatActivity() {
                 binding.etDetailPhoneNumber.isEnabled = true
                 binding.etDetailEmail.isEnabled = true
                 binding.spDetailEvent.isEnabled = true
+                binding.etDetailMemo.isEnabled = true
                 binding.clDetailBtns.isVisible = false
 
             } else {
+                //if (binding.ivDetailAddProfile)
                 binding.ivDetailAddPhoto.isVisible = false
                 binding.clDetailEmail.isVisible = false
                 binding.clDetailGroup.isVisible = false
                 binding.clDetailEvent.isVisible = false
+                //isVisible 조건 추가
                 binding.ivDetailBackground.isEnabled = false
                 binding.ivDetailAddProfile.isEnabled = false
                 binding.etDetailName.isEnabled = false
@@ -190,9 +178,15 @@ class DetailPageActivity : AppCompatActivity() {
                 binding.etDetailEmail.isEnabled = false
                 binding.etDetailEmail.setTextColor(R.color.text_color)
                 binding.spDetailEvent.isEnabled = false
+                binding.etDetailMemo.isEnabled = false
                 binding.clDetailBtns.isVisible = true
             }
         }
+
+    }
+
+    private fun hasContext() {
+        //이미지, 텍스트, 스피너 선택값에 대해 값이 있을 떄만 isEditing true일 때 보이도록
 
     }
 
@@ -206,14 +200,33 @@ class DetailPageActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun setProfile(user: User){
         with(binding){
             ivDetailBackground.setImageURI(user.backgroundImg)
             ivDetailAddProfile.setImageURI(user.img)
             etDetailName.setText(user.name)
             etDetailPhoneNumber.setText(user.phone)
+            etDetailEmail.setText(user.email)
             etDetailMemo.setText(user.info)
         }
+        binding.ivDetailAddPhoto.isVisible = false
+        binding.clDetailEmail.isVisible = false
+        binding.clDetailGroup.isVisible = false
+        binding.clDetailEvent.isVisible = false
+        //isVisible 조건 추가
+        binding.ivDetailBackground.isEnabled = false
+        binding.ivDetailAddProfile.isEnabled = false
+        binding.etDetailName.isEnabled = false
+        binding.etDetailName.setTextColor(R.color.text_color)
+        binding.etDetailPhoneNumber.isEnabled = false
+        binding.etDetailPhoneNumber.setTextColor(R.color.text_color)
+        binding.etDetailEmail.isEnabled = false
+        binding.etDetailEmail.setTextColor(R.color.text_color)
+        binding.spDetailEvent.isEnabled = false
+        binding.etDetailMemo.isEnabled = false
+        binding.etDetailMemo.setTextColor(R.color.text_color)
+        binding.clDetailBtns.isVisible = true
     }
 
 //    private fun showPermissionAlertDialog() {
