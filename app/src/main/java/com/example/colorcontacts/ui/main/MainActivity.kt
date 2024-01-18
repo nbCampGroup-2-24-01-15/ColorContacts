@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
             R.drawable.ic_tablayout_dialpad
         )
 
+    private val viewPagerAdapter: ViewPagerAdapter by lazy {
+        ViewPagerAdapter(this@MainActivity)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +57,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setFragment() {
+        viewPagerAdapter.removeFragment()
         // ViewPager Adapter 생성
-        val viewPagerAdapter = ViewPagerAdapter(this@MainActivity)
         viewPagerAdapter.addFragment(FavoriteFragment())
         viewPagerAdapter.addFragment(ContactListFragment())
         viewPagerAdapter.addFragment(DialPadFragment())
@@ -66,6 +69,7 @@ class MainActivity : AppCompatActivity() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    binding.searchView.setQuery("", false)
                     binding.toolBar.visibility = if (position == 2) View.GONE else View.VISIBLE
                 }
             })
@@ -81,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     fun setDialog(){
         //플로팅 버튼(주소록 추가 다이얼로그)
         val currentItem = binding.viewPager.currentItem
-//        val currentFragment = supportFragmentManager.fragments[currentItem]
+        val currentFragment = viewPagerAdapter.getFragment(currentItem)
         binding.btnAddContactDialog.setOnClickListener {
             AddContactDialogFragment().dismissListener = object : AddContactDialogFragment.DialogDismissListener {
                 override fun onDialogDismissed() {
@@ -114,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         val currentItem = binding.viewPager.currentItem
-        when (val currentFragment = supportFragmentManager.fragments[currentItem]) {
+        when (val currentFragment = viewPagerAdapter.getFragment(currentItem)) {
             is FavoriteFragment -> currentFragment.updateItem(newText.trim())
             is ContactListFragment -> currentFragment.updateItem(newText.trim())
         }
@@ -167,7 +171,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateLayoutInCurrentFragment(layoutType: LayoutType) {
         val currentItem = binding.viewPager.currentItem
-        when (val currentFragment = supportFragmentManager.fragments[currentItem]) {
+        when (val currentFragment = viewPagerAdapter.getFragment(currentItem)) {
             is ContactListFragment -> {
                 currentFragment.dataChangedListener.onLayoutTypeChanged(layoutType)
                 currentFragment.dataChangedListener.onLayoutType(layoutType)

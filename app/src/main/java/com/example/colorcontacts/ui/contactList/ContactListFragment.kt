@@ -30,7 +30,7 @@ class ContactListFragment : Fragment() {
         DataChangedListener(adapter, bindingWrapper)
     }
     private val adapter by lazy {
-        ContactAdapter(emptyList(), NowColor.color)
+        ContactAdapter(emptyList(), NowColor.color, binding.tvContactList)
     }
 
     val sharedDataListener = SharedDataListener()
