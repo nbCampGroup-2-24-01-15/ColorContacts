@@ -26,7 +26,7 @@ import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -39,16 +39,16 @@ class MainActivity : AppCompatActivity(){
         )
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        UserList.notification.settingNotification(this)
+
 
         initView()
 
     }
+
     private fun initView() {
         setFragment()
         setOnQueryTextListener()
@@ -80,17 +80,19 @@ class MainActivity : AppCompatActivity(){
 
         setDialog()
     }
-    fun setDialog(){
+
+    fun setDialog() {
         //플로팅 버튼(주소록 추가 다이얼로그)
         val currentItem = binding.viewPager.currentItem
-        val currentFragment = supportFragmentManager.fragments[currentItem]
+//        val currentFragment = supportFragmentManager.fragments[currentItem]
         binding.btnAddContactDialog.setOnClickListener {
-            AddContactDialogFragment().dismissListener = object : AddContactDialogFragment.DialogDismissListener {
-                override fun onDialogDismissed() {
-                    currentFragment.onResume()
+            AddContactDialogFragment().dismissListener =
+                object : AddContactDialogFragment.DialogDismissListener {
+                    override fun onDialogDismissed() {
+//                    currentFragment.onResume()
+                    }
                 }
-            }
-            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
+            AddContactDialogFragment().show(supportFragmentManager, "AddContactDialogFragment")
         }
     }
 
@@ -231,13 +233,13 @@ class MainActivity : AppCompatActivity(){
             .setColorShape(ColorShape.SQAURE)   // Default ColorShape.CIRCLE
             .setDefaultColor(nowColor)     // Pass Default Color
             .setColorListener { color, _ ->
-                setColor(colorType,color)
+                setColor(colorType, color)
             }
             .show()
     }
 
     //선택한 값을 현재 객체로 저장, 라이브데이터를 갱신해 옵저빙하는 뷰들의 색을 갱신해줌
-    private fun setColor(colorType: String, color: Int){
+    private fun setColor(colorType: String, color: Int) {
         when (colorType) {
             getString(R.string.main_color_widget) -> NowColor.color.colorWidget = color
             getString(R.string.main_color_search) -> NowColor.color.colorSearch = color
@@ -249,7 +251,7 @@ class MainActivity : AppCompatActivity(){
             getString(R.string.main_color_header) -> NowColor.color.colorHeader = color
             else -> NowColor.color.colorBackground = color
         }
-         //싱글턴 데이터가 변경되는 구간
+        //싱글턴 데이터가 변경되는 구간
         setColors()
     }
 
@@ -258,20 +260,20 @@ class MainActivity : AppCompatActivity(){
         //View 색 변경
         val color = NowColor.color
 
-            with(binding){
-                tabLayout.background.setTint(color.colorWidget)
-                searchView.background.setTint(color.colorSearch)
-                ivMainLayout.setColorFilter(color.colorIcon)
-                ivMainEdit.setColorFilter(color.colorIcon)
-                csMainHeader.background.setTint(color.colorHeader)
-                csMainBackground.setBackgroundColor(color.colorBackground)
-                btnAddContactDialog.background.setTint(color.colorWidget)
-                btnAddContactDialog.setTextColor(color.colorBasic)
-            }
-            window.statusBarColor = color.colorWidget
+        with(binding) {
+            tabLayout.background.setTint(color.colorWidget)
+            searchView.background.setTint(color.colorSearch)
+            ivMainLayout.setColorFilter(color.colorIcon)
+            ivMainEdit.setColorFilter(color.colorIcon)
+            csMainHeader.background.setTint(color.colorHeader)
+            csMainBackground.setBackgroundColor(color.colorBackground)
+            btnAddContactDialog.background.setTint(color.colorWidget)
+            btnAddContactDialog.setTextColor(color.colorBasic)
+        }
+        window.statusBarColor = color.colorWidget
 
         updateColorInCurrentFragment(NowColor.color)
-        }
+    }
 
     private fun updateColorInCurrentFragment(color: ColorTheme) {
         val currentItem = binding.viewPager.currentItem
@@ -280,12 +282,12 @@ class MainActivity : AppCompatActivity(){
             is FavoriteFragment -> currentFragment.dataChangedListener.onColorChanged(color)
         }
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
     }
 
 
-    }
-
 }
+

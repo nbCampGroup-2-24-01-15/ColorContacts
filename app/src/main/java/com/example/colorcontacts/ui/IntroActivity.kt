@@ -1,6 +1,7 @@
 package com.example.colorcontacts.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -43,6 +44,8 @@ class IntroActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         requestContactPermission()
+
+        requestNotificationPermission(this)
     }
 
     private fun goMain() {
@@ -67,6 +70,8 @@ class IntroActivity : AppCompatActivity() {
             )
             binding.pbIntroLoading.isVisible = true
         }
+
+
     }
 
     private fun requestCallPermission() {
@@ -84,6 +89,9 @@ class IntroActivity : AppCompatActivity() {
                 55
             )
         }
+    }
+    private fun requestNotificationPermission(activity: Activity){
+        UserList.notification.settingNotification(activity)
     }
 // 좋아 ! 포기!
     override fun onRequestPermissionsResult(
