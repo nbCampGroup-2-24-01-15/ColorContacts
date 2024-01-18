@@ -55,4 +55,11 @@ object TagMember{
     fun memberChk(key: String): Tag? {
         return totalTags.find { it.member.contains(key) }
     }
+
+    //태그 타이틀을 키, 멤버를 쌍으로
+    fun setAllMember(): Map<String?, MutableList<String>?> {
+        val tagList = setAllTag()
+        val tagMember = setAllTag().map { tag -> tag?.let { getMembers(it) } }
+        return tagList.zip(tagMember).toMap()
+    }
 }

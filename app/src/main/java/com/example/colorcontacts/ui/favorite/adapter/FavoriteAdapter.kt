@@ -1,4 +1,4 @@
-package com.example.colorcontacts.view.favorite.adapter
+package com.example.colorcontacts.ui.favorite.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +7,16 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
+import com.example.colorcontacts.utill.AdapterInterface
+import com.example.colorcontacts.utill.LayoutType
+import com.example.colorcontacts.utill.SharedDataListener
 
-class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class FavoriteAdapter(private var mItem: List<FavoriteViewType>, private var mColor: ColorTheme) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable, AdapterInterface {
     private var filteredList: List<FavoriteViewType> = mItem
 
     companion object {
@@ -21,7 +25,7 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
     }
 
     interface ItemClick {
-        fun onClick(view: View, position: Int,key: String)
+        fun onClick(view: View, position: Int, key: String)
     }
 
     var itemClick: ItemClick? = null
@@ -36,7 +40,6 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
                 )
                 GridViewHolder(binding)
             }
-
             else -> {
                 val binding = ItemContactListBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -51,33 +54,37 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = filteredList[position]) {
             is FavoriteViewType.FavoriteUser -> {
-                with((holder as ItemViewHolder)) {
+                with(holder as ItemViewHolder) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
-
-                    //유저가 속한 태그의 이미지 세팅
+                    name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)
                     if (favorite != null) star.setImageURI(favorite.img)
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     star.setOnClickListener {
-                        //유저의 key값 반환해서 버튼클릭시 즐겨찾기 갱신
                         itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
+                    swipeLayout.background.setTint(mColor.colorLinear)
+                    back.setBackgroundColor(mColor.colorWidget)
+                    backCall.setColorFilter(mColor.colorFont)
+                    backFont.setTextColor(mColor.colorFont)
                 }
                 holder.itemView.setOnClickListener {
                     itemClick?.onClick(it, position, "")
                 }
             }
-
             is FavoriteViewType.FavoriteGrid -> {
-                with((holder as GridViewHolder)) {
+                with(holder as GridViewHolder) {
                     img.setImageURI(item.user.img)
                     name.text = item.user.name
+                    name.setTextColor(mColor.colorFont)
+                    layout.setBackgroundColor(mColor.colorLinear)
                 }
             }
         }
     }
+
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
@@ -106,6 +113,9 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
         val img = binding.ivContactImg
         val star = binding.ivContactStar
         val swipeLayout = binding.swipeItemContact
+        val back = binding.itemListBack
+        val backCall = binding.ivBackCall
+        val backFont = binding.tvBackCall
 
         init {
             itemView.setOnClickListener {
@@ -119,6 +129,7 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
         RecyclerView.ViewHolder(binding.root) {
         val name = binding.tvContactName
         val img = binding.ivContactImg
+        val layout = binding.itemLayout
 
         init {
             itemView.setOnClickListener {
@@ -165,6 +176,17 @@ class FavoriteAdapter(private var mItem: List<FavoriteViewType>) :
     // Fragment에서 호출
     fun performSearch(query: String) {
         filter.filter(query)
+    }
+
+    override fun updateColor(newColorTheme: ColorTheme) {
+        mColor = newColorTheme
+        notifyDataSetChanged()
+    }
+
+    override fun changeLayout(layoutType: LayoutType) {
+        mItem = SharedDataListener().setFavoriteList(layoutType)
+        filteredList = mItem
+        notifyDataSetChanged()
     }
 
 }

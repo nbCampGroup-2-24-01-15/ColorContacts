@@ -1,4 +1,4 @@
-package com.example.colorcontacts.view.detail
+package com.example.colorcontacts.ui.detail
 
 import android.annotation.SuppressLint
 import android.app.Activity
