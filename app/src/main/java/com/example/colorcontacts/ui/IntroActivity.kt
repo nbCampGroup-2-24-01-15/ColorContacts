@@ -67,6 +67,8 @@ class IntroActivity : AppCompatActivity() {
             )
             binding.pbIntroLoading.isVisible = true
         }
+
+
     }
 
     private fun requestCallPermission() {
