@@ -93,6 +93,11 @@ class ContactListFragment : Fragment() {
                 Log.d("ContactListFragment", "Item clicked - Position: $position, Key: $key")
                 if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(key)
                 else sharedDataListener.onFavorite(key)
+                val intent = Intent(view.context, DetailPageActivity::class.java)
+                intent.putExtra("USER_POSITION", position)
+                intent.putExtra("USER_DATA", UserList.userList[position].key)
+                startActivity(intent)
+                //result launcher 안 써도 되나...?
             }
         }
         //스와이프 통화
