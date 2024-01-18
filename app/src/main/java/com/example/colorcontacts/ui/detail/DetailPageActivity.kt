@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
@@ -122,7 +123,7 @@ class DetailPageActivity : AppCompatActivity() {
             }
         }
 
-        binding.spDetailEvent.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("1분", "5분", "10분"))
+        binding.spDetailEvent.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, EventTime.timeArray)
 
         binding.ivDetailBack.setOnClickListener {
             if (isEditing) {
