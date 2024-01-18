@@ -6,15 +6,10 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.media.metrics.Event
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -22,14 +17,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
-import com.example.colorcontacts.utill.DataChangedListener
 import kotlin.math.roundToInt
 
 class AddContactDialogFragment() : DialogFragment() {
@@ -180,6 +173,9 @@ class AddContactDialogFragment() : DialogFragment() {
     /**
      *  TODO : 유효성 검사 함수
      */
+
+
+    // 텍스트가 변경될때 실행
     private fun setTextChangedListener() {
         editTexts.forEach { editText ->
             editText.addTextChangedListener {
@@ -188,6 +184,8 @@ class AddContactDialogFragment() : DialogFragment() {
         }
     }
 
+
+    //vaildCheck = CheckString
     private fun validCheck(editText: EditText) {
         editText.error = with(binding) {
             when (editText) {
@@ -197,20 +195,27 @@ class AddContactDialogFragment() : DialogFragment() {
                 etAddContactPhoneNumber -> validChk.checkPhoneNumber(editText.text.toString())
                     ?.let { getString(it) }
 
-                else -> validChk.checkEmail(editText.text.toString())?.let { getString(it) }
-            }
-        }
-        isChecked = editTexts.all { it.error == null }
-        binding.btnAddContactOk.isEnabled = isChecked
-        if (isChecked) binding.btnAddContactOk.background.setTint(
-            setAlpha(
-                NowColor.color.colorWidget,
-                1f
-            )
-        )
-        else binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
+                etAddContactEmail -> validChk.checkEmail(editText.text.toString())
+                    ?.let { getString(it) }
 
-    }
+                else -> ""
+                }
+            }
+            // 에러 값이 없고 동시에 문자열 이 비어 있지 않으면 true
+            isChecked = editTexts.all { it.error == null && it.text.toString() !=""}
+            binding.btnAddContactOk.isEnabled = isChecked
+
+            // 체크 상태에 따른 버튼 Alpha값 변경
+
+            if (isChecked) binding.btnAddContactOk.background.setTint(
+                setAlpha(
+                    NowColor.color.colorWidget,
+                    1f
+                )
+            )
+            else binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
+
+        }
 
 
     /**
