@@ -3,6 +3,7 @@ package com.example.colorcontacts.dialog
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -20,18 +21,27 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import com.example.colorcontacts.utill.CheckString
-import com.example.colorcontacts.R
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
-import com.example.colorcontacts.utill.SharedViewModel
-import com.example.colorcontacts.view.contactList.model.ContactViewModel
+import com.example.colorcontacts.utill.DataChangedListener
 import kotlin.math.roundToInt
 
-class AddContactDialogFragment : DialogFragment() {
+class AddContactDialogFragment() : DialogFragment() {
+    interface DialogDismissListener {
+        fun onDialogDismissed()
+    }
+
+    var dismissListener: DialogDismissListener? = null
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dismissListener?.onDialogDismissed()
+    }
+
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
     private val validChk get() = CheckString()
@@ -88,6 +98,7 @@ class AddContactDialogFragment : DialogFragment() {
         return dialog
     }
 
+
     private fun setAlpha(color: Int, factor: Float): Int {
         val alpha = (Color.alpha(color) * factor).roundToInt()
         return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
@@ -110,10 +121,9 @@ class AddContactDialogFragment : DialogFragment() {
                 )
                 // 데이터를 전달
                 UserList.userList.add(user)
+                UserList.userList.sortBy { it.name }
 
                 // 뷰모델을 연결하여 UI를 업데이트(뷰모델의 라이브 데이터를 갱신)
-                val viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
-                viewModel.setLayoutType()
 
                 // 알람 등록
                 UserList.notification.setUserAlarm(user,requireContext())

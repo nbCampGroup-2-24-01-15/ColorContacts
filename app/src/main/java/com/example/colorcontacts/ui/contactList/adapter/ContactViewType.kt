@@ -1,4 +1,4 @@
-package com.example.colorcontacts.view.contactList.adapter
+package com.example.colorcontacts.ui.contactList.adapter
 
 import com.example.colorcontacts.data.User
 

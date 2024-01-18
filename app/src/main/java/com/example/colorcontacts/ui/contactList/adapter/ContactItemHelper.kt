@@ -1,4 +1,4 @@
-package com.example.colorcontacts.view.contactList.adapter
+package com.example.colorcontacts.ui.contactList.adapter
 
 import android.content.Context
 import android.content.Intent
