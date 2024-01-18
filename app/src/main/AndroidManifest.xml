@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.example.colorcontacts.Notification"/>
+        <receiver android:name="com.example.colorcontacts.utill.Notification"/>
     </application>
 
 </manifest>
