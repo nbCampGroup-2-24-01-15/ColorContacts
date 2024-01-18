@@ -3,38 +3,31 @@ package com.example.colorcontacts.ui.detail
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
-import androidx.activity.result.registerForActivityResult
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
-import java.security.Permissions
 
 private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
+@Suppress("DEPRECATION")
 class DetailPageActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityDetailPageBinding.inflate(layoutInflater)
     }
 
+    lateinit var user: User
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
@@ -46,14 +39,11 @@ class DetailPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
-        val receivedData = UserList.userList
-
-
         var isEditing = false
 
         val hasBackground = false
 
+        initView()
 
 
 //        if (hasBackground) {
@@ -205,7 +195,18 @@ class DetailPageActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
+        setProfile(user)
+    }
 
+    private fun setProfile(user: User){
+        with(binding){
+            ivDetailBackground.setImageURI(user.backgroundImg)
+            ivDetailAddProfile.setImageURI(user.img)
+            etDetailName.setText(user.name)
+            etDetailPhoneNumber.setText(user.phone)
+            etDetailMemo.setText(user.info)
+        }
     }
 
 //    private fun showPermissionAlertDialog() {
