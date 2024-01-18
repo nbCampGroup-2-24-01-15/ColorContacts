@@ -6,15 +6,24 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.media.metrics.Event
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
@@ -41,6 +50,10 @@ class AddContactDialogFragment() : DialogFragment() {
     //유효성 검사 체크 변수들
     private var isChecked = false
 
+
+    //이벤트 관련 변수
+    private lateinit var selectedEvent : String
+
     private val editTexts get() = with(binding) {
         listOf(
             etAddContactName,
@@ -52,6 +65,7 @@ class AddContactDialogFragment() : DialogFragment() {
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
+    private var selectedBackgroundImageUri: Uri? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -62,6 +76,28 @@ class AddContactDialogFragment() : DialogFragment() {
         // 콜백 리스너 등록
         setCallBackFunction()
 
+        // 스피너 값 설정
+        // 이벤트 spinner 값
+        val spinner = binding.spinner
+        val items = EventTime.timeArray
+        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        spinner.adapter= adapter
+        object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                selectedEvent = parent?.getItemAtPosition(position).toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }.also { spinner.onItemSelectedListener = it }
         return dialog
     }
 
@@ -80,17 +116,20 @@ class AddContactDialogFragment() : DialogFragment() {
                 // 데이터 전달
                 val user = User(
                     img = selectedImageUri,
+                    backgroundImg = selectedBackgroundImageUri,
                     name = binding.etAddContactName.text.toString(),
                     phone = binding.etAddContactPhoneNumber.text.toString(),
                     email = binding.etAddContactEmail.text.toString(),
-                    event = null,
+                    event = selectedEvent,
                     info = null,
                 )
                 // 데이터를 전달
                 UserList.userList.add(user)
                 UserList.userList.sortBy { it.name }
 
-                // 뷰모델을 연결하여 UI를 업데이트(뷰모델의 라이브 데이터를 갱신)
+
+                // 알람 등록
+                UserList.notification.setUserAlarm(user,requireContext())
 
                 // 종료
                 dismiss()

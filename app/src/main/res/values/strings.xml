@@ -16,4 +16,5 @@
     <string name="add_contact_dialog_phone_number_error">010-xxxx-xxxx 형태 이어야합니다.</string>
     <string name="add_contact_dialog_email_error">이메일 형식에 맞춰주세요.</string>
 
+    <string name="edit_name">이름을 입력하세요</string>
 </resources>

@@ -38,12 +38,13 @@ class MainActivity : AppCompatActivity() {
             R.drawable.ic_tablayout_dialpad
         )
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        Log.d("user","${UserList.userList}")
+        UserList.notification.settingNotification(this)
         initView()
+
     }
 
     private fun initView() {
@@ -228,13 +229,13 @@ class MainActivity : AppCompatActivity() {
             .setColorShape(ColorShape.SQAURE)   // Default ColorShape.CIRCLE
             .setDefaultColor(nowColor)     // Pass Default Color
             .setColorListener { color, _ ->
-                setColor(colorType,color)
+                setColor(colorType, color)
             }
             .show()
     }
 
     //선택한 값을 현재 객체로 저장, 라이브데이터를 갱신해 옵저빙하는 뷰들의 색을 갱신해줌
-    private fun setColor(colorType: String, color: Int){
+    private fun setColor(colorType: String, color: Int) {
         when (colorType) {
             getString(R.string.main_color_widget) -> NowColor.color.colorWidget = color
             getString(R.string.main_color_search) -> NowColor.color.colorSearch = color
@@ -246,7 +247,7 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.main_color_header) -> NowColor.color.colorHeader = color
             else -> NowColor.color.colorBackground = color
         }
-         //싱글턴 데이터가 변경되는 구간
+        //싱글턴 데이터가 변경되는 구간
         setColors()
     }
 
@@ -255,20 +256,20 @@ class MainActivity : AppCompatActivity() {
         //View 색 변경
         val color = NowColor.color
 
-            with(binding){
-                tabLayout.background.setTint(color.colorWidget)
-                searchView.background.setTint(color.colorSearch)
-                ivMainLayout.setColorFilter(color.colorIcon)
-                ivMainEdit.setColorFilter(color.colorIcon)
-                csMainHeader.background.setTint(color.colorHeader)
-                csMainBackground.setBackgroundColor(color.colorBackground)
-                btnAddContactDialog.background.setTint(color.colorWidget)
-                btnAddContactDialog.setTextColor(color.colorBasic)
-            }
-            window.statusBarColor = color.colorWidget
+        with(binding) {
+            tabLayout.background.setTint(color.colorWidget)
+            searchView.background.setTint(color.colorSearch)
+            ivMainLayout.setColorFilter(color.colorIcon)
+            ivMainEdit.setColorFilter(color.colorIcon)
+            csMainHeader.background.setTint(color.colorHeader)
+            csMainBackground.setBackgroundColor(color.colorBackground)
+            btnAddContactDialog.background.setTint(color.colorWidget)
+            btnAddContactDialog.setTextColor(color.colorBasic)
+        }
+        window.statusBarColor = color.colorWidget
 
         updateColorInCurrentFragment(NowColor.color)
-        }
+    }
 
     private fun updateColorInCurrentFragment(color: ColorTheme) {
         val currentItem = binding.viewPager.currentItem
@@ -277,21 +278,12 @@ class MainActivity : AppCompatActivity() {
             is FavoriteFragment -> currentFragment.dataChangedListener.onColorChanged(color)
         }
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
     }
 
-    /*private fun requestCallPermission() {
-        val callPermission =
-            ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
-        if (callPermission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.CALL_PHONE),
-                55
-            )
-            binding.pbMainLoading.isVisible = true
-        }
-    }*/
+
 }
+
