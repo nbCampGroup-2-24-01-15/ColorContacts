@@ -146,7 +146,7 @@ class ContactListFragment : Fragment() {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
                 }
             })
 
