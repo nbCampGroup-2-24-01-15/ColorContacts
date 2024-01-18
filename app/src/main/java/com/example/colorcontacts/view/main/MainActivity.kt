@@ -191,8 +191,17 @@ class MainActivity : AppCompatActivity() {
                     profileImageUri = Uri.parse(photoUri)
                 }
 
+                var backgroundImageUri: Uri? = null
+                val backgroundPhotoUri = cursor.getString(
+                    cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)
+                )
+                if (backgroundPhotoUri != null) {
+                    backgroundImageUri = Uri.parse(backgroundPhotoUri)
+                }
+
                 val user = User(
                     img = profileImageUri,
+                    backgroundImg =backgroundImageUri,
                     name = name ?: "Unknown",
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "No Email",
