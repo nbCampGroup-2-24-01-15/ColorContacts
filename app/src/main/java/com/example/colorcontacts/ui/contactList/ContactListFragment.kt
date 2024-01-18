@@ -69,6 +69,7 @@ class ContactListFragment : Fragment() {
         binding.rcContactList.layoutManager = LinearLayoutManager(context)
 
         setList()
+        setMyPageTab()
         Log.d("ContactListFragment", "Loaded data: $loadedData")
     }
 
@@ -92,10 +93,10 @@ class ContactListFragment : Fragment() {
                 Log.d("ContactListFragment", "Item clicked - Position: $position, Key: $key")
                 if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(key)
                 else sharedDataListener.onFavorite(key)
-                val intent = Intent(view.context, DetailPageActivity::class.java)
-                intent.putExtra("USER_POSITION", position)
-                intent.putExtra("USER_DATA", UserList.userList[position].key)
-                startActivity(intent)
+//                val intent = Intent(view.context, DetailPageActivity::class.java)
+//                intent.putExtra("USER_POSITION", position)
+//                intent.putExtra("USER_DATA", UserList.userList[position].key)
+//                startActivity(intent)
                 //result launcher 안 써도 되나...?
             }
         }
@@ -107,6 +108,7 @@ class ContactListFragment : Fragment() {
                 startActivity(intent)
             }
         }
+
         //스와이프 통화
         val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
@@ -130,10 +132,10 @@ class ContactListFragment : Fragment() {
             binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
             binding.tvMyName.text = myDefault.name
         } else {
-            binding.ivMyImg.setImageURI(UserList.myData[1].img ?: Uri.EMPTY)
-            binding.tvMyName.text = UserList.myData[1].name ?: ""
+            binding.ivMyImg.setImageURI(UserList.myData[0].img ?: Uri.EMPTY)
+            binding.tvMyName.text = UserList.myData[0].name ?: ""
             Glide.with(this)
-                .load(UserList.myData[1].backgroundImg)
+                .load(UserList.myData[0].backgroundImg)
                 .into(object : CustomTarget<Drawable>() {
                     override fun onResourceReady(
                         resource: Drawable,
@@ -150,7 +152,7 @@ class ContactListFragment : Fragment() {
 
         binding.linearLayout4.setOnClickListener {
             val intent = Intent(activity, DetailPageActivity::class.java).apply {
-//                putExtra("myPage", )
+//                putExtra("MY_DATA", UserList.myData[0].key)
             }
             startActivity(intent)
         }
