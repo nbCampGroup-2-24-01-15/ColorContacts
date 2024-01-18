@@ -70,7 +70,6 @@ class ContactListFragment : Fragment() {
 
         setList()
         Log.d("ContactListFragment", "Loaded data: $loadedData")
-        setMyPageTab()
     }
 
     /**
@@ -98,6 +97,14 @@ class ContactListFragment : Fragment() {
                 intent.putExtra("USER_DATA", UserList.userList[position].key)
                 startActivity(intent)
                 //result launcher 안 써도 되나...?
+            }
+        }
+
+        adapter.itemLongClick = object : ContactAdapter.ItemLongClick{
+            override fun onLongClick(view: View, position: Int, key: String) {
+                val intent = Intent(requireActivity(), DetailPageActivity::class.java)
+                intent.putExtra("user", key)
+                startActivity(intent)
             }
         }
         //스와이프 통화
