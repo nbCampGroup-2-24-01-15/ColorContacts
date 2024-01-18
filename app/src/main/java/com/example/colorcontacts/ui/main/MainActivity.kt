@@ -17,6 +17,7 @@ import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.ui.contactList.ContactListFragment
 import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialog.AddContactDialogFragment
+import com.example.colorcontacts.dialog.DateUpdateListener
 import com.example.colorcontacts.test.TestActivity
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.ui.dialpad.DialPadFragment
@@ -26,7 +27,7 @@ import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),DateUpdateListener{
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -82,18 +83,20 @@ class MainActivity : AppCompatActivity() {
 
         setDialog()
     }
-    fun setDialog(){
+
+    private fun setDialog() {
         //플로팅 버튼(주소록 추가 다이얼로그)
-        val currentItem = binding.viewPager.currentItem
-        val currentFragment = viewPagerAdapter.getFragment(currentItem)
         binding.btnAddContactDialog.setOnClickListener {
-            AddContactDialogFragment().dismissListener = object : AddContactDialogFragment.DialogDismissListener {
-                override fun onDialogDismissed() {
-//                    currentFragment.onResume()
-                }
-            }
-            AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
+            val addContactDialogFragment = AddContactDialogFragment()
+            addContactDialogFragment.setDataUpdateListener(this)
+            addContactDialogFragment.show(supportFragmentManager, "AddContactDialogFragment")
         }
+    }
+
+    override fun onDataUpdate() {
+        val currentFragment = viewPagerAdapter.getFragment(binding.viewPager.currentItem)
+        if(currentFragment is DateUpdateListener)
+            currentFragment.onDataUpdate()
     }
 
     /**
@@ -287,6 +290,7 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
         finish()
     }
+
 
 
 }

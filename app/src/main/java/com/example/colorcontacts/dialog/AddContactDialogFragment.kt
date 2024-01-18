@@ -3,11 +3,11 @@ package com.example.colorcontacts.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.provider.MediaStore
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.View
@@ -26,17 +26,12 @@ import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 import kotlin.math.roundToInt
 
+
+interface DateUpdateListener {
+    fun onDataUpdate()
+}
+
 class AddContactDialogFragment() : DialogFragment() {
-    interface DialogDismissListener {
-        fun onDialogDismissed()
-    }
-
-    var dismissListener: DialogDismissListener? = null
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        dismissListener?.onDialogDismissed()
-    }
 
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
@@ -63,6 +58,12 @@ class AddContactDialogFragment() : DialogFragment() {
     private var selectedImageUri: Uri? = null
     private var selectedBackgroundImageUri: Uri? = null
 
+    //데이터 업데이트 인터페이스
+    private var dateUpdateListener: DateUpdateListener? = null
+
+    fun setDataUpdateListener(listener : DateUpdateListener){
+        this.dateUpdateListener = listener
+    }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         // 다이얼 로그 화면 등록
@@ -76,7 +77,6 @@ class AddContactDialogFragment() : DialogFragment() {
         setSpinner()
         return dialog
     }
-
 
     // 이벤트 spinner 값
     private fun setSpinner() {
@@ -126,6 +126,7 @@ class AddContactDialogFragment() : DialogFragment() {
                 UserList.userList.add(user)
                 UserList.userList.sortBy { it.name }
 
+                dateUpdateListener?.onDataUpdate()
 
                 // 알람 등록
                 if (selectedEvent != null)
@@ -237,10 +238,6 @@ class AddContactDialogFragment() : DialogFragment() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryResultLauncher.launch(galleryIntent)
     }
-
-    /**
-     *  TODO 해당 VIEW ID-> URI 형식에 맞게 Parse(파싱)
-     */
 
 
 }

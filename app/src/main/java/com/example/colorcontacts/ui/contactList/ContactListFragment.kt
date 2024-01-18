@@ -13,6 +13,8 @@ import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
+import com.example.colorcontacts.dialog.AddContactDialogFragment
+import com.example.colorcontacts.dialog.DateUpdateListener
 import com.example.colorcontacts.ui.contactList.adapter.ContactAdapter
 import com.example.colorcontacts.ui.contactList.adapter.ContactItemHelper
 import com.example.colorcontacts.ui.detail.DetailPageActivity
@@ -21,7 +23,7 @@ import com.example.colorcontacts.utill.RecyclerViewBindingWrapper
 import com.example.colorcontacts.utill.SharedDataListener
 
 
-class ContactListFragment : Fragment() {
+class ContactListFragment : Fragment(),DateUpdateListener{
 
     private val bindingWrapper by lazy {
         RecyclerViewBindingWrapper(binding)
@@ -43,6 +45,7 @@ class ContactListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return binding.root
     }
 
@@ -109,6 +112,13 @@ class ContactListFragment : Fragment() {
      */
     fun updateItem(text: String) {
         adapter.performSearch(text)
+    }
+
+    /**
+     * TODO : DataUpdate 될때 화면을 재구성
+     */
+    override fun onDataUpdate() {
+        setList()
     }
 
 
