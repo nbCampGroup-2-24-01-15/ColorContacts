@@ -1,19 +1,29 @@
 package com.example.colorcontacts.ui.contactList
 
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.colorcontacts.R
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.TagMember
+import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 import com.example.colorcontacts.ui.contactList.adapter.ContactAdapter
 import com.example.colorcontacts.ui.contactList.adapter.ContactItemHelper
+import com.example.colorcontacts.ui.detail.DetailPageActivity
 import com.example.colorcontacts.utill.DataChangedListener
 import com.example.colorcontacts.utill.RecyclerViewBindingWrapper
 import com.example.colorcontacts.utill.SharedDataListener
@@ -60,6 +70,7 @@ class ContactListFragment : Fragment() {
 
         setList()
         Log.d("ContactListFragment", "Loaded data: $loadedData")
+        setMyPageTab()
     }
 
     /**
@@ -88,6 +99,51 @@ class ContactListFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
     }
+
+
+    private fun setMyPageTab() {
+
+        if (UserList.myData.isEmpty()) {
+            val myDefault = User(
+                img = Uri.EMPTY,
+                backgroundImg = Uri.EMPTY,
+                name = getString(R.string.edit_name),
+                phone = "",
+                email = "",
+                event = null,
+                info = null,
+            )
+            UserList.myData.add(myDefault)
+
+            binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
+            binding.tvMyName.text = myDefault.name
+        } else {
+            binding.ivMyImg.setImageURI(UserList.myData[1].img ?: Uri.EMPTY)
+            binding.tvMyName.text = UserList.myData[1].name ?: ""
+            Glide.with(this)
+                .load(UserList.myData[1].backgroundImg)
+                .into(object : CustomTarget<Drawable>() {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        binding.linearLayout4.background = resource
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
+                    }
+                })
+
+        }
+
+        binding.linearLayout4.setOnClickListener {
+            val intent = Intent(activity, DetailPageActivity::class.java).apply {
+//                putExtra("myPage", )
+            }
+            startActivity(intent)
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()

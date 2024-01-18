@@ -4,16 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".contactList.ContactListFragment">
+    tools:context=".ui.contactList.ContactListFragment"
+    >
 
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_contact_layout"-->
-<!--        android:layout_width="24dp"-->
-<!--        android:layout_height="24dp"-->
-<!--        android:src="@drawable/ic_fragment_grid"-->
-<!--        android:layout_margin="20dp"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -22,7 +15,7 @@
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_contact_layout"
+        app:layout_constraintTop_toTopOf="parent"
         android:padding="20dp"
         android:background="@color/white">
 
