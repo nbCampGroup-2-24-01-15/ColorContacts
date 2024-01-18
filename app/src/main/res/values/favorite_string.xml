@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="favorite_search_empty">즐겨찾기를 추가해주세요.</string>
+    <string name="favorite_tag_full_list">전체보기</string>
+    <string name="favorite_tag_add">태그 추가</string>
+    <string name="favorite_edittext_hint">태그명을 입력하세요.</string>
+    <string name="favorite_tag_name">태그명</string>
+    <string name="favorite_button">추가하기</string>
+</resources>

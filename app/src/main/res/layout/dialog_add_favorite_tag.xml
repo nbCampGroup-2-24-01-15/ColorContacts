@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/ic_arrow_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/favorite_tag_add"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/ivAddTagImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/dark_gray"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogTitle" />
+
+    <ImageView
+        android:id="@+id/ivAddTagImage"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_add_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogTitle" />
+
+    <TextView
+        android:id="@+id/tvTagName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/favorite_tag_name"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/etTagName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivAddTagImage" />
+
+
+    <EditText
+        android:id="@+id/etTagName"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/background_radius_black"
+        android:gravity="center"
+        android:hint="@string/favorite_edittext_hint"
+        android:maxLength="6"
+        android:padding="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvTagName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvTagName"
+        app:layout_constraintTop_toTopOf="@id/tvTagName" />
+
+    <TextView
+        android:id="@+id/tvTextLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/tvMaxLength"
+        app:layout_constraintTop_toBottomOf="@id/etTagName" />
+
+    <TextView
+        android:id="@+id/tvMaxLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:text="/6"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etTagName" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAddTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="@drawable/custom_button"
+        android:enabled="false"
+        android:text="@string/favorite_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etTagName" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

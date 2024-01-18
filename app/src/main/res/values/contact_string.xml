@@ -2,4 +2,6 @@
 <resources>
 
     <string name="contact_call">통화하기</string>
+    <string name="contact_search_empty">연락처를 추가해주세요.</string>
+
 </resources>
