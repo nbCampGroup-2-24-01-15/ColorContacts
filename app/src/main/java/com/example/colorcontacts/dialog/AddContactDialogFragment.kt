@@ -45,10 +45,6 @@ class AddContactDialogFragment() : DialogFragment() {
     //유효성 검사 체크 변수들
     private var isChecked = false
 
-
-    //이벤트 관련 변수
-    private lateinit var selectedEvent: String
-
     private val editTexts
         get() = with(binding) {
             listOf(
@@ -57,6 +53,11 @@ class AddContactDialogFragment() : DialogFragment() {
                 etAddContactEmail
             )
         }
+
+    //이벤트 관련 변수
+    private lateinit var selectedEvent: String
+
+
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
@@ -104,10 +105,7 @@ class AddContactDialogFragment() : DialogFragment() {
     }
 
 
-    private fun setAlpha(color: Int, factor: Float): Int {
-        val alpha = (Color.alpha(color) * factor).roundToInt()
-        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
-    }
+
 
     private fun setCallBackFunction() {
         binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
@@ -226,6 +224,10 @@ class AddContactDialogFragment() : DialogFragment() {
 
         }
 
+    private fun setAlpha(color: Int, factor: Float): Int {
+        val alpha = (Color.alpha(color) * factor).roundToInt()
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
+    }
 
     /**
      *  TODO : 갤러리 불러오기
