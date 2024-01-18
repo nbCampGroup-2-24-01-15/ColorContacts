@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.media.metrics.Event
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -22,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
@@ -76,7 +78,7 @@ class AddContactDialogFragment() : DialogFragment() {
         // 스피너 값 설정
         // 이벤트 spinner 값
         val spinner = binding.spinner
-        val items = arrayOf("1초","5초","1분","10분","1시간")
+        val items = EventTime.timeArray
         val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinner.adapter= adapter
@@ -123,10 +125,10 @@ class AddContactDialogFragment() : DialogFragment() {
                 UserList.userList.add(user)
                 UserList.userList.sortBy { it.name }
 
-                // 뷰모델을 연결하여 UI를 업데이트(뷰모델의 라이브 데이터를 갱신)
 
                 // 알람 등록
                 UserList.notification.setUserAlarm(user,requireContext())
+
                 // 종료
                 dismiss()
             }

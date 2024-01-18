@@ -1,4 +1,4 @@
-package com.example.colorcontacts
+package com.example.colorcontacts.utill
 
 
 import android.app.Activity
@@ -14,7 +14,10 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.example.colorcontacts.R
+import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.data.User
+import kotlin.random.Random
 
 
 /**
@@ -30,10 +33,9 @@ class Notification : BroadcastReceiver() {
     companion object {
         private const val channelID = "1"
         private const val channelName = "컬러 컨텐트 알람"
-        private var count = 0
     }
 
-    //onCreate() 에서 등록 해야할것들
+    //onCreate() 에서 등록 해야할 것 들
     private lateinit var alarmManager: AlarmManager
     private lateinit var notificationManager: NotificationManager
 
@@ -46,7 +48,7 @@ class Notification : BroadcastReceiver() {
 
 
     //권한 확인후 실행 해야함
-    fun setSystemService(context: Context) {
+    private fun setSystemService(context: Context) {
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -54,20 +56,26 @@ class Notification : BroadcastReceiver() {
     }
 
     //권한 확인 이 놈이 문제네
-    private fun requestPermissionNotification(activity: Activity){
+    private fun requestPermissionNotification(activity: Activity) {
         val status =
-            ContextCompat.checkSelfPermission(activity, android.Manifest.permission.SCHEDULE_EXACT_ALARM)
+            ContextCompat.checkSelfPermission(
+                activity,
+                android.Manifest.permission.SCHEDULE_EXACT_ALARM
+            )
         if (status == PackageManager.PERMISSION_GRANTED)
         else {
             //퍼미션 요청 다이얼로그 표시
             ActivityCompat.requestPermissions(
                 activity,
-                arrayOf(android.Manifest.permission.SCHEDULE_EXACT_ALARM,android.Manifest.permission.USE_EXACT_ALARM,android.Manifest.permission.POST_NOTIFICATIONS),
+                arrayOf(
+                    android.Manifest.permission.SCHEDULE_EXACT_ALARM,
+                    android.Manifest.permission.USE_EXACT_ALARM,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ),
                 101
             )
         }
     }
-
 
 
     // 최초 채널 생성
@@ -87,36 +95,55 @@ class Notification : BroadcastReceiver() {
 
     // 알람이 울리면 이 메소드 호출
     override fun onReceive(context: Context?, intent: Intent?) {
+
+        //인텐트 값 받아오기
         val name = intent?.getStringExtra("NAME")
         val event = intent?.getStringExtra("EVENT")
-        val builder = NotificationCompat.Builder(context!!, channelID)
-        setSystemService(context)
+        val randomCode = intent?.getIntExtra("RANDOM_CODE", 0) ?: 0
+
+        //서비스 쪽에서 불러질 때 서비스 등록
+        context?.let {context ->
+            setSystemService(context)
+
+        //알림 설정
+        val builder = NotificationCompat.Builder(context, channelID)
         builder.run {
             setSmallIcon(R.drawable.ic_logo)
             setContentTitle(name + "님의 알림")
-            setContentText(name + "에 설정한 시간 : ${event}가 되었습니다")
+            setContentText(name + "에 설정한 시간 : ${event}이 되었습니다")
             setPriority(NotificationCompat.PRIORITY_DEFAULT)//알람 중요도
         }
-        notificationManager.notify(count++, builder.build())
 
-
+        notificationManager.notify(randomCode, builder.build())
+        }
     }
 
     // user 인스턴스 의 알람 등록
     fun setUserAlarm(user: User, context: Context) {
-        val alarmTimeMillis = parseTimeMillis(user.event.toString())
 
+        //데이터 값에 맞게 파싱
+        val currentTimeMillis = System.currentTimeMillis()
+        val alarmTimeMillis = currentTimeMillis + parseTimeMillis(user.event.toString())
+        //requestCode 생성
 
+        val randomCode = Random(1000000).nextInt()
+
+        //onReceive 에 불려질 인텐트 데이터
         val alarmIntent = Intent(context, Notification::class.java)
         alarmIntent.putExtra("NAME", user.name)
         alarmIntent.putExtra("EVENT", user.event)
-        //나중에 실행하는 작업
+        alarmIntent.putExtra("RANDOM_CODE", randomCode)
+
+        //알람을 등록하기 위한 인텐트 생성
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            count, //pendingIntent 를 식별하는 코드
+            randomCode, //pendingIntent 를 식별하는 코드
             alarmIntent,// 알람이 트리거 될때 실행되는 intent
-            PendingIntent.FLAG_MUTABLE // 생성된 PendingIntent 는 가변성이다.
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            // 생성된 PendingIntent 는 불가변성 이다. 그리고 매번 업데이트를 해준다고 플래그를 전달
         )
+
+        //매니저에게 해당시간이후에 울리도록 설정
 
         alarmManager.setExactAndAllowWhileIdle( // 정확한 시간에 알람이 발생하는 메소드
             AlarmManager.RTC_WAKEUP,//실시간 시계 시스템 기반으로 하는 알람을 설정
@@ -128,13 +155,13 @@ class Notification : BroadcastReceiver() {
 
     //등록된 문자열에 따른 millisecond 단위로 변환
     private fun parseTimeMillis(event: String): Long {
-        //1초 5초 1분 10분 1시간
+        //5초 10초 1분 10분 1시간
         return when (event) {
-            "1초" -> 1000
-            "5초" -> 5 * 1000
-            "1분" -> 60 * 1000
-            "10분" -> 600 * 1000
-            "1시간" -> 3600 * 1000
+            EventTime.timeArray[0] -> 5 * 1000
+            EventTime.timeArray[1] -> 10 * 1000
+            EventTime.timeArray[2] -> 60 * 1000
+            EventTime.timeArray[3] -> 600 * 1000
+            EventTime.timeArray[4] -> 3600 * 1000
             else -> 0
         }
 
