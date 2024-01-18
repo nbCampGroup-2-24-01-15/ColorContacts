@@ -62,7 +62,7 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:id="@+id/iv_Contact_star"
+            android:id="@+id/iv_contact_star"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="end|center_vertical"

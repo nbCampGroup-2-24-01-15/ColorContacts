@@ -60,6 +60,7 @@ class AddContactDialogFragment() : DialogFragment() {
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
+    private var selectedBackgroundImageUri: Uri? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -117,6 +118,7 @@ class AddContactDialogFragment() : DialogFragment() {
                 // 데이터 전달
                 val user = User(
                     img = selectedImageUri,
+                    backgroundImg = selectedBackgroundImageUri,
                     name = binding.etAddContactName.text.toString(),
                     phone = binding.etAddContactPhoneNumber.text.toString(),
                     email = binding.etAddContactEmail.text.toString(),

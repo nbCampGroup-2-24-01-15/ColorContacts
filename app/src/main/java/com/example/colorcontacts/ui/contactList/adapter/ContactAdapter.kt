@@ -43,7 +43,11 @@ class ContactAdapter(
         fun onClick(view: View, position: Int, key: String)
     }
 
+    interface ItemLongClick{
+        fun onLongClick(view: View, position: Int, key: String)
+    }
     var itemClick: ItemClick? = null
+    var itemLongClick: ItemLongClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -94,6 +98,7 @@ class ContactAdapter(
                 holder.itemView.setOnClickListener {
                     itemClick?.onClick(it, position, item.user.key)
                 }
+                onClickUser(holder, position, item.user.key)
             }
 
             is GridUser -> {
@@ -107,6 +112,12 @@ class ContactAdapter(
         }
     }
 
+    private fun onClickUser(holder: ItemViewHolder, position: Int, key:String){
+        holder.itemView.setOnLongClickListener {
+            itemLongClick?.onLongClick(it, position,key)
+            true
+        }
+    }
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }

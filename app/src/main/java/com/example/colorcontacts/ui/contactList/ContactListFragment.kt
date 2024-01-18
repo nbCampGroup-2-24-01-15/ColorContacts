@@ -1,5 +1,6 @@
 package com.example.colorcontacts.ui.contactList
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 import com.example.colorcontacts.ui.contactList.adapter.ContactAdapter
 import com.example.colorcontacts.ui.contactList.adapter.ContactItemHelper
+import com.example.colorcontacts.ui.detail.DetailPageActivity
 import com.example.colorcontacts.utill.DataChangedListener
 import com.example.colorcontacts.utill.RecyclerViewBindingWrapper
 import com.example.colorcontacts.utill.SharedDataListener
@@ -82,6 +84,14 @@ class ContactListFragment : Fragment() {
                 Log.d("ContactListFragment", "Item clicked - Position: $position, Key: $key")
                 if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(key)
                 else sharedDataListener.onFavorite(key)
+            }
+        }
+
+        adapter.itemLongClick = object : ContactAdapter.ItemLongClick{
+            override fun onLongClick(view: View, position: Int, key: String) {
+                val intent = Intent(requireActivity(), DetailPageActivity::class.java)
+                intent.putExtra("user", key)
+                startActivity(intent)
             }
         }
         //스와이프 통화
