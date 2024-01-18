@@ -80,11 +80,11 @@ class MainActivity : AppCompatActivity() {
     fun setDialog(){
         //플로팅 버튼(주소록 추가 다이얼로그)
         val currentItem = binding.viewPager.currentItem
-        val currentFragment = supportFragmentManager.fragments[currentItem]
+//        val currentFragment = supportFragmentManager.fragments[currentItem]
         binding.btnAddContactDialog.setOnClickListener {
             AddContactDialogFragment().dismissListener = object : AddContactDialogFragment.DialogDismissListener {
                 override fun onDialogDismissed() {
-                    currentFragment.onResume()
+//                    currentFragment.onResume()
                 }
             }
             AddContactDialogFragment().show(supportFragmentManager,"AddContactDialogFragment")
