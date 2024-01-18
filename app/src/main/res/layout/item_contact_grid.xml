@@ -19,9 +19,10 @@
 
         <ImageView
             android:id="@+id/iv_contact_img"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="centerCrop"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/iv_round_background"
             android:clipToOutline="true"
             android:src="@drawable/img_user_profile"/>
@@ -34,7 +35,8 @@
             android:textColor="@color/black"
             android:maxLines="1"
             android:ellipsize="end"
-            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:layout_marginTop="16dp"
             android:textSize="16sp"/>
     </LinearLayout>
 
