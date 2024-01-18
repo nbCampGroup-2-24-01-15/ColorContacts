@@ -47,20 +47,22 @@ class AddContactDialogFragment() : DialogFragment() {
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
     private val validChk get() = CheckString()
+
     //유효성 검사 체크 변수들
     private var isChecked = false
 
 
     //이벤트 관련 변수
-    private lateinit var selectedEvent : String
+    private lateinit var selectedEvent: String
 
-    private val editTexts get() = with(binding) {
-        listOf(
-            etAddContactName,
-            etAddContactPhoneNumber,
-            etAddContactEmail
-        )
-    }
+    private val editTexts
+        get() = with(binding) {
+            listOf(
+                etAddContactName,
+                etAddContactPhoneNumber,
+                etAddContactEmail
+            )
+        }
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
@@ -76,13 +78,20 @@ class AddContactDialogFragment() : DialogFragment() {
         setCallBackFunction()
 
         // 스피너 값 설정
-        // 이벤트 spinner 값
-        val spinner = binding.spinner
+        setSpinner()
+        return dialog
+    }
+
+
+    // 이벤트 spinner 값
+    private fun setSpinner() {
+
+        val spinner = binding.spAddContactEvent
         val items = EventTime.timeArray
-        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-        spinner.adapter= adapter
-        object: AdapterView.OnItemSelectedListener{
+        spinner.adapter = adapter
+        object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -97,7 +106,6 @@ class AddContactDialogFragment() : DialogFragment() {
             }
 
         }.also { spinner.onItemSelectedListener = it }
-        return dialog
     }
 
 
@@ -105,6 +113,7 @@ class AddContactDialogFragment() : DialogFragment() {
         val alpha = (Color.alpha(color) * factor).roundToInt()
         return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
     }
+
     private fun setCallBackFunction() {
         binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
 
@@ -127,7 +136,7 @@ class AddContactDialogFragment() : DialogFragment() {
 
 
                 // 알람 등록
-                UserList.notification.setUserAlarm(user,requireContext())
+                UserList.notification.setUserAlarm(user, requireContext())
 
                 // 종료
                 dismiss()
@@ -173,7 +182,7 @@ class AddContactDialogFragment() : DialogFragment() {
      */
     private fun setTextChangedListener() {
         editTexts.forEach { editText ->
-            editText.addTextChangedListener{
+            editText.addTextChangedListener {
                 validCheck(editText)
             }
         }
@@ -182,18 +191,26 @@ class AddContactDialogFragment() : DialogFragment() {
     private fun validCheck(editText: EditText) {
         editText.error = with(binding) {
             when (editText) {
-                etAddContactName -> validChk.checkName(editText.text.toString()) ?.let { getString(it) }
-                etAddContactPhoneNumber -> validChk.checkPhoneNumber(editText.text.toString()) ?.let { getString(it) }
-                else -> validChk.checkEmail(editText.text.toString()) ?.let { getString(it) }
+                etAddContactName -> validChk.checkName(editText.text.toString())
+                    ?.let { getString(it) }
+
+                etAddContactPhoneNumber -> validChk.checkPhoneNumber(editText.text.toString())
+                    ?.let { getString(it) }
+
+                else -> validChk.checkEmail(editText.text.toString())?.let { getString(it) }
             }
         }
         isChecked = editTexts.all { it.error == null }
         binding.btnAddContactOk.isEnabled = isChecked
-        if (isChecked) binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 1f))
+        if (isChecked) binding.btnAddContactOk.background.setTint(
+            setAlpha(
+                NowColor.color.colorWidget,
+                1f
+            )
+        )
         else binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
 
     }
-
 
 
     /**
