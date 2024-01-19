@@ -30,7 +30,7 @@ class AddFavoriteTagDialog : DialogFragment() {
     private val binding get() = _binding!!
 
     interface OnTagAddListener {
-        fun onTagAdd(name: String, uri: Uri)
+        fun onTagAdd(name: String, file: File)
     }
 
     private var listener: OnTagAddListener? = null
@@ -91,7 +91,6 @@ class AddFavoriteTagDialog : DialogFragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 selectedImageUri = data?.data!!
-//                binding.ivAddTagImage.setImageURI(selectedImageUri)
                 val path = requireActivity().absolutelyPath(selectedImageUri!!)
                 val file = File(path)
                 binding.ivAddTagImage.load(file)
@@ -108,7 +107,10 @@ class AddFavoriteTagDialog : DialogFragment() {
         binding.btnAddTag.setOnClickListener {
             val tagName = binding.etTagName.text.toString()
             if (selectedImageUri != null) {
-                listener?.onTagAdd(tagName, selectedImageUri!!)
+                val path = requireActivity().absolutelyPath(selectedImageUri!!)
+                val file = File(path)
+                binding.ivAddTagImage.load(file)
+                listener?.onTagAdd(tagName, file)
             }
             dismiss()
         }

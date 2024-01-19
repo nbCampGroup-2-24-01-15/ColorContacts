@@ -2,7 +2,6 @@ package com.example.colorcontacts.ui.contactList
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -20,7 +20,7 @@ import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
-import com.example.colorcontacts.dialog.DateUpdateListener
+import com.example.colorcontacts.dialog.DataUpdateListener
 import com.example.colorcontacts.ui.contactList.adapter.ContactAdapter
 import com.example.colorcontacts.ui.contactList.adapter.ContactItemHelper
 import com.example.colorcontacts.ui.detail.DetailPageActivity
@@ -29,7 +29,7 @@ import com.example.colorcontacts.utill.RecyclerViewBindingWrapper
 import com.example.colorcontacts.utill.SharedDataListener
 
 
-class ContactListFragment : Fragment(),DateUpdateListener{
+class ContactListFragment : Fragment(), DataUpdateListener {
 
     private val bindingWrapper by lazy {
         RecyclerViewBindingWrapper(binding)
@@ -95,26 +95,23 @@ class ContactListFragment : Fragment(),DateUpdateListener{
         Log.d("ContactListFragment", "Data loaded into adapter, size: ${adapter.itemCount}")
         adapter.itemClick = object : ContactAdapter.ItemClick {
             override fun onClick(view: View, position: Int, key: String) {
-                Log.d("ContactListFragment", "Item clicked - Position: $position, Key: $key")
-                if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(
-                    key
-                )
-                else sharedDataListener.onFavorite(key)
-                val intent = Intent(view.context, DetailPageActivity::class.java)
-                intent.putExtra("user", key)
-                intent.putExtra("TYPE", "others")
-                startActivity(intent)
+                if (view.id == R.id.ll_item_star) {
+                    Log.d(
+                        "ContactListFragment",
+                        "Item clicked - view:$view, Position: $position, Key: $key"
+                    )
+                    if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(
+                        key
+                    )
+                    else sharedDataListener.onFavorite(key)
+                } else {
+                    val intent = Intent(view.context, DetailPageActivity::class.java)
+                    intent.putExtra("user", key)
+                    intent.putExtra("TYPE", "others")
+                    startActivity(intent)
+                }
             }
         }
-
-//        adapter.itemLongClick = object : ContactAdapter.ItemLongClick {
-//            override fun onLongClick(view: View, position: Int, key: String) {
-//                val intent = Intent(requireActivity(), DetailPageActivity::class.java)
-//                intent.putExtra("user", key)
-//                intent.putExtra("TYPE", "others")
-//                startActivity(intent)
-//            }
-//        }
 
         //스와이프 통화
         val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
@@ -125,10 +122,10 @@ class ContactListFragment : Fragment(),DateUpdateListener{
     private fun setMyPageTab() {
 
 
-        if (MyData.myData.img == Uri.EMPTY) {
+        if (MyData.myData.img == null) {
             binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
         } else {
-            binding.ivMyImg.setImageURI(MyData.myData.img)
+            binding.ivMyImg.load(MyData.myData.img)
         }
 
         if (MyData.myData.name.isBlank()) {

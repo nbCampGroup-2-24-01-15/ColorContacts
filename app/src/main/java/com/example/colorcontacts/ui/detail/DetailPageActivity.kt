@@ -20,9 +20,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ItemTouchHelper
+import coil.load
+import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.R
-import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.TagMember.defaultTag
@@ -37,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.example.colorcontacts.dialog.AddFavoriteTagDialog
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
 import com.example.colorcontacts.utill.CheckString
+import java.io.File
 
 
 @Suppress("DEPRECATION")
@@ -49,6 +52,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     //디테일 페이지에서 표시할 유저 정보와 키 값 변수
     lateinit var user: User
     private lateinit var key: String
+    private lateinit var file: File
+    private lateinit var backFile:File
 
     //이미지 결과값 받기
     private lateinit var backgroundGalleryResultLauncher: ActivityResultLauncher<Intent>
@@ -88,7 +93,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             binding.etDetailPhoneNumber,
             binding.etDetailEmail
         )
-    
+
     private var allValid = false
 
     @SuppressLint("ResourceAsColor")
@@ -124,9 +129,13 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivDetailBackground.setImageURI(selectedImageUri)
-                newData.backgroundImg = selectedImageUri
+                data?.data?.let {uri ->
+                    selectedImageUri = uri
+                    binding.ivDetailBackground.setImageURI(uri)
+                    val path = this.absolutelyPath(selectedImageUri!!)
+                    file = File(path)
+                    newData.backgroundImg = file
+                }
             }
         }
 
@@ -135,9 +144,13 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivDetailAddProfile.setImageURI(selectedImageUri)
-                newData.img = selectedImageUri
+                data?.data?.let {uri ->
+                    selectedImageUri = uri
+                    val path = this.absolutelyPath(selectedImageUri!!)
+                    backFile = File(path)
+                    binding.ivDetailAddProfile.load(file)
+                    newData.img = backFile
+                }
             }
         }
 
@@ -154,14 +167,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                     //내용이 다르면 수정한 게 있는 거니까 취소할지 일단 물어보고 확실히 취소하는 거면 편집 눌렀을 때 넣어 둔 디폴트 값으로 다시 바꾸고 닫기
                     val currentTime = System.currentTimeMillis()
                     if (currentTime - backPressedTime < 2000) {
-                        UserList.userList.find { it.key == key }?.img = defaultData.img
-                        UserList.userList.find { it.key == key }?.backgroundImg =
-                            defaultData.backgroundImg
-                        UserList.userList.find { it.key == key }?.name = defaultData.name
-                        UserList.userList.find { it.key == key }?.phone = defaultData.phone
-                        UserList.userList.find { it.key == key }?.email = defaultData.email
-                        UserList.userList.find { it.key == key }?.event = defaultData.event
-                        UserList.userList.find { it.key == key }?.info = defaultData.info
+                        val data = UserList.userList.find { it.key == key }
+                        if (data != null) defaultData = data
                         finish()
                     } else {
                         Toast.makeText(this, "저장하지 않고 돌아가려면 버튼을 한 번 더 누르세요", Toast.LENGTH_SHORT)
@@ -312,16 +319,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             //binding.spDetailEvent 부분 함수화
             setSpinner()
         }
-        newData = User(
-            user.key,
-            user.img,
-            user.name,
-            user.phone,
-            user.email,
-            user.event,
-            user.info,
-            user.backgroundImg
-        )
+        newData = user
 
         setTextChangedListener()
 
@@ -333,16 +331,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
     //수정하기 전 디폴트 값 세팅하는 함수?
     private fun setDefaultData(user: User) {
-        defaultData = User(
-            user.key,
-            user.img,
-            user.name,
-            user.phone,
-            user.email,
-            user.event,
-            user.info,
-            user.backgroundImg
-        )
+        defaultData = user
     }
 
 
@@ -350,8 +339,12 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     @SuppressLint("ResourceAsColor")
     private fun setProfile(user: User) {
         with(binding) {
-            ivDetailBackground.setImageURI(user.backgroundImg)
-            ivDetailAddProfile.setImageURI(user.img)
+            user.backgroundImg?.let {
+                ivDetailBackground.load(it)
+            }
+            user.img?.let {
+                ivDetailAddProfile.load(it)
+            }
             etDetailName.setText(user.name)
             etDetailPhoneNumber.setText(user.phone)
             etDetailEmail.setText(user.email)
@@ -423,16 +416,16 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 }
             }
         }
-        
+
         allValid = editTexts.all { it.error == null }
-        
+
         binding.etDetailPhoneNumber.addTextChangedListener(PhoneNumberFormattingTextWatcher())
-        
-        
+
+
     }
-    
-    
-    
+
+
+
     //기존 데이터랑 현재 데이터랑 비교해서 다 같으면 true
     //false일 때만 뒤로가기 막기
     private fun isSame(): Boolean {
@@ -487,7 +480,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     /**
      * 상세 화면 태그 추가
      */
-    override fun onTagAdd(name: String, uri: Uri) {
+    override fun onTagAdd(name: String, uriad: File) {
 //        val path = this.absolutelyPath(uri)
 //        if (path == null) {
 //            Log.d("TAG", "path is null")
@@ -498,7 +491,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
          * TODO
          * 여기서 에러 발생
          */
-        TagMember.addNewTag(Tag(name, uri))
+        TagMember.addNewTag(Tag(name, uriad))
         setTagList(TagMember.totalTags)
     }
 
@@ -509,8 +502,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         spinnerAdapter.notifyDataSetChanged()
     }
 
-    private fun getTagIndex(title: String?, uri: Uri?): Int {
-        return tagList.indexOfFirst { tag -> tag.title == title && tag.img == uri }
+    private fun getTagIndex(title: String?, uriad: File?): Int {
+        return tagList.indexOfFirst { tag -> tag.title == title && tag.img == uriad }
     }
 
     /**
@@ -616,5 +609,3 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         onButtonVisible()
     }
 }
-
-
