@@ -1,6 +1,6 @@
 package com.example.colorcontacts.ui.favorite
 
-import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -82,8 +82,6 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
             val dialog = AddFavoriteTagDialog()
             dialog.setOnTagAddListener(this@FavoriteFragment)
             dialog.show(requireActivity().supportFragmentManager, DIALOG_TAG)
-
-
         }
 
         /**
@@ -117,10 +115,11 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
     override fun onResume() {
         super.onResume()
         setList()
+        setFavoriteTypeAdapter()
     }
 
     /**
-     * TODO Fragment RecyclerView 검색
+     * Fragment RecyclerView 검색
      */
     fun updateItem(text: String) {
         adapter.performSearch(text)
@@ -143,13 +142,11 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
     }
 
     /**
-     * TODO 다이얼로그에서 받은 데이터
+     * 다이얼로그에서 받은 데이터
      */
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onTagAdd(name: String, uri: String) {
-        totalTags.add(Tag(name, uri))
+    override fun onTagAdd(name: String, uri: Uri) {
+        TagMember.addNewTag(Tag(name, uri))
         tagAdapter?.updateItem(totalTags)
-        tagAdapter?.notifyDataSetChanged()
     }
 
     private fun filteredTag(

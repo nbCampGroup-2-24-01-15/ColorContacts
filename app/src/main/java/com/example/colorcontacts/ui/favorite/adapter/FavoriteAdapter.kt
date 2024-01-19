@@ -1,6 +1,8 @@
 package com.example.colorcontacts.ui.favorite.adapter
 
 import android.net.Uri
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -150,7 +152,7 @@ class FavoriteAdapter(
 
 
     /**
-     * TODO 검색 기능
+     * 검색 기능
      */
 
     override fun getFilter(): Filter {

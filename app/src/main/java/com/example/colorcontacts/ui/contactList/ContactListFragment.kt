@@ -159,11 +159,11 @@ class ContactListFragment : Fragment(), DataUpdateListener {
     }
 
 
-//    override fun onResume() {
-//        super.onResume()
-//        setList()
+    override fun onResume() {
+        super.onResume()
+        setList()
 //        setMyPageTab()
-//    }
+    }
 
     /**
      * TODO Fragment RecyclerView 검색

@@ -16,7 +16,6 @@ import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
 import com.example.colorcontacts.ui.contactList.adapter.ContactViewType.GridUser
-import com.example.colorcontacts.ui.favorite.adapter.setFavoriteTag
 import com.example.colorcontacts.utill.AdapterInterface
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.SharedDataListener
@@ -29,7 +28,7 @@ class ContactAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable, AdapterInterface {
     /**
-     * TODO Recyclerview 검색 기능
+     * Recyclerview 검색 기능
      * 검색을 위한 리스트 추가
      */
     private var filteredList: List<ContactViewType> = mItem
@@ -75,7 +74,7 @@ class ContactAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("ContactAdapter", "onBindViewHolder - Position: $position")
-        when (val item = filteredList[position]) { // TODO mItem -> filteredList
+        when (val item = filteredList[position]) {
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
                     if (item.user.img != null) img.setImageURI(Uri.parse(item.user.img))
@@ -121,9 +120,8 @@ class ContactAdapter(
     }
 
     override fun getItemCount(): Int {
-        return filteredList.size // TODO mItem -> filteredList
+        return filteredList.size
         tvContactList.checkListEmpty()
-//        return mItem.size
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -151,7 +149,7 @@ class ContactAdapter(
 
     override fun getItemViewType(position: Int): Int {
 //        return when (mItem[position]) {
-        return when (filteredList[position]) { // TODO mItem -> filteredList
+        return when (filteredList[position]) {
             is ContactViewType.ContactUser -> ITEM_VIEW_TYPE_ITEM
             is GridUser -> ITEM_VIEW_TYPE_GRID
         }
@@ -191,7 +189,7 @@ class ContactAdapter(
     }
 
     /**
-     * TODO 검색 기능
+     * 검색 기능
      */
 
     override fun getFilter(): Filter {

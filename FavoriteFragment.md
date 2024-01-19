@@ -43,7 +43,7 @@ filteredFavoriteList
     }
 ```
 
-## (3) RecyclerView Adapter : [FavoriteTagAdapter.kt](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/res/layout/activity_main.xml)
+## (3) RecyclerView Adapter : [FavoriteTagAdapter.kt](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/java/com/example/colorcontacts/ui/favorite/adapter/FavoriteTagAdapter.kt)
 - 즐겨찾기 태그 목록을 표시하기 위한 RecyclerViewd에서 사용 할 어댑터이다. 
 - fun updateItem(newItems: List<Tag>) 
   - 어댑터의 데이터를 업데이트하고, 새로운 아이템 목록을 받아와 변경 된 데이터로 RecyclerView를 업데이트한다.

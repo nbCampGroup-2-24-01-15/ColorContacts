@@ -69,9 +69,6 @@ class FavoriteTagAdapter(
 
     fun updateItem(newItems: List<Tag>) {
         items = newItems
-        items.forEach {
-            Log.d("TAG", "${it.title}, ${it.img}")
-        }
         notifyDataSetChanged()
     }
 

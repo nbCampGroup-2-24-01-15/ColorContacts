@@ -1,14 +1,20 @@
 package com.example.colorcontacts.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
+import android.provider.MediaStore
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
+import androidx.activity.result.contract.ActivityResultContracts
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,6 +24,9 @@ import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityIntroBinding
 import com.example.colorcontacts.ui.main.MainActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.io.File
 
 @Suppress("DEPRECATION")
 class IntroActivity : AppCompatActivity() {

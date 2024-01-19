@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="detail_spinner_empty_item">선택된 태그가 없습니다.</string>
+</resources>
