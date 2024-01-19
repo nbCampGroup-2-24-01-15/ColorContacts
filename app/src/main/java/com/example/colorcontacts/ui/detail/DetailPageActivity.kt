@@ -2,6 +2,7 @@ package com.example.colorcontacts.ui.detail
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
+import com.google.android.material.snackbar.Snackbar
 
 private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
@@ -225,6 +227,20 @@ class DetailPageActivity : AppCompatActivity() {
                 binding.etDetailMemo.isEnabled = false
                 binding.clDetailBtns.isVisible = true
             }
+        }
+
+        binding.tvDetailDelete.setOnClickListener {
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle("연락처 삭제")
+            builder.setMessage("정말 삭제하시겠습니까?")
+            builder.setPositiveButton("네") {_, _ ->
+                UserList.userList.remove(user)
+                finish()
+                //프래그먼트에 어떻게 알리지...? notify 안되는데
+                //그냥 프래그먼트를 매번 새로고침 하면 안 되나
+            }
+            builder.setNegativeButton("아니오", null)
+            builder.show()
         }
 
     }
