@@ -357,6 +357,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/et_box_background"
+                android:visibility="gone"
                 android:padding="10dp">
 
                 <TextView
