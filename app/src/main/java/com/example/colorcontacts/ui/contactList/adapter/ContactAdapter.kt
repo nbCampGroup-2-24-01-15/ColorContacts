@@ -22,7 +22,6 @@ import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.SharedDataListener
 
 class ContactAdapter(
-    private val context: Context,
     private var mItem: List<ContactViewType>,
     private var mColor: ColorTheme,
     private val tvContactList: TextView

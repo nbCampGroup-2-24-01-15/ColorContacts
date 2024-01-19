@@ -20,7 +20,6 @@ import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.SharedDataListener
 
 class FavoriteAdapter(
-    private val context: Context,
     private var mItem: List<FavoriteViewType>,
     private var mColor: ColorTheme,
     private val tvFavoriteList: TextView

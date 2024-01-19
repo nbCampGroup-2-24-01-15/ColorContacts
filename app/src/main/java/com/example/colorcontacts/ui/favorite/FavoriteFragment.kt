@@ -36,7 +36,7 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
         DataChangedListener(adapter, bindingWrapper)
     }
     private val adapter by lazy {
-        FavoriteAdapter(requireContext(), emptyList(), NowColor.color, binding.tvFavoriteList)
+        FavoriteAdapter(emptyList(), NowColor.color, binding.tvFavoriteList)
     }
 
     private var tagAdapter: FavoriteTagAdapter? = null
@@ -131,7 +131,7 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
      */
     private fun setFavoriteTypeAdapter() {
         val items = totalTags
-        tagAdapter = FavoriteTagAdapter(requireContext(), items)
+        tagAdapter = FavoriteTagAdapter(items)
         binding.favoriteRecyclerView.adapter = tagAdapter
         tagAdapter?.itemClick = object : FavoriteTagAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
