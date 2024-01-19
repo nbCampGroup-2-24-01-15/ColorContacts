@@ -204,6 +204,7 @@ class DetailPageActivity : AppCompatActivity() {
                 binding.etDetailName.isEnabled = true
                 binding.etDetailPhoneNumber.isEnabled = true
                 binding.etDetailEmail.isEnabled = true
+                binding.etDetailEmail.setBackgroundResource(R.color.white)
                 binding.spDetailEvent.isEnabled = true
                 binding.etDetailMemo.isEnabled = true
                 binding.clDetailBtns.isVisible = false
@@ -245,11 +246,30 @@ class DetailPageActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun setVisibility() {
         //이미지, 텍스트, 스피너 선택값에 대해 값이 있을 떄만 isEditing true일 때 보이도록
-        contents.forEach { content ->
-//            if (content.isEnabled)
+        when {
+            newData.name.isNotBlank() -> {
+                binding.etDetailName.setTextColor(R.color.black)
+            }
+            newData.phone.isNotBlank() -> {
+                binding.etDetailPhoneNumber.setTextColor(R.color.black)
+            }
+            newData.email.isNotBlank() -> {
+                binding.clDetailEmail.isVisible = true
+                binding.etDetailEmail.setBackgroundResource(R.color.transparent)
+                binding.etDetailEmail.setTextColor(R.color.black)
+            }
+            newData.event != null -> {
+                binding.clDetailEvent.isVisible = true
+            }
+            newData.info != null -> {
+                binding.etDetailMemo.setTextColor(R.color.black)
+            }
+
         }
+
     }
 
     private fun initView() {
