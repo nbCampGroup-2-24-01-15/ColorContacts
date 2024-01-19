@@ -45,23 +45,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv_detail_done"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="50dp"-->
-        <!--            android:layout_marginEnd="10dp"-->
-        <!--            android:background="@drawable/custom_ripple_effect"-->
-        <!--            android:fontFamily="@font/pretendard_bold"-->
-        <!--            android:gravity="center"-->
-        <!--            android:padding="10dp"-->
-        <!--            android:text="@string/detail_done"-->
-        <!--            android:textColor="@color/icon"-->
-        <!--            android:textSize="20sp"-->
-        <!--            android:visibility="gone"-->
-
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -116,13 +99,12 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/img_user_profile"
-                    app:cardElevation="1dp"
-
                     app:cardCornerRadius="200dp"
+
+                    app:cardElevation="1dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    >
+                    app:layout_constraintStart_toStartOf="parent">
 
                     <ImageView
                         android:id="@+id/iv_detail_add_profile"
@@ -133,8 +115,7 @@
                         android:background="@drawable/img_user_profile"
                         android:clickable="true"
                         android:clipToOutline="true"
-                        android:scaleType="centerCrop"
-                         />
+                        android:scaleType="centerCrop" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -240,13 +221,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@color/white"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:ems="17"
                     android:fontFamily="@font/pretendard_regular"
                     android:hint="email@mail.com"
                     android:maxLength="30"
                     android:paddingStart="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:textSize="15sp"
 
                     app:layout_constraintBottom_toBottomOf="@+id/iv_detail_email"
@@ -373,7 +354,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/et_box_background"
                 android:padding="10dp"
                 android:visibility="gone">
 
@@ -390,14 +370,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/sp_detail_event"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:background="@drawable/spinner_register_background"
-                    android:popupBackground="@drawable/spinner_register_background"
-
+                    android:background="@null"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_detail_event"
                     app:layout_constraintStart_toEndOf="@+id/tv_detail_event"
                     app:layout_constraintTop_toTopOf="@+id/tv_detail_event" />

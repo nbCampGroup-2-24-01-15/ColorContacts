@@ -117,7 +117,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_add_contact_phone_number" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/sp_add_contact_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/tv_add_contact_event"

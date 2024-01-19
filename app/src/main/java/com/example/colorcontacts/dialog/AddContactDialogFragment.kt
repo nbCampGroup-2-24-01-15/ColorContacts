@@ -3,18 +3,14 @@ package com.example.colorcontacts.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.media.metrics.Event
 import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -22,51 +18,52 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
-import com.example.colorcontacts.utill.DataChangedListener
 import kotlin.math.roundToInt
 
+
+interface DateUpdateListener {
+    fun onDataUpdate()
+}
+
 class AddContactDialogFragment() : DialogFragment() {
-    interface DialogDismissListener {
-        fun onDialogDismissed()
-    }
-
-    var dismissListener: DialogDismissListener? = null
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        dismissListener?.onDialogDismissed()
-    }
 
     private val binding by lazy { DialogAddContactBinding.inflate(layoutInflater) }
 
     private val validChk get() = CheckString()
+
     //유효성 검사 체크 변수들
     private var isChecked = false
 
+    private val editTexts
+        get() = with(binding) {
+            listOf(
+                etAddContactName,
+                etAddContactPhoneNumber,
+                etAddContactEmail
+            )
+        }
 
     //이벤트 관련 변수
-    private lateinit var selectedEvent : String
+    private var selectedEvent: String? = null
 
-    private val editTexts get() = with(binding) {
-        listOf(
-            etAddContactName,
-            etAddContactPhoneNumber,
-            etAddContactEmail
-        )
-    }
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
     private var selectedBackgroundImageUri: Uri? = null
 
+    //데이터 업데이트 인터페이스
+    private var dateUpdateListener: DateUpdateListener? = null
+
+    fun setDataUpdateListener(listener : DateUpdateListener){
+        this.dateUpdateListener = listener
+    }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         // 다이얼 로그 화면 등록
@@ -77,13 +74,19 @@ class AddContactDialogFragment() : DialogFragment() {
         setCallBackFunction()
 
         // 스피너 값 설정
-        // 이벤트 spinner 값
-        val spinner = binding.spinner
+        setSpinner()
+        return dialog
+    }
+
+    // 이벤트 spinner 값
+    private fun setSpinner() {
+
+        val spinner = binding.spAddContactEvent
         val items = EventTime.timeArray
-        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
-        spinner.adapter= adapter
-        object: AdapterView.OnItemSelectedListener{
+        spinner.adapter = adapter
+        object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -91,6 +94,7 @@ class AddContactDialogFragment() : DialogFragment() {
                 id: Long,
             ) {
                 selectedEvent = parent?.getItemAtPosition(position).toString()
+                if (selectedEvent == EventTime.timeArray[0]) selectedEvent = null
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -98,14 +102,9 @@ class AddContactDialogFragment() : DialogFragment() {
             }
 
         }.also { spinner.onItemSelectedListener = it }
-        return dialog
     }
 
 
-    private fun setAlpha(color: Int, factor: Float): Int {
-        val alpha = (Color.alpha(color) * factor).roundToInt()
-        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
-    }
     private fun setCallBackFunction() {
         binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
 
@@ -127,9 +126,11 @@ class AddContactDialogFragment() : DialogFragment() {
                 UserList.userList.add(user)
                 UserList.userList.sortBy { it.name }
 
+                dateUpdateListener?.onDataUpdate()
 
                 // 알람 등록
-                UserList.notification.setUserAlarm(user,requireContext())
+                if (selectedEvent != null)
+                    UserList.notification.setUserAlarm(user, requireContext())
 
                 // 종료
                 dismiss()
@@ -173,30 +174,60 @@ class AddContactDialogFragment() : DialogFragment() {
     /**
      *  TODO : 유효성 검사 함수
      */
+
+
+    // 텍스트가 변경될때 실행
     private fun setTextChangedListener() {
+
+        //editTexts 유효성 검사
         editTexts.forEach { editText ->
-            editText.addTextChangedListener{
+            editText.addTextChangedListener {
                 validCheck(editText)
             }
         }
+
+        // phoneNumber 입력시 자동으로 하이픈 추가
+        editTexts[1].addTextChangedListener(PhoneNumberFormattingTextWatcher())
+
     }
 
+
+    //vaildCheck = CheckString
     private fun validCheck(editText: EditText) {
         editText.error = with(binding) {
             when (editText) {
-                etAddContactName -> validChk.checkName(editText.text.toString()) ?.let { getString(it) }
-                etAddContactPhoneNumber -> validChk.checkPhoneNumber(editText.text.toString()) ?.let { getString(it) }
-                else -> validChk.checkEmail(editText.text.toString()) ?.let { getString(it) }
+                etAddContactName -> validChk.checkName(editText.text.toString())
+                    ?.let { getString(it) }
+
+                etAddContactPhoneNumber -> validChk.checkPhoneNumber(editText.text.toString())
+                    ?.let { getString(it) }
+
+                etAddContactEmail -> validChk.checkEmail(editText.text.toString())
+                    ?.let { getString(it) }
+
+                else -> ""
             }
         }
-        isChecked = editTexts.all { it.error == null }
+        // 에러 값이 없고 동시에 문자열 이 비어 있지 않으면 true
+        isChecked = editTexts.all { it.error == null && it.text.toString() != "" }
         binding.btnAddContactOk.isEnabled = isChecked
-        if (isChecked) binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 1f))
+
+        // 체크 상태에 따른 버튼 Alpha값 변경
+
+        if (isChecked) binding.btnAddContactOk.background.setTint(
+            setAlpha(
+                NowColor.color.colorWidget,
+                1f
+            )
+        )
         else binding.btnAddContactOk.background.setTint(setAlpha(NowColor.color.colorWidget, 0.5f))
 
     }
 
-
+    private fun setAlpha(color: Int, factor: Float): Int {
+        val alpha = (Color.alpha(color) * factor).roundToInt()
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
+    }
 
     /**
      *  TODO : 갤러리 불러오기
@@ -207,10 +238,6 @@ class AddContactDialogFragment() : DialogFragment() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryResultLauncher.launch(galleryIntent)
     }
-
-    /**
-     *  TODO 해당 VIEW ID-> URI 형식에 맞게 Parse(파싱)
-     */
 
 
 }
