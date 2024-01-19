@@ -66,6 +66,7 @@ class DetailPageActivity : AppCompatActivity() {
     )
 
     private var backPressedTime: Long = 0
+
     // 이벤트 값
     private var selectedEvent: String? = null
 
@@ -132,7 +133,8 @@ class DetailPageActivity : AppCompatActivity() {
                     val currentTime = System.currentTimeMillis()
                     if (currentTime - backPressedTime < 2000) {
                         UserList.userList.find { it.key == key }?.img = defaultData.img
-                        UserList.userList.find { it.key == key }?.backgroundImg = defaultData.backgroundImg
+                        UserList.userList.find { it.key == key }?.backgroundImg =
+                            defaultData.backgroundImg
                         UserList.userList.find { it.key == key }?.name = defaultData.name
                         UserList.userList.find { it.key == key }?.phone = defaultData.phone
                         UserList.userList.find { it.key == key }?.email = defaultData.email
@@ -141,7 +143,8 @@ class DetailPageActivity : AppCompatActivity() {
                         finish()
                     } else {
                         //악미치겟네수정사항없어 왜 얘가 불
-                        Toast.makeText(this, "뒤로가기 버튼 다시 누르면 수정사항은 반영되지 않고 돌아감", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "뒤로가기 버튼 다시 누르면 수정사항은 반영되지 않고 돌아감", Toast.LENGTH_SHORT)
+                            .show()
                         backPressedTime = currentTime
                     }
                 }
@@ -178,11 +181,15 @@ class DetailPageActivity : AppCompatActivity() {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
                 UserList.userList.find { it.key == key }?.img = newData.img
                 UserList.userList.find { it.key == key }?.backgroundImg = newData.backgroundImg
-                UserList.userList.find { it.key == key }?.name = binding.etDetailName.text.toString()
-                UserList.userList.find { it.key == key }?.phone = binding.etDetailPhoneNumber.text.toString()
-                UserList.userList.find { it.key == key }?.email = binding.etDetailEmail.text.toString()
+                UserList.userList.find { it.key == key }?.name =
+                    binding.etDetailName.text.toString()
+                UserList.userList.find { it.key == key }?.phone =
+                    binding.etDetailPhoneNumber.text.toString()
+                UserList.userList.find { it.key == key }?.email =
+                    binding.etDetailEmail.text.toString()
                 UserList.userList.find { it.key == key }?.event = binding.spDetailEvent.toString()
-                UserList.userList.find { it.key == key }?.info = binding.etDetailMemo.text.toString()
+                UserList.userList.find { it.key == key }?.info =
+                    binding.etDetailMemo.text.toString()
                 UserList.userList.find { it.key == key }?.let { it1 -> setDefaultData(it1) }
                 false
             } else {
@@ -194,7 +201,6 @@ class DetailPageActivity : AppCompatActivity() {
             if (isEditing) {
                 binding.ivDetailAddPhoto.isVisible = true
                 binding.clDetailEmail.isVisible = true
-                binding.clDetailGroup.isVisible = true
                 binding.clDetailEvent.isVisible = true
                 binding.ivDetailBackground.isEnabled = true
                 binding.ivDetailAddProfile.isEnabled = true
@@ -225,7 +231,7 @@ class DetailPageActivity : AppCompatActivity() {
             var builder = AlertDialog.Builder(this)
             builder.setTitle("연락처 삭제")
             builder.setMessage("정말 삭제하시겠습니까?")
-            builder.setPositiveButton("네") {_, _ ->
+            builder.setPositiveButton("네") { _, _ ->
                 UserList.userList.remove(user)
                 finish()
                 //프래그먼트에 어떻게 알리지...? notify 안되는데
@@ -240,26 +246,24 @@ class DetailPageActivity : AppCompatActivity() {
     @SuppressLint("ResourceAsColor")
     private fun setVisibility() {
         //이미지, 텍스트, 스피너 선택값에 대해 값이 있을 떄만 isEditing true일 때 보이도록
-        when {
-            newData.name.isNotBlank() -> {
-                binding.etDetailName.setTextColor(R.color.black)
-            }
-            newData.phone.isNotBlank() -> {
-                binding.etDetailPhoneNumber.setTextColor(R.color.black)
-            }
-            newData.email.isNotBlank() -> {
-                binding.clDetailEmail.isVisible = true
-                binding.etDetailEmail.setBackgroundResource(R.color.transparent)
-                binding.etDetailEmail.setTextColor(R.color.black)
-            }
-            newData.event != null -> {
-                binding.clDetailEvent.isVisible = true
-            }
-            newData.info.isNotBlank() -> {
-                binding.etDetailMemo.setTextColor(R.color.black)
-            }
-
+        if (newData.name.isNotBlank()) {
+            binding.etDetailName.setTextColor(R.color.black)
         }
+        if (newData.phone.isNotBlank()) {
+            binding.etDetailPhoneNumber.setTextColor(R.color.black)
+        }
+        if (newData.email.isNotBlank()) {
+            binding.clDetailEmail.isVisible = true
+            binding.etDetailEmail.setBackgroundResource(R.color.transparent)
+            binding.etDetailEmail.setTextColor(R.color.black)
+        } else {
+            binding.clDetailEmail.isVisible = false
+        }
+        binding.clDetailEvent.isVisible = newData.event != null
+        if (newData.info.isNotBlank()) {
+            binding.etDetailMemo.setTextColor(R.color.black)
+        }
+
 
     }
 
@@ -305,7 +309,10 @@ class DetailPageActivity : AppCompatActivity() {
         Log.d("same", "img = ${defaultData.img} & ${newData.img}")
         Log.d("same", "back = ${defaultData.backgroundImg} & ${newData.backgroundImg}")
         Log.d("same", "name = ${defaultData.name} & ${binding.etDetailName.text.toString()}")
-        Log.d("same", "phone = ${defaultData.phone} & ${binding.etDetailPhoneNumber.text.toString()}")
+        Log.d(
+            "same",
+            "phone = ${defaultData.phone} & ${binding.etDetailPhoneNumber.text.toString()}"
+        )
         Log.d("same", "email = ${defaultData.email} & ${binding.etDetailEmail.text.toString()}")
         Log.d("same", "event = ${defaultData.event} & ${newData.event}")
         Log.d("same", "info = ${defaultData.info} & ${binding.etDetailMemo.text.toString()}")
@@ -339,7 +346,6 @@ class DetailPageActivity : AppCompatActivity() {
             }
         }
         binding.ivDetailAddPhoto.isVisible = false
-        binding.clDetailGroup.isVisible = false
         //isVisible 조건 추가
         binding.ivDetailBackground.isEnabled = false
         binding.ivDetailAddProfile.isEnabled = false
