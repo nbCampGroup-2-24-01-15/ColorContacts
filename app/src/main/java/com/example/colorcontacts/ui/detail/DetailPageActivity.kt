@@ -32,7 +32,7 @@ import com.example.colorcontacts.data.TagMember.updateMemberTag
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
-import com.example.colorcontacts.dialog.DateUpdateListener
+//import com.example.colorcontacts.dialog.DateUpdateListener
 import com.example.colorcontacts.utill.AdapterInterface
 import com.example.colorcontacts.utill.SharedDataListener
 import com.google.android.material.snackbar.Snackbar
