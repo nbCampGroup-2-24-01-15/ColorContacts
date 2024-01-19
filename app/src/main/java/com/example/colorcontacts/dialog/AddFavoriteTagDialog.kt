@@ -93,6 +93,7 @@ class AddFavoriteTagDialog : DialogFragment() {
             }
         }
 
+        binding.ivAddTagImage.clipToOutline = true
         onButtonAction()
     }
 
@@ -166,7 +167,7 @@ class AddFavoriteTagDialog : DialogFragment() {
      */
     private fun openGallery() {
         //암시적 인텐트 이용
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryResultLauncher.launch(galleryIntent)
+        val pickImageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryResultLauncher.launch(pickImageIntent)
     }
 }

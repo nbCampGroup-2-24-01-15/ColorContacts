@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -20,15 +19,21 @@ import androidx.core.view.isVisible
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.Tag
+import com.example.colorcontacts.data.TagMember
+import com.example.colorcontacts.data.TagMember.defaultTag
+import com.example.colorcontacts.data.TagMember.updateMemberTag
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
+import com.example.colorcontacts.dialog.AddFavoriteTagDialog
+import com.example.colorcontacts.ui.favorite.FavoriteFragment
 import com.google.android.material.snackbar.Snackbar
 
 private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
 @Suppress("DEPRECATION")
-class DetailPageActivity : AppCompatActivity() {
+class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddListener {
 
     private val binding by lazy {
         ActivityDetailPageBinding.inflate(layoutInflater)
@@ -42,6 +47,12 @@ class DetailPageActivity : AppCompatActivity() {
     private lateinit var backgroundGalleryResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var profileGalleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
+
+    // add
+    private var tagList: MutableList<Tag> = mutableListOf(Tag("태그", defaultTag.img))
+    private var userTag: Tag? = null
+    private lateinit var spinnerAdapter: SpinnerAdapter
+    private var selectedItem: Tag? = null
 
     private val contents
         get() = listOf(
@@ -125,6 +136,9 @@ class DetailPageActivity : AppCompatActivity() {
         //binding.spDetailEvent 부분 함수화
         setSpinner()
 
+        // 태그 Spinner
+        setUpTagSpinner()
+
         binding.ivDetailBack.setOnClickListener {
             if (isEditing) {
                 if (isSame()) {
@@ -170,11 +184,6 @@ class DetailPageActivity : AppCompatActivity() {
             //즐겨찾기 리스트 add
         }
 
-        binding.ivDetailGroupCircle.setOnClickListener {
-            //태그?
-        }
-
-
 
         binding.ivDetailEdit.setOnClickListener {
             isEditing = if (isEditing) {
@@ -191,6 +200,11 @@ class DetailPageActivity : AppCompatActivity() {
                 UserList.userList.find { it.key == key }?.info =
                     binding.etDetailMemo.text.toString()
                 UserList.userList.find { it.key == key }?.let { it1 -> setDefaultData(it1) }
+
+
+                // 태그 추가
+                updateUserTag()
+
                 false
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
@@ -212,6 +226,9 @@ class DetailPageActivity : AppCompatActivity() {
                 binding.etDetailMemo.isEnabled = true
                 binding.clDetailBtns.isVisible = false
 
+                binding.detailSpinner.isEnabled = true
+                binding.ivDetailGroupAdd.visibility = View.VISIBLE
+
             } else {
                 binding.ivDetailAddPhoto.isVisible = false
                 setVisibility()
@@ -224,6 +241,10 @@ class DetailPageActivity : AppCompatActivity() {
                 binding.spDetailEvent.isEnabled = false
                 binding.etDetailMemo.isEnabled = false
                 binding.clDetailBtns.isVisible = true
+
+                binding.detailSpinner.isEnabled = false
+                binding.ivDetailGroupAdd.visibility = View.GONE
+                binding.ivTagCancel.visibility = View.GONE
             }
         }
 
@@ -288,6 +309,11 @@ class DetailPageActivity : AppCompatActivity() {
             user.info,
             user.backgroundImg
         )
+
+        // 버튼 액션
+        onButtonAction()
+        // spinner 비활성화
+        binding.detailSpinner.isEnabled = false
     }
 
     private fun setDefaultData(user: User) {
@@ -359,6 +385,9 @@ class DetailPageActivity : AppCompatActivity() {
         binding.etDetailMemo.isEnabled = false
         binding.etDetailMemo.setTextColor(R.color.text_color)
         binding.clDetailBtns.isVisible = true
+
+        // 회원에 대한 태그 정보 가져오기
+        setUserTagOnSpinner()
     }
 
     //저거를 함수로 어떻게 따로 못 빼나 뺄 수 있을 것 같은데
@@ -401,4 +430,137 @@ class DetailPageActivity : AppCompatActivity() {
         }.also { spinner.onItemSelectedListener = it }
     }
 
+    /**
+     * 상세 화면 태그 추가
+     */
+    override fun onTagAdd(name: String, uri: Uri) {
+//        val path = this.absolutelyPath(uri)
+//        if (path == null) {
+//            Log.d("TAG", "path is null")
+//        }
+//        val file = File(path!!)
+//        Log.d("TAG", "$path")
+        /**
+         * TODO
+         * 여기서 에러 발생
+         */
+        TagMember.addNewTag(Tag(name, uri))
+        setTagList(TagMember.totalTags)
+    }
+
+    private fun setTagList(list: List<Tag>) {
+        tagList = mutableListOf(Tag("태그", defaultTag.img))
+        tagList.addAll(list)
+        spinnerAdapter.updateItem(tagList)
+        spinnerAdapter.notifyDataSetChanged()
+    }
+
+    private fun getTagIndex(title: String?, uri: Uri?): Int =
+        tagList.indexOfFirst { tag -> tag.title == title && tag.img == uri }
+
+    /**
+     * 회원에 대한 태그 정보 가져오기
+     */
+    private fun setUserTagOnSpinner() {
+        userTag = TagMember.getFindTag(user.key)
+
+        val selectedIndex = if (userTag == null) {
+            Log.d("TAG", "userTag is null")
+            0
+        } else {
+            Log.d("TAG", "${userTag}")
+            getTagIndex(userTag!!.title, userTag!!.img).coerceAtLeast(0)
+        }
+
+        binding.detailSpinner.setSelection(selectedIndex)
+    }
+
+    private fun onButtonVisible() {
+        binding.ivTagCancel.visibility = if (selectedItem == null) View.GONE else View.VISIBLE
+    }
+
+    /**
+     * 수정 화면이 아닐 경우 스피너가 비활성화 되어야 함
+     * 수정 화면일 경우만 편집이 가능
+     * 스피너, 더하기 버튼, 엑스 버튼 상태 관리
+     * 스피너 세팅
+     */
+    private fun setUpTagSpinner() {
+        tagList.addAll(TagMember.totalTags)
+        spinnerAdapter = SpinnerAdapter(this@DetailPageActivity, R.layout.item_tag_spinner, tagList)
+        binding.detailSpinner.adapter = spinnerAdapter
+
+        binding.detailSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position > 0) {
+                    val tag = binding.detailSpinner.getItemAtPosition(position) as Tag
+                    binding.tvSelectedItem.text = "선택 된 태그 : ${tag.title}"
+                    selectedItem = tag
+                } else {
+                    selectedItem = null
+                    binding.tvSelectedItem.text = getString(R.string.detail_spinner_empty_item)
+                    binding.ivTagCancel.visibility = View.GONE
+                }
+                onButtonVisible()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        }
+    }
+
+    private fun onButtonAction() {
+        // 태그 추가 버튼
+        binding.ivDetailGroupAdd.setOnClickListener {
+            showAddTagDialog()
+        }
+
+        // 태그 삭제 버튼
+        binding.ivTagCancel.setOnClickListener {
+            clearSelectedTag()
+        }
+    }
+
+    /**
+     * 선택된 태그가 있는지 확인 후 추가
+     * 원래 있었는데 없어질 경우 태그 목록에서 멤버 삭제
+     */
+    private fun updateUserTag() {
+        Log.d("TAG", "updateUserTag")
+        when {
+            userTag != null && selectedItem == null -> {
+                TagMember.removeMember(user.key)
+            }
+
+            userTag == null && selectedItem != null -> {
+                TagMember.addMember(selectedItem!!, user.key)
+            }
+
+            selectedItem != null -> {
+                updateMemberTag(user.key, selectedItem!!)
+            }
+        }
+    }
+
+    private fun setTagEnabled(enabled: Boolean) {
+        binding.detailSpinner.isEnabled = enabled
+        binding.ivDetailGroupAdd.isEnabled = enabled
+        binding.ivTagCancel.isEnabled = enabled
+    }
+
+    private fun showAddTagDialog() {
+        val dialog = AddFavoriteTagDialog()
+        dialog.setOnTagAddListener(this@DetailPageActivity)
+        dialog.show(supportFragmentManager, FavoriteFragment.DIALOG_TAG)
+    }
+
+    private fun clearSelectedTag() {
+        selectedItem = null
+        binding.tvSelectedItem.text = getString(R.string.detail_spinner_empty_item)
+        onButtonVisible()
+    }
 }

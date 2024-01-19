@@ -2,7 +2,6 @@ package com.example.colorcontacts.ui.favorite
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +36,7 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
         DataChangedListener(adapter, bindingWrapper)
     }
     private val adapter by lazy {
-        FavoriteAdapter(emptyList(), NowColor.color, binding.tvFavoriteList)
+        FavoriteAdapter(requireContext(), emptyList(), NowColor.color, binding.tvFavoriteList)
     }
 
     private var tagAdapter: FavoriteTagAdapter? = null
@@ -83,8 +82,6 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
             val dialog = AddFavoriteTagDialog()
             dialog.setOnTagAddListener(this@FavoriteFragment)
             dialog.show(requireActivity().supportFragmentManager, DIALOG_TAG)
-
-
         }
 
         /**
@@ -118,10 +115,11 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
     override fun onResume() {
         super.onResume()
         setList()
+        setFavoriteTypeAdapter()
     }
 
     /**
-     * TODO Fragment RecyclerView 검색
+     * Fragment RecyclerView 검색
      */
     fun updateItem(text: String) {
         adapter.performSearch(text)
@@ -133,7 +131,7 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
      */
     private fun setFavoriteTypeAdapter() {
         val items = totalTags
-        tagAdapter = FavoriteTagAdapter(items)
+        tagAdapter = FavoriteTagAdapter(requireContext(), items)
         binding.favoriteRecyclerView.adapter = tagAdapter
         tagAdapter?.itemClick = object : FavoriteTagAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
@@ -144,12 +142,11 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
     }
 
     /**
-     * TODO 다이얼로그에서 받은 데이터
+     * 다이얼로그에서 받은 데이터
      */
     override fun onTagAdd(name: String, uri: Uri) {
-        totalTags.add(Tag(name, uri))
+        TagMember.addNewTag(Tag(name, uri))
         tagAdapter?.updateItem(totalTags)
-        tagAdapter?.notifyDataSetChanged()
     }
 
     private fun filteredTag(
