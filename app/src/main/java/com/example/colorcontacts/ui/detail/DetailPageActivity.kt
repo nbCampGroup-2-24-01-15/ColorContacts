@@ -44,7 +44,6 @@ import java.io.File
 
 /**
  * user -> getUserByIntent
- * myData -> userMyData
  * newData : 변경된 Data
  * defaultData : 변경전 Data
  */
@@ -642,15 +641,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     private fun updateUserTag() {
         when {
             userTag != null && selectedItem == null -> {
-                TagMember.removeMember(getUserByIntent.key)
+                TagMember.removeMember(newData.key)
             }
 
             userTag == null && selectedItem != null -> {
-                TagMember.addMember(selectedItem!!, getUserByIntent.key)
+                TagMember.addMember(selectedItem!!, newData.key)
             }
 
             selectedItem != null -> {
-                updateMemberTag(getUserByIntent.key, selectedItem!!)
+                updateMemberTag(newData.key, selectedItem!!)
             }
         }
     }
