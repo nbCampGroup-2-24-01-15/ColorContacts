@@ -40,7 +40,6 @@
         android:src="@drawable/ic_detail_edit"
         app:layout_constraintEnd_toStartOf="@+id/iv_main_layout"
         app:layout_constraintTop_toTopOf="@+id/iv_main_layout"/>
-
     <ImageView
         android:id="@+id/iv_main_layout"
         android:layout_width="24dp"

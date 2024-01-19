@@ -1,90 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/intro_motion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/base"
-    tools:context=".ui.IntroActivity"
+    android:background="@color/white"
     app:layoutDescription="@xml/activity_intro_scene">
+
+    <ImageView
+        android:id="@+id/iv_intro_skyline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_intro_skyline"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        android:contentDescription="TODO" />
+
     <ProgressBar
         android:id="@+id/pb_intro_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tv_intro_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/mint"
-        android:textStyle="bold"
-        android:fontFamily="@font/shrikhand_regular"
+        android:fontFamily="@font/hakgyoansimwoojur"
         android:text="Color\n Contatcs"
-        android:elevation="59dp"
-        android:textSize="48sp"
-        android:layout_marginTop="150dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"
+        android:textSize="56sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/pg_intro_textred"
+        style="@style/SpinKitView.Large.FadingCircle"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        app:SpinKit_Color="@color/red"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="@+id/tv_intro_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+        app:layout_constraintVertical_bias="0.26" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/pg_intro_textyellow"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        style="@style/SpinKitView.Large.FadingCircle"
+        app:SpinKit_Color="@color/yellow_700"
+        android:rotation="70"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="@+id/tv_intro_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+        app:layout_constraintVertical_bias="0.14" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/pg_intro_textyblue"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        style="@style/SpinKitView.Large.FadingCircle"
+        app:SpinKit_Color="@color/widget"
+        android:rotation="120"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+        app:layout_constraintHorizontal_bias="1.028"
+        app:layout_constraintStart_toStartOf="@+id/tv_intro_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+        app:layout_constraintVertical_bias="0.78" />
+
     <ImageView
         android:id="@+id/iv_intro_actionbar2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintWidth_percent="1.2"
-        android:src="@drawable/img_intro_actionbar4"
         android:scaleX="-1"
+        android:src="@drawable/img_intro_actionbar"
         app:layout_constraintBottom_toTopOf="@id/iv_intro_actionbar1"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/side_sheet_behavior" />
+        app:layout_constraintWidth_percent="1.2" />
+
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="@id/iv_intro_actionbar2"
         app:layout_constraintBottom_toBottomOf="@id/iv_intro_actionbar2"
-        app:layout_constraintStart_toStartOf="@id/iv_intro_actionbar2"/>
+        app:layout_constraintStart_toStartOf="@id/iv_intro_actionbar2"
+        app:layout_constraintTop_toTopOf="@id/iv_intro_actionbar2" />
+
     <ImageView
         android:id="@+id/iv_intro_male"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/img_intro_male"
         android:layout_marginStart="30dp"
-        app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintWidth_percent="0.2"
+        android:src="@drawable/img_intro_male"
         app:layout_constraintBottom_toTopOf="@+id/linear1"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHeight_percent="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.2"
+        android:contentDescription="TODO" />
 
     <ImageView
         android:id="@+id/iv_intro_actionbar1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintWidth_percent="1.2"
-        android:src="@drawable/img_intro_actionbar4"
+        android:src="@drawable/img_intro_actionbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/material_motion_easing_accelerated" />
+        app:layout_constraintWidth_percent="1.2" />
+
     <LinearLayout
         android:id="@+id/linear2"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:orientation="horizontal"
         android:layout_marginTop="14dp"
-        app:layout_constraintTop_toTopOf="@id/iv_intro_actionbar1"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/iv_intro_actionbar1"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_intro_actionbar1" />
+
     <ImageView
         android:id="@+id/iv_intro_female"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/img_intro_female"
         android:layout_marginEnd="30dp"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintWidth_percent="0.2"
+        android:src="@drawable/img_intro_female"
         app:layout_constraintBottom_toTopOf="@+id/linear2"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.30"
+        app:layout_constraintWidth_percent="0.2" />
 </androidx.constraintlayout.motion.widget.MotionLayout>

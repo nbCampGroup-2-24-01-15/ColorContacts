@@ -12,16 +12,15 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityIntroBinding
 import com.example.colorcontacts.ui.main.MainActivity
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
@@ -48,10 +47,48 @@ class IntroActivity : AppCompatActivity() {
     private fun goMain() {
         Log.d("IntroActivity", "Navigating to MainActivity")
         binding.introMotion.transitionToEnd()
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
+
+        binding.introMotion.setOnClickListener {
+            startActivity(Intent(this@IntroActivity, MainActivity::class.java))
             finish()
-        }, 5000)
+        }
+
+        binding.introMotion.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionStarted(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int
+            ) {
+            }
+
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+                progress: Float
+            ) {
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
+            }
+
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout?,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float
+            ) {
+            }
+        })
+    }
+
+    private fun startMotion() {
+        binding.introMotion.apply {
+            transitionToStart()
+            Handler(Looper.getMainLooper()).postDelayed({
+                goMain()
+            }, 4000)
+        }
     }
 
     private fun requestContactPermission() {
@@ -76,7 +113,7 @@ class IntroActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
         if (callPermission == PackageManager.PERMISSION_GRANTED) {
             if (contactsLoaded) {
-                goMain()
+                startMotion()
             }
         } else {
             ActivityCompat.requestPermissions(
@@ -86,7 +123,8 @@ class IntroActivity : AppCompatActivity() {
             )
         }
     }
-// 좋아 ! 포기!
+
+    // 좋아 ! 포기!
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -109,7 +147,7 @@ class IntroActivity : AppCompatActivity() {
 
             55 -> {
                 if (contactsLoaded) {
-                    goMain()
+                    startMotion()
                 } else {
                     Log.d(
                         "IntroActivity",
