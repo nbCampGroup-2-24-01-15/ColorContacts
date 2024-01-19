@@ -15,8 +15,11 @@ import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
+import coil.load
+import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.R
 import com.example.colorcontacts.databinding.DialogAddFavoriteTagBinding
+import java.io.File
 
 class AddFavoriteTagDialog : DialogFragment() {
     companion object {
@@ -88,7 +91,10 @@ class AddFavoriteTagDialog : DialogFragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 selectedImageUri = data?.data!!
-                binding.ivAddTagImage.setImageURI(selectedImageUri)
+//                binding.ivAddTagImage.setImageURI(selectedImageUri)
+                val path = requireActivity().absolutelyPath(selectedImageUri!!)
+                val file = File(path)
+                binding.ivAddTagImage.load(file)
                 onButtonEnabled()
             }
         }

@@ -11,6 +11,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+//import coil.load
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.data.TagMember

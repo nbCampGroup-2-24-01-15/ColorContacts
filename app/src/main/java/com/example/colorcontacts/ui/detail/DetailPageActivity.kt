@@ -7,15 +7,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.MyData.myData
@@ -33,6 +36,7 @@ import com.example.colorcontacts.utill.SharedDataListener
 import com.google.android.material.snackbar.Snackbar
 import com.example.colorcontacts.dialog.AddFavoriteTagDialog
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
+import com.example.colorcontacts.utill.CheckString
 
 
 @Suppress("DEPRECATION")
@@ -78,6 +82,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     //현재 편집중인지 아닌지 확인하는 변수
     private var isEditing = false
 
+    private val editTexts
+        get() = listOf(
+            binding.etDetailName,
+            binding.etDetailPhoneNumber,
+            binding.etDetailEmail
+        )
+    
+    private var allValid = false
+
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +98,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
 
         initView()
-
 
 
         //배경 부분 눌렀을 때 배경 이미지 갤러리에서 가져오기
@@ -128,7 +140,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 newData.img = selectedImageUri
             }
         }
-
 
 
         //뒤로가기 버튼 눌렀을 때 상태에 따라 동작
@@ -184,13 +195,11 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             if (TagMember.totalTags.any { it.member.contains(key) }) {
                 SharedDataListener().offFavorite(key)
                 binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_outline)
-            }
-            else {
+            } else {
                 SharedDataListener().onFavorite(key)
                 binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_filled)
             }
         }
-
 
 
         //편집 버튼 눌렀을 때
@@ -198,24 +207,29 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             //현재 편집중이 아니면 버튼 눌렀을 때 버튼은 확인 이미지로 바뀌고 편집중 true로 바꾸기
             //편집중이면 버튼을 눌렀을 때 버튼 편집 이미지로 바뀌고 현재 새로 바뀐 데이터를 싱글턴 데이터 리스트에 각각 반영하고 편집 종료 false로 바꾸기
             isEditing = if (isEditing) {
-                binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                UserList.userList.find { it.key == key }?.img = newData.img
-                UserList.userList.find { it.key == key }?.backgroundImg = newData.backgroundImg
-                UserList.userList.find { it.key == key }?.name =
-                    binding.etDetailName.text.toString()
-                UserList.userList.find { it.key == key }?.phone =
-                    binding.etDetailPhoneNumber.text.toString()
-                UserList.userList.find { it.key == key }?.email =
-                    binding.etDetailEmail.text.toString()
-                UserList.userList.find { it.key == key }?.event = newData.event
-                UserList.userList.find { it.key == key }?.info =
-                    binding.etDetailMemo.text.toString()
-                UserList.userList.find { it.key == key }?.let { it1 -> setDefaultData(it1) }
+                if (allValid) {
+                    binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                    UserList.userList.find { it.key == key }?.img = newData.img
+                    UserList.userList.find { it.key == key }?.backgroundImg = newData.backgroundImg
+                    UserList.userList.find { it.key == key }?.name =
+                        binding.etDetailName.text.toString()
+                    UserList.userList.find { it.key == key }?.phone =
+                        binding.etDetailPhoneNumber.text.toString()
+                    UserList.userList.find { it.key == key }?.email =
+                        binding.etDetailEmail.text.toString()
+                    UserList.userList.find { it.key == key }?.event = newData.event
+                    UserList.userList.find { it.key == key }?.info =
+                        binding.etDetailMemo.text.toString()
+                    UserList.userList.find { it.key == key }?.let { it1 -> setDefaultData(it1) }
 
-                // 태그 추가
-                updateUserTag()
+                    // 태그 추가
+                    updateUserTag()
 
-                false
+                    false
+                } else {
+                    Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                    true
+                }
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
                 setDefaultData(user)
@@ -309,6 +323,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             user.backgroundImg
         )
 
+        setTextChangedListener()
+
         // 버튼 액션
         onButtonAction()
         // spinner 비활성화
@@ -389,6 +405,34 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         }
     }
 
+
+    //editText 유효성 검사
+    private fun setTextChangedListener() {
+        editTexts.forEach { et ->
+            et.addTextChangedListener {
+                et.error = when (et) {
+                    binding.etDetailName -> CheckString().checkName(et.text.toString())
+                        ?.let { getString(it) }
+
+                    binding.etDetailPhoneNumber -> CheckString().checkPhoneNumber(et.text.toString())
+                        ?.let { getString(it) }
+
+                    else -> CheckString().checkEmail(et.text.toString())
+                        ?.let { getString(it) }
+
+                }
+            }
+        }
+        
+        allValid = editTexts.all { it.error == null }
+        
+        binding.etDetailPhoneNumber.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+        
+        
+    }
+    
+    
+    
     //기존 데이터랑 현재 데이터랑 비교해서 다 같으면 true
     //false일 때만 뒤로가기 막기
     private fun isSame(): Boolean {
@@ -412,7 +456,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 && defaultData.event == newData.event
                 && defaultData.info == binding.etDetailMemo.text.toString())
     }
-
 
 
     // Spinner 연결 부분
