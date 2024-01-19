@@ -28,7 +28,6 @@ import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
 import com.example.colorcontacts.dialog.AddFavoriteTagDialog
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
-import com.google.android.material.snackbar.Snackbar
 
 private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
@@ -135,9 +134,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         //binding.spDetailEvent 부분 함수화
         setSpinner()
-
-        // 태그 Spinner
-        setUpTagSpinner()
 
         binding.ivDetailBack.setOnClickListener {
             if (isEditing) {
@@ -289,6 +285,9 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     }
 
     private fun initView() {
+        // 태그 Spinner
+        setUpTagSpinner()
+
         key = intent.getStringExtra("user").toString()
         val type = intent.getStringExtra("TYPE")
         if (type == "mypage") {
@@ -455,8 +454,9 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         spinnerAdapter.notifyDataSetChanged()
     }
 
-    private fun getTagIndex(title: String?, uri: Uri?): Int =
-        tagList.indexOfFirst { tag -> tag.title == title && tag.img == uri }
+    private fun getTagIndex(title: String?, uri: Uri?): Int {
+        return tagList.indexOfFirst { tag -> tag.title == title && tag.img == uri }
+    }
 
     /**
      * 회원에 대한 태그 정보 가져오기
@@ -465,10 +465,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         userTag = TagMember.getFindTag(user.key)
 
         val selectedIndex = if (userTag == null) {
-            Log.d("TAG", "userTag is null")
             0
         } else {
-            Log.d("TAG", "${userTag}")
             getTagIndex(userTag!!.title, userTag!!.img).coerceAtLeast(0)
         }
 
@@ -530,7 +528,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
      * 원래 있었는데 없어질 경우 태그 목록에서 멤버 삭제
      */
     private fun updateUserTag() {
-        Log.d("TAG", "updateUserTag")
         when {
             userTag != null && selectedItem == null -> {
                 TagMember.removeMember(user.key)

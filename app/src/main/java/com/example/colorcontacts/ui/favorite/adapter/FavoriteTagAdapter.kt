@@ -30,7 +30,6 @@ fun ImageView.setFavoriteTag(uri: Uri) {
 }
 
 class FavoriteTagAdapter(
-    private val context: Context,
     private var items: List<Tag>
 ) :
     RecyclerView.Adapter<FavoriteTagAdapter.ViewHolder>() {
