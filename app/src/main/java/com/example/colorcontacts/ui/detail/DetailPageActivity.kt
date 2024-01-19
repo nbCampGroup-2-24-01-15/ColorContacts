@@ -29,7 +29,8 @@ class DetailPageActivity : AppCompatActivity() {
         ActivityDetailPageBinding.inflate(layoutInflater)
     }
 
-    lateinit var user: User
+    private val user: User? by lazy { /*userdata*/ }
+
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
@@ -42,6 +43,10 @@ class DetailPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+
+        UserList.userList
+
 
         var isEditing = false
 
@@ -200,19 +205,8 @@ class DetailPageActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
-        setProfile(user)
     }
 
-    private fun setProfile(user: User) {
-        with(binding) {
-            ivDetailBackground.setImageURI(user.backgroundImg)
-            ivDetailAddProfile.setImageURI(user.img)
-            etDetailName.setText(user.name)
-            etDetailPhoneNumber.setText(user.phone)
-            etDetailMemo.setText(user.info)
-        }
-    }
 
 //    private fun showPermissionAlertDialog() {
 //        AlertDialog.Builder(this)
