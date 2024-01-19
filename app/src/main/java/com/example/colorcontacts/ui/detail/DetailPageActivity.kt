@@ -290,28 +290,31 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         key = intent.getStringExtra("user").toString()
         val type = intent.getStringExtra("TYPE")
-        if (type == "mypage") {
+        if (type == "myPage") {
             setDefaultData(myData)
             setProfile(myData)
         } else {
             user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
             setDefaultData(user)
             setProfile(user)
+            //찾았다 요놈 3
+            newData = User(
+                user.key,
+                user.img,
+                user.name,
+                user.phone,
+                user.email,
+                user.event,
+                user.info,
+                user.backgroundImg
+            )
         }
-        newData = User(
-            user.key,
-            user.img,
-            user.name,
-            user.phone,
-            user.email,
-            user.event,
-            user.info,
-            user.backgroundImg
-        )
+
 
         // 버튼 액션
         onButtonAction()
         // spinner 비활성화
+
         binding.detailSpinner.isEnabled = false
     }
 
@@ -462,13 +465,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
      * 회원에 대한 태그 정보 가져오기
      */
     private fun setUserTagOnSpinner() {
-        userTag = TagMember.getFindTag(user.key)
+
+        userTag = TagMember.getFindTag(newData.key)
 
         val selectedIndex = if (userTag == null) {
             0
         } else {
             getTagIndex(userTag!!.title, userTag!!.img).coerceAtLeast(0)
         }
+
 
         binding.detailSpinner.setSelection(selectedIndex)
     }

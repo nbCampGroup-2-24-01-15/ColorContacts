@@ -144,7 +144,7 @@ class ContactListFragment : Fragment(),DateUpdateListener{
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
-                    binding.linearLayout4.background = resource
+                    binding.llMyPage.background = resource
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -153,9 +153,9 @@ class ContactListFragment : Fragment(),DateUpdateListener{
             })
 
 
-        binding.linearLayout4.setOnClickListener {
+        binding.llMyPage.setOnClickListener {
             val intent = Intent(requireActivity(), DetailPageActivity::class.java).apply {
-                putExtra("TYPE", "mypage")
+                putExtra("TYPE", "myPage")
             }
             startActivity(intent)
         }

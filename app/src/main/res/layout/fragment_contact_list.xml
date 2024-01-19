@@ -9,7 +9,7 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/ll_my_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -46,7 +46,7 @@
         android:layout_height="1dp"
         android:background="@color/light_gray"
 
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/ll_my_page"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
