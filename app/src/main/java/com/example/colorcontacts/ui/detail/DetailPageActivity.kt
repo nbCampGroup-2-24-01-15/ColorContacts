@@ -34,6 +34,11 @@ import java.io.File
 
 private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
+/**
+ * user -> getUserByIntent
+ * newData : 변경된 Data
+ * defaultData : 변경전 Data
+ */
 @Suppress("DEPRECATION")
 class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddListener {
 
@@ -41,7 +46,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         ActivityDetailPageBinding.inflate(layoutInflater)
     }
 
-    lateinit var user: User
+    private lateinit var getUserByIntent: User
     private lateinit var key: String
     private lateinit var file: File
     private lateinit var backFile:File
@@ -52,7 +57,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     private lateinit var profileGalleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
 
-    // add
+    // Tag 관련
     private var tagList: MutableList<Tag> = mutableListOf(Tag("태그", defaultTag.img))
     private var userTag: Tag? = null
     private lateinit var spinnerAdapter: SpinnerAdapter
@@ -85,6 +90,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     // 이벤트 값
     private var selectedEvent: String? = null
 
+    // myData
+    private var isMyData : Boolean = false
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,8 +155,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         setSpinner()
 
         binding.ivDetailBack.setOnClickListener {
-            if (isEditing) {
-                if (isSame()) {
+            if (isEditing) {// 페이지를 수정 중일때
+                if (isSame()) {// 페이지가 같다면 액티비티 종료
                     finish()
                 } else {
                     val currentTime = System.currentTimeMillis()
@@ -188,21 +195,44 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
 
         binding.ivDetailEdit.setOnClickListener {
-            isEditing = if (isEditing) {
-                binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                UserList.userList.find { it.key == key }?.img = newData.img
-                UserList.userList.find { it.key == key }?.backgroundImg = newData.backgroundImg
-                UserList.userList.find { it.key == key }?.name =
-                    binding.etDetailName.text.toString()
-                UserList.userList.find { it.key == key }?.phone =
-                    binding.etDetailPhoneNumber.text.toString()
-                UserList.userList.find { it.key == key }?.email =
-                    binding.etDetailEmail.text.toString()
-                UserList.userList.find { it.key == key }?.event = binding.spDetailEvent.toString()
-                UserList.userList.find { it.key == key }?.info =
-                    binding.etDetailMemo.text.toString()
-                UserList.userList.find { it.key == key }?.let { it1 -> setDefaultData(it1) }
 
+            isEditing = if (isEditing) {// 수정하는 부분
+                if(!isMyData) {
+                    binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                    UserList.userList.find { it.key == key }?.img = newData.img
+                    UserList.userList.find { it.key == key }?.backgroundImg = newData.backgroundImg
+                    UserList.userList.find { it.key == key }?.name =
+                        binding.etDetailName.text.toString()
+                    UserList.userList.find { it.key == key }?.phone =
+                        binding.etDetailPhoneNumber.text.toString()
+                    UserList.userList.find { it.key == key }?.email =
+                        binding.etDetailEmail.text.toString()
+                    UserList.userList.find { it.key == key }?.event =
+                        selectedEvent
+                    UserList.userList.find { it.key == key }?.info =
+                        binding.etDetailMemo.text.toString()
+                    UserList.userList.find { it.key == key }?.let {
+                            it1 -> setDefaultData(it1)
+                        // 알람 등록
+                        if (selectedEvent != null)
+                            UserList.notification.setUserAlarm(it1, this)
+                    }
+                }
+                else {
+                    myData.run{
+                        img = newData.img
+                        backgroundImg = newData.backgroundImg
+                        name = binding.etDetailName.text.toString()
+                        phone = binding.etDetailPhoneNumber.text.toString()
+                        email = binding.etDetailEmail.text.toString()
+                        event = selectedEvent
+                        info = binding.etDetailMemo.text.toString()
+                        setDefaultData(this)
+                        if (selectedEvent != null)
+                            UserList.notification.setUserAlarm(this,this@DetailPageActivity)
+                    }
+
+                }
 
                 // 태그 추가
                 updateUserTag()
@@ -210,7 +240,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 false
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
-                setDefaultData(user)
+                setDefaultData(defaultData)
                 true
             }
 
@@ -255,7 +285,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             builder.setTitle("연락처 삭제")
             builder.setMessage("정말 삭제하시겠습니까?")
             builder.setPositiveButton("네") { _, _ ->
-                UserList.userList.remove(user)
+                UserList.userList.remove(getUserByIntent)
                 finish()
                 //프래그먼트에 어떻게 알리지...? notify 안되는데
                 //그냥 프래그먼트를 매번 새로고침 하면 안 되
@@ -299,21 +329,43 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         if (type == "mypage") {
             setDefaultData(myData)
             setProfile(myData)
+            isMyData = true
         } else {
-            user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
-            setDefaultData(user)
-            setProfile(user)
+            getUserByIntent = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
+            setDefaultData(getUserByIntent)
+            setProfile(getUserByIntent)
+
+            newData = User(
+                getUserByIntent.key,
+                getUserByIntent.img,
+                getUserByIntent.name,
+                getUserByIntent.phone,
+                getUserByIntent.email,
+                getUserByIntent.event,
+                getUserByIntent.info,
+                getUserByIntent.backgroundImg
+            )
         }
-        newData = user
+
 
         // 버튼 액션
         onButtonAction()
         // spinner 비활성화
+
         binding.detailSpinner.isEnabled = false
     }
 
     private fun setDefaultData(user: User) {
-        defaultData = user
+        defaultData = User(
+            user.key,
+            user.img,
+            user.name,
+            user.phone,
+            user.email,
+            user.event,
+            user.info,
+            user.backgroundImg
+        )
     }
 
     private fun isSame(): Boolean {
@@ -454,13 +506,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
      * 회원에 대한 태그 정보 가져오기
      */
     private fun setUserTagOnSpinner() {
-        userTag = TagMember.getFindTag(user.key)
+
+        userTag = TagMember.getFindTag(newData.key)
 
         val selectedIndex = if (userTag == null) {
             0
         } else {
             getTagIndex(userTag!!.title, userTag!!.img).coerceAtLeast(0)
         }
+
 
         binding.detailSpinner.setSelection(selectedIndex)
     }
@@ -522,15 +576,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     private fun updateUserTag() {
         when {
             userTag != null && selectedItem == null -> {
-                TagMember.removeMember(user.key)
+                TagMember.removeMember(newData.key)
             }
 
             userTag == null && selectedItem != null -> {
-                TagMember.addMember(selectedItem!!, user.key)
+                TagMember.addMember(selectedItem!!, newData.key)
             }
 
             selectedItem != null -> {
-                updateMemberTag(user.key, selectedItem!!)
+                updateMemberTag(newData.key, selectedItem!!)
             }
         }
     }
