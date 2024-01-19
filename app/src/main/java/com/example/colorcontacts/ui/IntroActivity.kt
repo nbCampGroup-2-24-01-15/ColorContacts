@@ -8,21 +8,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
-import android.util.Log
-import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityIntroBinding
 import com.example.colorcontacts.ui.main.MainActivity
-import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class IntroActivity : AppCompatActivity() {
@@ -34,6 +29,7 @@ class IntroActivity : AppCompatActivity() {
     private val blick by lazy {
         AnimationUtils.loadAnimation(this, R.anim.blink)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -55,7 +51,6 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun goMain() {
-        Log.d("IntroActivity", "Navigating to MainActivity")
         binding.introMotion.setTransitionDuration(4000)
         binding.introMotion.transitionToEnd()
 
@@ -76,7 +71,6 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun requestContactPermission() {
-        Log.d("IntroActivity", "Requesting contact permission")
         val status =
             ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
         if (status == PackageManager.PERMISSION_GRANTED) {
@@ -87,14 +81,12 @@ class IntroActivity : AppCompatActivity() {
                 arrayOf(android.Manifest.permission.READ_CONTACTS),
                 100
             )
-            binding.pbIntroLoading.isVisible = true
         }
 
 
     }
 
     private fun requestCallPermission() {
-        Log.d("IntroActivity", "Requesting call permission")
         val callPermission =
             ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
         if (callPermission == PackageManager.PERMISSION_GRANTED) {
@@ -110,16 +102,11 @@ class IntroActivity : AppCompatActivity() {
         }
     }
 
-    // 좋아 ! 포기!
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        Log.d(
-            "IntroActivity",
-            "onRequestPermissionsResult: requestCode=$requestCode, grantResults=${grantResults.contentToString()}"
-        )
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -132,39 +119,29 @@ class IntroActivity : AppCompatActivity() {
             }
 
             55 -> {
-                if (contactsLoaded) {
-                    startMotion()
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (contactsLoaded) startMotion()
                 } else {
-                    Log.d(
-                        "IntroActivity",
-                        "Call permission denied but proceeding as contacts are loaded."
-                    )
                     finish()
                 }
+
             }
         }
     }
 
     private fun loadContacts() {
-        Log.d("IntroActivity", "Loading contacts")
-        lifecycleScope.launch {
+        Thread {
             getContacts()
-            Log.d("IntroActivity", "Loading contacts2")
             runOnUiThread {
-                Log.d("IntroActivity", "Loading contacts3")
                 contactsLoaded = true
-                binding.pbIntroLoading.visibility = View.GONE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    requestCallPermission()
-                }, 1000)
+                requestCallPermission()
             }
-        }
+        }.start()
     }
 
 
     @SuppressLint("Range")
     private fun getContacts() {
-        Log.d("IntroActivity", "Getting contacts from the device")
         UserList.userList = mutableListOf()
         val contactsUri = ContactsContract.Contacts.CONTENT_URI
         val cursor = contentResolver.query(contactsUri, null, null, null, null)
