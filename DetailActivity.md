@@ -1,7 +1,7 @@
 Detail Activity
 =============
 
-[readme]()
+[readme](README.md)
 
 # layout
 ![image]()
