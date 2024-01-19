@@ -151,7 +151,7 @@ app:queryHint="@string/main_search_hint
   - 현재 ViewPager에서 선택된 Fragment의 인덱스를 가져온다.
 - viewPagerAdapter.getFragment(currentItem)
   - viewPagerAdapter에서 해당 인덱스에 해당하는 Fragment를 가져온다. 
-- when 절
+- when { }
   - Fragment의 타입을 확인하고, updateItem 함수를 호출하여 검색어 문자열을 전달한다. 
 ````kotlin
     private fun updateItemCurrentFragment(newText: String?) {
