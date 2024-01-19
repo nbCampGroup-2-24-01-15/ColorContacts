@@ -29,7 +29,7 @@ class DetailPageActivity : AppCompatActivity() {
         ActivityDetailPageBinding.inflate(layoutInflater)
     }
 
-    private val user: User? by lazy { /*userdata*/ }
+    private val user: User? by lazy {User()}
 
 
     //이미지 결과값 받기
