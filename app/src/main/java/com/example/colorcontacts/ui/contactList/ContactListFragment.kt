@@ -63,7 +63,10 @@ class ContactListFragment : Fragment() {
 
         init()
         // other initialization
+
+//        onResume()
     }
+
 
     private fun init() {
         val loadedData = sharedDataListener.setContactList(UserList.layoutType)
@@ -159,10 +162,11 @@ class ContactListFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        setList()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        setList()
+//        setMyPageTab()
+//    }
 
     /**
      * TODO Fragment RecyclerView 검색

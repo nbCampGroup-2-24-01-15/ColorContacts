@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -14,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
@@ -29,6 +31,7 @@ class DetailPageActivity : AppCompatActivity() {
     }
 
     lateinit var user: User
+    private lateinit var key: String
 
 
     //이미지 결과값 받기
@@ -36,6 +39,21 @@ class DetailPageActivity : AppCompatActivity() {
     private lateinit var profileGalleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
 
+    private val contents
+        get() = listOf(
+            binding.etDetailName,
+            binding.etDetailPhoneNumber,
+            binding.clDetailEmail,
+            binding.etDetailEmail,
+            binding.clDetailEvent,
+            binding.clDetailGroup,
+            binding.etDetailMemo
+        )
+
+    private lateinit var defaultData: User
+    private lateinit var newData: User
+
+    private var backPressedTime: Long = 0
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,21 +66,18 @@ class DetailPageActivity : AppCompatActivity() {
         initView()
 
 
-//        if (hasBackground) {
-//            binding.ivDetailAddPhoto.isVisible = false
-//        } else {
-//            binding.ivDetailAddPhoto.isVisible = true
-//        }
-
 
         binding.ivDetailBackground.setOnClickListener {
+//            val key = intent.getStringExtra("user")
+            Log.d(
+                "data",
+                "before = ${UserList.userList.find { it.key == key }?.backgroundImg.toString()}"
+            )
 
             val galleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             backgroundGalleryResultLauncher.launch(galleryIntent)
 
-
-            hasContext()
 
         }
 
@@ -72,7 +87,6 @@ class DetailPageActivity : AppCompatActivity() {
             profileGalleryResultLauncher.launch(galleryIntent)
 
 
-            hasContext()
         }
 
         backgroundGalleryResultLauncher = registerForActivityResult(
@@ -82,7 +96,7 @@ class DetailPageActivity : AppCompatActivity() {
                 val data: Intent? = result.data
                 selectedImageUri = data?.data!!
                 binding.ivDetailBackground.setImageURI(selectedImageUri)
-
+                newData.backgroundImg = selectedImageUri
             }
         }
 
@@ -93,6 +107,7 @@ class DetailPageActivity : AppCompatActivity() {
                 val data: Intent? = result.data
                 selectedImageUri = data?.data!!
                 binding.ivDetailAddProfile.setImageURI(selectedImageUri)
+                newData.img = selectedImageUri
 
             }
         }
@@ -109,13 +124,34 @@ class DetailPageActivity : AppCompatActivity() {
 //        }
 
 
-        binding.spDetailEvent.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("1분", "5분", "10분"))
+        binding.spDetailEvent.adapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, EventTime.timeArray)
 
         binding.ivDetailBack.setOnClickListener {
             if (isEditing) {
-                Toast.makeText(this, "수정서항 저장되지않음 취소?", Toast.LENGTH_SHORT).show()
-                //dialog?
-            }else {
+                if (isSame()) {
+                    finish()
+                } else {
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime - backPressedTime < 2000) {
+                        UserList.userList.find { it.key == key }?.img = defaultData.img
+                        UserList.userList.find { it.key == key }?.backgroundImg = defaultData.backgroundImg
+                        UserList.userList.find { it.key == key }?.name = defaultData.name
+                        UserList.userList.find { it.key == key }?.phone = defaultData.phone
+                        UserList.userList.find { it.key == key }?.email = defaultData.email
+                        UserList.userList.find { it.key == key }?.event = defaultData.event
+                        UserList.userList.find { it.key == key }?.info = defaultData.info
+                        finish()
+                    } else {
+                        Toast.makeText(this, "뒤로가기 버튼 다시 누르면 수정사항은 반영되지 않고 돌아감", Toast.LENGTH_SHORT).show()
+                        backPressedTime = currentTime
+                    }
+                }
+                //그냥 몇초안에 바로 뒤로가기 눌렀을 때 바로 취소되게
+                //변경사항 없을 때는 안 나오게
+                //디테일 페이지에 들어갔을 때의 초기 값이랑 변경된 값 비교
+                //변경된 값을 유저 데이터리스트에 넣기...를 어케하지
+            } else {
                 finish()
             }
         }
@@ -142,8 +178,16 @@ class DetailPageActivity : AppCompatActivity() {
         binding.ivDetailEdit.setOnClickListener {
             isEditing = if (isEditing) {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                UserList.userList.find { it.key == key }?.img = newData.img
+                UserList.userList.find { it.key == key }?.backgroundImg = newData.backgroundImg
+                UserList.userList.find { it.key == key }?.name = binding.etDetailName.text.toString()
+                UserList.userList.find { it.key == key }?.phone = binding.etDetailPhoneNumber.text.toString()
+                UserList.userList.find { it.key == key }?.email = binding.etDetailEmail.text.toString()
+                UserList.userList.find { it.key == key }?.event = binding.spDetailEvent.toString()
+                UserList.userList.find { it.key == key }?.info = binding.etDetailMemo.text.toString()
+                UserList.userList.find { it.key == key }?.let { it1 -> setDefaultData(it1) }
                 false
-            }else {
+            } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
                 true
             }
@@ -185,24 +229,64 @@ class DetailPageActivity : AppCompatActivity() {
 
     }
 
-    private fun hasContext() {
+    private fun setVisibility() {
         //이미지, 텍스트, 스피너 선택값에 대해 값이 있을 떄만 isEditing true일 때 보이도록
-
-    }
-
-    private fun initView() {
-        val type = intent.getStringExtra("TYPE")
-        if (type == "mypage") {
-            setProfile(myData)
-        } else {
-            user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
-            setProfile(user)
+        contents.forEach { content ->
+//            if (content.isEnabled)
         }
     }
 
+    private fun initView() {
+        key = intent.getStringExtra("user").toString()
+        val type = intent.getStringExtra("TYPE")
+        if (type == "mypage") {
+            setDefaultData(myData)
+            setProfile(myData)
+        } else {
+            user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
+            setDefaultData(user)
+            setProfile(user)
+        }
+        newData = User(
+            user.key,
+            user.img,
+            user.name,
+            user.phone,
+            user.email,
+            user.event,
+            user.info,
+            user.backgroundImg
+        )
+    }
+
+    private fun setDefaultData(user: User) {
+        defaultData = User(
+            user.key,
+            user.img,
+            user.name,
+            user.phone,
+            user.email,
+            user.event,
+            user.info,
+            user.backgroundImg
+        )
+    }
+
+    private fun isSame(): Boolean {
+        //기존 데이터랑 현재 데이터랑 비교해서 다 같으면 true
+        //false일 때만 뒤로가기 막기
+        return (defaultData.img == newData.img
+                && defaultData.backgroundImg == newData.backgroundImg
+                && defaultData.name == binding.etDetailName.text.toString()
+                && defaultData.phone == binding.etDetailPhoneNumber.text.toString()
+                && defaultData.email == binding.etDetailEmail.text.toString()
+                && defaultData.event == binding.spDetailEvent.toString()
+                && defaultData.info == binding.etDetailMemo.text.toString())
+    }
+
     @SuppressLint("ResourceAsColor")
-    private fun setProfile(user: User){
-        with(binding){
+    private fun setProfile(user: User) {
+        with(binding) {
             ivDetailBackground.setImageURI(user.backgroundImg)
             ivDetailAddProfile.setImageURI(user.img)
             etDetailName.setText(user.name)
@@ -210,10 +294,17 @@ class DetailPageActivity : AppCompatActivity() {
             etDetailEmail.setText(user.email)
             etDetailMemo.setText(user.info)
         }
+        when {
+            user.email.isNotBlank() -> {
+                binding.clDetailEmail.isVisible = true
+            }
+
+            user.event.isNullOrBlank().not() -> {
+                binding.clDetailEvent.isVisible = true
+            }
+        }
         binding.ivDetailAddPhoto.isVisible = false
-        binding.clDetailEmail.isVisible = false
         binding.clDetailGroup.isVisible = false
-        binding.clDetailEvent.isVisible = false
         //isVisible 조건 추가
         binding.ivDetailBackground.isEnabled = false
         binding.ivDetailAddProfile.isEnabled = false
@@ -229,33 +320,7 @@ class DetailPageActivity : AppCompatActivity() {
         binding.clDetailBtns.isVisible = true
     }
 
-//    private fun showPermissionAlertDialog() {
-//        AlertDialog.Builder(this)
-//            .setTitle("권한 승인")
-//            .setMessage("사진을 불러오려면 권한 허용 필요")
-//            .setPositiveButton("허용") { _, _ ->
-//                requestPermissions(
-//                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-//                    PERMISSION_CODE
-//                )
-//            }
-//            .setNegativeButton("거부") { _, _ -> }
-//            .create()
-//            .show()
-//    }
-
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        when (requestCode) {
-//            PERMISSION_CODE -> {
-//                if (grantResults.isNotEmpty() && grantResults[0] == packageManager.PERMISSION_GRANTED)
-//            }
-//        }
-//    }
+    //저거를 함수로 어떻게 따로 못 빼나 뺄 수 있을 것 같은데
 
 
 }

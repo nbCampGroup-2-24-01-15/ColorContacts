@@ -240,6 +240,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@color/white"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:ems="17"
                     android:fontFamily="@font/pretendard_regular"
                     android:hint="email@mail.com"
