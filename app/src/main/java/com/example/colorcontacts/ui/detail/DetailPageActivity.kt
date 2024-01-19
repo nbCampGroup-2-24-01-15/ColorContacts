@@ -53,7 +53,15 @@ class DetailPageActivity : AppCompatActivity() {
         )
 
     private lateinit var defaultData: User
-    private lateinit var newData: User
+    private var newData = User(
+        img = null,
+        name = "",
+        phone = "",
+        email = "",
+        event = null,
+        info = "",
+        backgroundImg = null
+    )
 
     private var backPressedTime: Long = 0
 
@@ -145,6 +153,7 @@ class DetailPageActivity : AppCompatActivity() {
                         UserList.userList.find { it.key == key }?.info = defaultData.info
                         finish()
                     } else {
+                        //악미치겟네수정사항없어 왜 얘가 불
                         Toast.makeText(this, "뒤로가기 버튼 다시 누르면 수정사항은 반영되지 않고 돌아감", Toast.LENGTH_SHORT).show()
                         backPressedTime = currentTime
                     }
@@ -168,7 +177,7 @@ class DetailPageActivity : AppCompatActivity() {
         }
 
         binding.ibDetailFavorite.setOnClickListener {
-            //즐겨찾기 리스트
+            //즐겨찾기 리스트 add
         }
 
         binding.ivDetailGroupCircle.setOnClickListener {
@@ -191,6 +200,7 @@ class DetailPageActivity : AppCompatActivity() {
                 false
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
+                setDefaultData(user)
                 true
             }
 
@@ -212,18 +222,13 @@ class DetailPageActivity : AppCompatActivity() {
             } else {
                 //if (binding.ivDetailAddProfile)
                 binding.ivDetailAddPhoto.isVisible = false
-                binding.clDetailEmail.isVisible = false
-                binding.clDetailGroup.isVisible = false
-                binding.clDetailEvent.isVisible = false
+                setVisibility()
                 //isVisible 조건 추가
                 binding.ivDetailBackground.isEnabled = false
                 binding.ivDetailAddProfile.isEnabled = false
                 binding.etDetailName.isEnabled = false
-                binding.etDetailName.setTextColor(R.color.text_color)
                 binding.etDetailPhoneNumber.isEnabled = false
-                binding.etDetailPhoneNumber.setTextColor(R.color.text_color)
                 binding.etDetailEmail.isEnabled = false
-                binding.etDetailEmail.setTextColor(R.color.text_color)
                 binding.spDetailEvent.isEnabled = false
                 binding.etDetailMemo.isEnabled = false
                 binding.clDetailBtns.isVisible = true
@@ -238,7 +243,7 @@ class DetailPageActivity : AppCompatActivity() {
                 UserList.userList.remove(user)
                 finish()
                 //프래그먼트에 어떻게 알리지...? notify 안되는데
-                //그냥 프래그먼트를 매번 새로고침 하면 안 되나
+                //그냥 프래그먼트를 매번 새로고침 하면 안 되
             }
             builder.setNegativeButton("아니오", null)
             builder.show()
@@ -264,7 +269,7 @@ class DetailPageActivity : AppCompatActivity() {
             newData.event != null -> {
                 binding.clDetailEvent.isVisible = true
             }
-            newData.info != null -> {
+            newData.info.isNotBlank() -> {
                 binding.etDetailMemo.setTextColor(R.color.black)
             }
 
@@ -311,12 +316,20 @@ class DetailPageActivity : AppCompatActivity() {
     private fun isSame(): Boolean {
         //기존 데이터랑 현재 데이터랑 비교해서 다 같으면 true
         //false일 때만 뒤로가기 막기
+        Log.d("same", "img = ${defaultData.img} & ${newData.img}")
+        Log.d("same", "back = ${defaultData.backgroundImg} & ${newData.backgroundImg}")
+        Log.d("same", "name = ${defaultData.name} & ${binding.etDetailName.text.toString()}")
+        Log.d("same", "phone = ${defaultData.phone} & ${binding.etDetailPhoneNumber.text.toString()}")
+        Log.d("same", "email = ${defaultData.email} & ${binding.etDetailEmail.text.toString()}")
+        Log.d("same", "event = ${defaultData.event} & ${newData.event}")
+        Log.d("same", "info = ${defaultData.info} & ${binding.etDetailMemo.text.toString()}")
+
         return (defaultData.img == newData.img
                 && defaultData.backgroundImg == newData.backgroundImg
                 && defaultData.name == binding.etDetailName.text.toString()
                 && defaultData.phone == binding.etDetailPhoneNumber.text.toString()
                 && defaultData.email == binding.etDetailEmail.text.toString()
-                && defaultData.event == binding.spDetailEvent.toString()
+                && defaultData.event == newData.event
                 && defaultData.info == binding.etDetailMemo.text.toString())
     }
 

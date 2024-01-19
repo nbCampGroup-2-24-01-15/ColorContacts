@@ -195,7 +195,7 @@ class IntroActivity : AppCompatActivity() {
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "",
                     event = null,
-                    info = null,
+                    info = "",
                     backgroundImg = null
                 )
                 UserList.userList.add(user)

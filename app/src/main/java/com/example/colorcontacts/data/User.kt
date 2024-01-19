@@ -16,7 +16,7 @@ data class User(
     var phone: String,
     var email: String,
     var event: String? = null,
-    var info: String?,
+    var info: String,
     var backgroundImg: Uri?
 )
 
@@ -29,7 +29,7 @@ object MyData {
         phone = "",
         email = "",
         event = null,
-        info = null,
+        info = "",
     )
 
 

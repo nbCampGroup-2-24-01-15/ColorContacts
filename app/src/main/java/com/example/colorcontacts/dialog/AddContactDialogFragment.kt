@@ -121,7 +121,7 @@ class AddContactDialogFragment() : DialogFragment() {
                     phone = binding.etAddContactPhoneNumber.text.toString(),
                     email = binding.etAddContactEmail.text.toString(),
                     event = selectedEvent,
-                    info = null,
+                    info = ""
                 )
                 // 데이터를 전달
                 UserList.userList.add(user)
