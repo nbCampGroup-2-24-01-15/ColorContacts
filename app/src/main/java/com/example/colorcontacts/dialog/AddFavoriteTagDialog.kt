@@ -30,7 +30,7 @@ class AddFavoriteTagDialog : DialogFragment() {
     private val binding get() = _binding!!
 
     interface OnTagAddListener {
-        fun onTagAdd(name: String, uri: Uri)
+        fun onTagAdd(name: String, file: File)
     }
 
     private var listener: OnTagAddListener? = null
@@ -43,7 +43,7 @@ class AddFavoriteTagDialog : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View? {
         _binding = DialogAddFavoriteTagBinding.inflate(inflater, container, false)
 
@@ -67,14 +67,14 @@ class AddFavoriteTagDialog : DialogFragment() {
                 charSequence: CharSequence?,
                 start: Int,
                 before: Int,
-                count: Int,
+                count: Int
             ) = Unit
 
             override fun onTextChanged(
                 charSequence: CharSequence?,
                 start: Int,
                 before: Int,
-                count: Int,
+                count: Int
             ) {
                 onButtonEnabled()
                 updateTextLength(charSequence)
@@ -91,7 +91,6 @@ class AddFavoriteTagDialog : DialogFragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 selectedImageUri = data?.data!!
-//                binding.ivAddTagImage.setImageURI(selectedImageUri)
                 val path = requireActivity().absolutelyPath(selectedImageUri!!)
                 val file = File(path)
                 binding.ivAddTagImage.load(file)
@@ -109,7 +108,10 @@ class AddFavoriteTagDialog : DialogFragment() {
         binding.btnAddTag.setOnClickListener {
             val tagName = binding.etTagName.text.toString()
             if (selectedImageUri != null) {
-                listener?.onTagAdd(tagName, selectedImageUri!!)
+                val path = requireActivity().absolutelyPath(selectedImageUri!!)
+                val file = File(path)
+                binding.ivAddTagImage.load(file)
+                listener?.onTagAdd(tagName, file)
             }
             dismiss()
         }
@@ -174,8 +176,7 @@ class AddFavoriteTagDialog : DialogFragment() {
      */
     private fun openGallery() {
         //암시적 인텐트 이용
-        val pickImageIntent =
-            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val pickImageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryResultLauncher.launch(pickImageIntent)
     }
 }

@@ -1,33 +1,30 @@
 package com.example.colorcontacts.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.R
-import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.adapter.ViewPagerAdapter
 import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.data.NowColor
-import com.example.colorcontacts.ui.contactList.ContactListFragment
+import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialog.AddContactDialogFragment
-import com.example.colorcontacts.dialog.DateUpdateListener
-import com.example.colorcontacts.test.TestActivity
-import com.example.colorcontacts.utill.LayoutType
+import com.example.colorcontacts.dialog.DataUpdateListener
+import com.example.colorcontacts.ui.contactList.ContactListFragment
 import com.example.colorcontacts.ui.dialpad.DialPadFragment
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
+import com.example.colorcontacts.utill.LayoutType
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainActivity : AppCompatActivity(),DateUpdateListener{
+class MainActivity : AppCompatActivity(),DataUpdateListener{
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -95,7 +92,7 @@ class MainActivity : AppCompatActivity(),DateUpdateListener{
 
     override fun onDataUpdate() {
         val currentFragment = viewPagerAdapter.getFragment(binding.viewPager.currentItem)
-        if(currentFragment is DateUpdateListener)
+        if(currentFragment is DataUpdateListener)
             currentFragment.onDataUpdate()
     }
 
@@ -154,11 +151,6 @@ class MainActivity : AppCompatActivity(),DateUpdateListener{
         binding.ivMainEdit.setOnClickListener {
             showColorSelection()
         }
-
-        binding.testBtn.setOnClickListener {
-            startActivity(Intent(this, TestActivity::class.java))
-        }
-
     }
 
     private fun onLayoutbtn() {

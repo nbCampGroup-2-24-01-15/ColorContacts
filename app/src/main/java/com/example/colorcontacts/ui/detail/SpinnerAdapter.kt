@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
+import coil.load
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.databinding.ItemTagSpinnerBinding
@@ -28,7 +29,7 @@ class SpinnerAdapter(
         val model = items[position]
         try {
             binding.imgSpinner.clipToOutline = true
-            binding.imgSpinner.setImageURI(model.img)
+            binding.imgSpinner.load(model.img)
 //            binding.imgSpinner.setColorFilter(ContextCompat.getColor(context, R.color.white))
             binding.txtName.text = model.title
             binding.txtName.setTextColor(ContextCompat.getColor(context, R.color.black))
@@ -44,7 +45,7 @@ class SpinnerAdapter(
         val model = items[position]
         try {
             binding.imgSpinner.clipToOutline = true
-            binding.imgSpinner.setImageURI(model.img)
+            binding.imgSpinner.load(model.img)
             binding.txtName.text = model.title
 
         } catch (e: Exception) {

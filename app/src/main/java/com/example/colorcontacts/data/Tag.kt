@@ -1,12 +1,10 @@
 package com.example.colorcontacts.data
 
-import android.net.Uri
-import android.util.Log
-import com.example.colorcontacts.R
+import java.io.File
 
 data class Tag(
     val title: String? = "기본", // 태그이름
-    val img: Uri? = Uri.parse("android.resource://com.example.colorcontacts/" + R.drawable.ic_detail_favorite_filled),
+    val img: File? = null,
     val member: MutableList<String> = mutableListOf() //유저의 key값으로 저장, 유저의 데이터가 변경 될 수 있으니 key로 구분
 )
 
@@ -17,14 +15,13 @@ object TagMember {
     init {
         addNewTag(
             Tag(
-                "기본",
-                Uri.parse("android.resource://com.example.colorcontacts/" + R.drawable.ic_detail_favorite_filled)
+                "기본", null/*"android.resource://com.example.colorcontacts/"+ R.drawable.ic_detail_favorite_filled*/
             )
         )
     }
 
     //태그 추가 or 확인하기 key는 User의 Key값
-    fun addTag(title: String? = defaultTag.title, img: Uri? = defaultTag.img, key: String?) {
+    fun addTag(title: String? = defaultTag.title, img: File? = defaultTag.img, key: String?) {
         val duplicateTag = Tag(title, img) // null 일시 디폴트 값의 태그
         if (totalTags.find { it.title == duplicateTag.title } == null) totalTags.add(
             Tag(
@@ -44,13 +41,11 @@ object TagMember {
 
     //태그에 멤버 추가
     fun addMember(tag: Tag, key: String) {
-        Log.d("TAG", "addMember")
         totalTags.find { it.title == tag.title }?.member?.add(key)
     }
 
     //태그 멤버 제거
     fun removeMember(key: String) {
-        Log.d("TAG", "removeMember")
         val tag = getFindTag(key) ?: return
         totalTags.find { it.title == tag.title }!!.member.remove(key)
         printMemberList()
