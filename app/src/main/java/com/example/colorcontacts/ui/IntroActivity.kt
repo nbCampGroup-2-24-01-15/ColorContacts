@@ -112,6 +112,8 @@ class IntroActivity : AppCompatActivity() {
             )
             binding.pbIntroLoading.isVisible = true
         }
+
+
     }
 
     private fun requestCallPermission() {
@@ -238,7 +240,8 @@ class IntroActivity : AppCompatActivity() {
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "No Email",
                     event = null,
-                    info = null
+                    info = null,
+                    backgroundImg = null
                 )
                 UserList.userList.add(user)
             }

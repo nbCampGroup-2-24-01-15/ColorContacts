@@ -4,7 +4,7 @@ import android.net.Uri
 import com.example.colorcontacts.R
 
 data class Tag(
-    val title: String? = "default", // 태그이름
+    val title: String? = "기본", // 태그이름
     val img: Uri? = Uri.parse("android.resource://com.example.colorcontacts/"+ R.drawable.ic_detail_favorite_filled),
     val member: MutableList<String> = mutableListOf() //유저의 key값으로 저장, 유저의 데이터가 변경 될 수 있으니 key로 구분
 )
@@ -12,6 +12,15 @@ data class Tag(
 object TagMember{
     var totalTags = mutableListOf<Tag>()
     var defaultTag = Tag()
+
+    init {
+        totalTags.add(
+            Tag(
+                "기본",
+                Uri.parse("android.resource://com.example.colorcontacts/"+ R.drawable.ic_detail_favorite_filled)
+            )
+        )
+    }
 
     //태그 추가 or 확인하기 key는 User의 Key값
     fun addTag(title: String?= defaultTag.title ,img: Uri?= defaultTag.img ,  key: String?) {
