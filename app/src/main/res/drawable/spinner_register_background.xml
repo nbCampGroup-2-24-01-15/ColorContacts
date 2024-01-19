@@ -13,11 +13,6 @@
                         android:right="10dp"/>
                 </shape>
             </item>
-            <item
-                android:drawable="@drawable/img_spinner_arrow"
-                android:gravity="center_vertical|end"
-                android:width="40dp"
-                android:height="40dp"/>
         </layer-list>
     </item>
 </selector>

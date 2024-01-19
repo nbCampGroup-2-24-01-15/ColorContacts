@@ -356,9 +356,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:padding="10dp"
                 android:background="@drawable/et_box_background"
-                android:visibility="gone">
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_detail_event"
@@ -373,14 +372,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/sp_detail_event"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:background="@drawable/spinner_register_background"
-                    android:popupBackground="@drawable/spinner_register_background"
-
+                    android:background="@null"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_detail_event"
                     app:layout_constraintStart_toEndOf="@+id/tv_detail_event"
                     app:layout_constraintTop_toTopOf="@+id/tv_detail_event" />

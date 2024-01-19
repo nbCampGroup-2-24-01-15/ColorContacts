@@ -6,7 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.ArrayAdapter
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +35,8 @@ class DetailPageActivity : AppCompatActivity() {
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
 
+    // 이벤트 값
+    private var selectedEvent: String? = null
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,13 +126,14 @@ class DetailPageActivity : AppCompatActivity() {
             }
         }
 
-        binding.spDetailEvent.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, EventTime.timeArray)
+        //binding.spDetailEvent 부분 함수화
+        setSpinner()
 
         binding.ivDetailBack.setOnClickListener {
             if (isEditing) {
                 Toast.makeText(this, "수정서항 저장되지않음 취소?", Toast.LENGTH_SHORT).show()
                 //dialog?
-            }else {
+            } else {
                 finish()
             }
         }
@@ -157,7 +161,7 @@ class DetailPageActivity : AppCompatActivity() {
             isEditing = if (isEditing) {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
                 false
-            }else {
+            } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
                 true
             }
@@ -200,8 +204,8 @@ class DetailPageActivity : AppCompatActivity() {
         setProfile(user)
     }
 
-    private fun setProfile(user: User){
-        with(binding){
+    private fun setProfile(user: User) {
+        with(binding) {
             ivDetailBackground.setImageURI(user.backgroundImg)
             ivDetailAddProfile.setImageURI(user.img)
             etDetailName.setText(user.name)
@@ -225,7 +229,7 @@ class DetailPageActivity : AppCompatActivity() {
 //            .show()
 //    }
 
-//    override fun onRequestPermissionsResult(
+    //    override fun onRequestPermissionsResult(
 //        requestCode: Int,
 //        permissions: Array<out String>,
 //        grantResults: IntArray
@@ -238,5 +242,30 @@ class DetailPageActivity : AppCompatActivity() {
 //        }
 //    }
 
+
+    // Spinner 연결 부분
+    // selectedEvent 의 값을 정한다.
+    private fun setSpinner() {
+        val spinner = binding.spDetailEvent
+        val items = EventTime.timeArray
+        val adapter = EventAdapter(this, items)
+        spinner.adapter = adapter
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                selectedEvent = parent?.getItemAtPosition(position).toString()
+                if (selectedEvent == EventTime.timeArray[0]) selectedEvent = null
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }.also { spinner.onItemSelectedListener = it }
+    }
 
 }
