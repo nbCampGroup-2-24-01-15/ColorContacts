@@ -3,7 +3,7 @@ Detail Activity
 
 [readme](README.md)
 
-# layout
+# Layout
 ![image]()
 
 가장 위에 뒤로가기와 편집 버튼이 있는 바를 만들고
@@ -34,4 +34,8 @@ Detail Activity
 다시 상세 페이지로 들어가서 확인해 보면 수정 전의 내용 그대로인 것을 확인할 수 있다.
 
 편집을 완료하고 확인 버튼을 누르면 수정한 내용이 보이고 수정이 불가능해진 것을 확인할 수 있다.
+
+
+# Activity
+
 
