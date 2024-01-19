@@ -95,6 +95,7 @@ class AddFavoriteTagDialog : DialogFragment() {
                 val file = File(path)
                 binding.ivAddTagImage.load(file)
                 onButtonEnabled()
+
             }
         }
 

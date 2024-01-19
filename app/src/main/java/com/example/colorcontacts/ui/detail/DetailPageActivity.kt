@@ -42,6 +42,12 @@ import com.example.colorcontacts.utill.CheckString
 import java.io.File
 
 
+/**
+ * user -> getUserByIntent
+ * myData -> userMyData
+ * newData : 변경된 Data
+ * defaultData : 변경전 Data
+ */
 @Suppress("DEPRECATION")
 class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddListener {
 
@@ -50,17 +56,19 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     }
 
     //디테일 페이지에서 표시할 유저 정보와 키 값 변수
-    lateinit var user: User
+
+    private lateinit var getUserByIntent: User
     private lateinit var key: String
+
     private lateinit var file: File
-    private lateinit var backFile:File
+    private lateinit var backFile: File
 
     //이미지 결과값 받기
     private lateinit var backgroundGalleryResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var profileGalleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
 
-    // add
+    // Tag 관련
     private var tagList: MutableList<Tag> = mutableListOf(Tag("태그", defaultTag.img))
     private var userTag: Tag? = null
     private lateinit var spinnerAdapter: SpinnerAdapter
@@ -84,9 +92,13 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     // 이벤트 값
     private var selectedEvent: String? = null
 
+    // myData
+    private var isMyData: Boolean = false
+
     //현재 편집중인지 아닌지 확인하는 변수
     private var isEditing = false
 
+    //유효성 확인용 editText값
     private val editTexts
         get() = listOf(
             binding.etDetailName,
@@ -129,7 +141,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                data?.data?.let {uri ->
+                data?.data?.let { uri ->
                     selectedImageUri = uri
                     binding.ivDetailBackground.setImageURI(uri)
                     val path = this.absolutelyPath(selectedImageUri!!)
@@ -144,7 +156,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                data?.data?.let {uri ->
+                data?.data?.let { uri ->
                     selectedImageUri = uri
                     val path = this.absolutelyPath(selectedImageUri!!)
                     backFile = File(path)
@@ -157,9 +169,9 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         //뒤로가기 버튼 눌렀을 때 상태에 따라 동작
         binding.ivDetailBack.setOnClickListener {
-            if (isEditing) {
+            if (isEditing) { // 페이지를 수정 중일때
                 //편집 버튼을 눌렀을 때의 값과 현재 값이 같은지 확인
-                if (isSame()) {
+                if (isSame()) {// 페이지가 같다면 액티비티 종료
                     //같으면 수정사항이 없으니까 그냥 뒤로가기
                     //finish말고 수정 전 디테일 페이지로 가는 게 더 자연스러울 것 같은데 그것까지는 못 했다
                     finish()
@@ -184,7 +196,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         //전화 버튼 눌렀을 때 해당 번호로 전화 연결
         binding.ibDetailPhone.setOnClickListener {
-            val callUri = Uri.parse("tel:${user.phone} ")
+            val callUri = Uri.parse("tel:${getUserByIntent.phone} ")
             val callIntent = Intent(Intent.ACTION_CALL, callUri)
             startActivity(callIntent)
 
@@ -192,7 +204,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         //메세지 버튼 눌렀을 때 해당 번호로 문자 창 연결
         binding.ibDetailMessage.setOnClickListener {
-            val messageUri = Uri.parse("smsto:${user.phone}")
+            val messageUri = Uri.parse("smsto:${getUserByIntent.phone}")
             val messageIntent = Intent(Intent.ACTION_SENDTO, messageUri)
             startActivity(messageIntent)
         }
@@ -213,33 +225,56 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         binding.ivDetailEdit.setOnClickListener {
             //현재 편집중이 아니면 버튼 눌렀을 때 버튼은 확인 이미지로 바뀌고 편집중 true로 바꾸기
             //편집중이면 버튼을 눌렀을 때 버튼 편집 이미지로 바뀌고 현재 새로 바뀐 데이터를 싱글턴 데이터 리스트에 각각 반영하고 편집 종료 false로 바꾸기
-            isEditing = if (isEditing) {
-                if (allValid) {
-                    binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                    UserList.userList.find { it.key == key }?.img = newData.img
-                    UserList.userList.find { it.key == key }?.backgroundImg = newData.backgroundImg
-                    UserList.userList.find { it.key == key }?.name =
-                        binding.etDetailName.text.toString()
-                    UserList.userList.find { it.key == key }?.phone =
-                        binding.etDetailPhoneNumber.text.toString()
-                    UserList.userList.find { it.key == key }?.email =
-                        binding.etDetailEmail.text.toString()
-                    UserList.userList.find { it.key == key }?.event = newData.event
-                    UserList.userList.find { it.key == key }?.info =
-                        binding.etDetailMemo.text.toString()
-                    UserList.userList.find { it.key == key }?.let { it1 -> setDefaultData(it1) }
+            isEditing = if (isEditing) {// 수정하는 부분
+                if (allValid) {//항목 전부 유효성 검사 통과했을 때
+                    if (!isMyData) {
+                        binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                        UserList.userList.find { it.key == key }?.img = newData.img
+                        UserList.userList.find { it.key == key }?.backgroundImg =
+                            newData.backgroundImg
+                        UserList.userList.find { it.key == key }?.name =
+                            binding.etDetailName.text.toString()
+                        UserList.userList.find { it.key == key }?.phone =
+                            binding.etDetailPhoneNumber.text.toString()
+                        UserList.userList.find { it.key == key }?.email =
+                            binding.etDetailEmail.text.toString()
+                        UserList.userList.find { it.key == key }?.event =
+                            selectedEvent
+                        UserList.userList.find { it.key == key }?.info =
+                            binding.etDetailMemo.text.toString()
+                        UserList.userList.find { it.key == key }?.let { it1 ->
+                            setDefaultData(it1)
 
-                    // 태그 추가
-                    updateUserTag()
+                            // 알람 등록
+                            if (selectedEvent != null)
+                                UserList.notification.setUserAlarm(it1, this)
+                        }
+                        // 태그 추가
+                        updateUserTag()
 
+                    } else {
+                        myData.run {
+                            img = newData.img
+                            backgroundImg = newData.backgroundImg
+                            name = binding.etDetailName.text.toString()
+                            phone = binding.etDetailPhoneNumber.text.toString()
+                            email = binding.etDetailEmail.text.toString()
+                            event = selectedEvent
+                            info = binding.etDetailMemo.text.toString()
+                            setDefaultData(this)
+                            if (selectedEvent != null)
+                                UserList.notification.setUserAlarm(this, this@DetailPageActivity)
+                        }
+                    }
                     false
                 } else {
                     Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
                     true
                 }
+
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
-                setDefaultData(user)
+                setDefaultData(defaultData)
                 true
             }
 
@@ -287,7 +322,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             builder.setTitle("연락처 삭제")
             builder.setMessage("정말 삭제하시겠습니까?")
             builder.setPositiveButton("네") { _, _ ->
-                UserList.userList.remove(user)
+                UserList.userList.remove(getUserByIntent)
                 finish()
                 //프래그먼트에 어떻게 알리지...? notify 안되는데
                 //그냥 프래그먼트를 매번 새로고침 하면 안 되나
@@ -311,27 +346,54 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         if (type == "mypage") {
             setDefaultData(myData)
             setProfile(myData)
+
+            isMyData = true
+
             setSpinner()
         } else {
-            user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
-            setDefaultData(user)
-            setProfile(user)
+
+            getUserByIntent = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
+            setDefaultData(getUserByIntent)
+            setProfile(getUserByIntent)
+
+            newData = User(
+                getUserByIntent.key,
+                getUserByIntent.img,
+                getUserByIntent.name,
+                getUserByIntent.phone,
+                getUserByIntent.email,
+                getUserByIntent.event,
+                getUserByIntent.info,
+                getUserByIntent.backgroundImg
+            )
+
             //binding.spDetailEvent 부분 함수화
             setSpinner()
         }
-        newData = user
+//        newData = user
 
         setTextChangedListener()
 
         // 버튼 액션
         onButtonAction()
         // spinner 비활성화
+
         binding.detailSpinner.isEnabled = false
     }
 
     //수정하기 전 디폴트 값 세팅하는 함수?
     private fun setDefaultData(user: User) {
         defaultData = user
+//        defaultData = User(
+//            user.key,
+//            user.img,
+//            user.name,
+//            user.phone,
+//            user.email,
+//            user.event,
+//            user.info,
+//            user.backgroundImg
+//        )
     }
 
 
@@ -510,13 +572,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
      * 회원에 대한 태그 정보 가져오기
      */
     private fun setUserTagOnSpinner() {
-        userTag = TagMember.getFindTag(user.key)
+
+        userTag = TagMember.getFindTag(newData.key)
 
         val selectedIndex = if (userTag == null) {
             0
         } else {
             getTagIndex(userTag!!.title, userTag!!.img).coerceAtLeast(0)
         }
+
 
         binding.detailSpinner.setSelection(selectedIndex)
     }
@@ -578,15 +642,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     private fun updateUserTag() {
         when {
             userTag != null && selectedItem == null -> {
-                TagMember.removeMember(user.key)
+                TagMember.removeMember(getUserByIntent.key)
             }
 
             userTag == null && selectedItem != null -> {
-                TagMember.addMember(selectedItem!!, user.key)
+                TagMember.addMember(selectedItem!!, getUserByIntent.key)
             }
 
             selectedItem != null -> {
-                updateMemberTag(user.key, selectedItem!!)
+                updateMemberTag(getUserByIntent.key, selectedItem!!)
             }
         }
     }
