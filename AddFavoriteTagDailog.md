@@ -2,9 +2,9 @@
 
 # 1. 즐겨찾기 태그 추가 기능 
 
-## (1) Layout : [dialog_add_favorite_tag.xml](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/res/layout/activity_main.xml)
+## (1) Layout : [dialog_add_favorite_tag.xml](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/res/layout/dialog_add_favorite_tag.xml)
 
-## (2) Activity : [AddFavoriteTagDailog.kt](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/java/com/example/colorcontacts/ui/main/MainActivity.kt)
+## (2) Activity : [AddFavoriteTagDailog.kt](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/java/com/example/colorcontacts/dialog/AddFavoriteTagDialog.kt)
 
 - ### 인터페이스
 ```kotlin
