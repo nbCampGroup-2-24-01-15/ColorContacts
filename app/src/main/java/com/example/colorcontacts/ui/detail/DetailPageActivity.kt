@@ -21,10 +21,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
+import com.example.colorcontacts.dialog.DateUpdateListener
 import com.example.colorcontacts.utill.AdapterInterface
+import com.example.colorcontacts.utill.SharedDataListener
 import com.google.android.material.snackbar.Snackbar
 
 @Suppress("DEPRECATION")
@@ -167,9 +170,16 @@ class DetailPageActivity : AppCompatActivity() {
             startActivity(messageIntent)
         }
 
-        //별 버튼 눌렀을 때 즐겨찾기 기본 목록에 추가하고 색 바뀌기?
+        //별 버튼 눌렀을 때 즐겨찾기 기본 목록에 추가하고 색 바뀌기
         binding.ibDetailFavorite.setOnClickListener {
-            //즐겨찾기 리스트 add
+            if (TagMember.totalTags.any { it.member.contains(key) }) {
+                SharedDataListener().offFavorite(key)
+                binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_outline)
+            }
+            else {
+                SharedDataListener().onFavorite(key)
+                binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_filled)
+            }
         }
 
         //태그 추가 버튼 눌렀을 때 태그 추가
@@ -341,6 +351,13 @@ class DetailPageActivity : AppCompatActivity() {
         binding.clDetailEvent.isVisible = newData.event != null
         if (binding.etDetailMemo.text.isNotBlank()) {
             binding.etDetailMemo.setTextColor(R.color.black)
+        }
+        if (TagMember.totalTags.any { it.member.contains(key) }) {
+            SharedDataListener().offFavorite(key)
+            binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_outline)
+        } else {
+            SharedDataListener().onFavorite(key)
+            binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_filled)
         }
     }
 
