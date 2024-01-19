@@ -15,7 +15,7 @@ object TagMember {
     init {
         addNewTag(
             Tag(
-                "기본", null/*"android.resource://com.example.colorcontacts/"+ R.drawable.ic_detail_favorite_filled*/
+                "기본", null
             )
         )
     }

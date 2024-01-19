@@ -1,27 +1,30 @@
 package com.example.colorcontacts.data
 
+import android.content.Context
 import android.net.Uri
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.Notification
 import java.io.File
+import java.io.FileOutputStream
+import java.util.Locale
 import java.util.UUID
 
 
 data class User(
     var key: String = UUID.randomUUID().toString(),
-    var img: File?,
+    var img: File? = null,
     var name: String="",
     var phone: String="",
     var email: String="",
     var event: String? = null,
     var info: String,
-    var backgroundImg: File?
+    var backgroundImg: File? = null
 )
 
 object MyData {
 
     var myData = User(
-        img =null,
+        img = null,
         backgroundImg = null,
         name = "",
         phone = "",
@@ -30,6 +33,26 @@ object MyData {
         info = "",
     )
 
+    fun Context.copyResourceToFile(resId: Int): File {
+        val inputStream = resources.openRawResource(resId)
+        val outputFile = File(cacheDir, "temp_resource_file")
+        val outputStream = FileOutputStream(outputFile)
+
+        inputStream.use { input ->
+            outputStream.use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        return outputFile
+    }
+
+    fun sortContacts(contacts: MutableList<User>): List<User> {
+        val collator = java.text.Collator.getInstance(Locale.KOREAN)
+        return contacts.sortedWith { contact1, contact2 ->
+            collator.compare(contact1.name, contact2.name)
+        }
+    }
 
 
 }

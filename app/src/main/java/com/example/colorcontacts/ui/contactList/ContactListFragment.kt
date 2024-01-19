@@ -46,7 +46,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         FragmentContactListBinding.inflate(layoutInflater)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,9 +61,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         dataChangedListener
 
         init()
-        // other initialization
-
-//        onResume()
     }
 
 
@@ -105,6 +101,7 @@ class ContactListFragment : Fragment(), DataUpdateListener {
                     )
                     else sharedDataListener.onFavorite(key)
                 } else {
+                    Log.d("qwe", "Item clicked - view:$view, Position: $position, Key: $key")
                     val intent = Intent(view.context, DetailPageActivity::class.java)
                     intent.putExtra("user", key)
                     intent.putExtra("TYPE", "others")
