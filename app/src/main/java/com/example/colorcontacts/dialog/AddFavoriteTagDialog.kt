@@ -15,8 +15,11 @@ import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
+import coil.load
+import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.R
 import com.example.colorcontacts.databinding.DialogAddFavoriteTagBinding
+import java.io.File
 
 class AddFavoriteTagDialog : DialogFragment() {
     companion object {
@@ -40,7 +43,7 @@ class AddFavoriteTagDialog : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = DialogAddFavoriteTagBinding.inflate(inflater, container, false)
 
@@ -64,14 +67,14 @@ class AddFavoriteTagDialog : DialogFragment() {
                 charSequence: CharSequence?,
                 start: Int,
                 before: Int,
-                count: Int
+                count: Int,
             ) = Unit
 
             override fun onTextChanged(
                 charSequence: CharSequence?,
                 start: Int,
                 before: Int,
-                count: Int
+                count: Int,
             ) {
                 onButtonEnabled()
                 updateTextLength(charSequence)
@@ -88,8 +91,12 @@ class AddFavoriteTagDialog : DialogFragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 selectedImageUri = data?.data!!
-                binding.ivAddTagImage.setImageURI(selectedImageUri)
+//                binding.ivAddTagImage.setImageURI(selectedImageUri)
+                val path = requireActivity().absolutelyPath(selectedImageUri!!)
+                val file = File(path)
+                binding.ivAddTagImage.load(file)
                 onButtonEnabled()
+
             }
         }
 
@@ -167,7 +174,8 @@ class AddFavoriteTagDialog : DialogFragment() {
      */
     private fun openGallery() {
         //암시적 인텐트 이용
-        val pickImageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val pickImageIntent =
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryResultLauncher.launch(pickImageIntent)
     }
 }

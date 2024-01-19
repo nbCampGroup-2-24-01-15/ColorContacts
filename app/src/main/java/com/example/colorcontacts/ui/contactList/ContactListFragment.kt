@@ -125,20 +125,20 @@ class ContactListFragment : Fragment(),DateUpdateListener{
     private fun setMyPageTab() {
 
 
-        if (MyData.myData.img == Uri.EMPTY) {
+        if (MyData.userMyData.img == Uri.EMPTY) {
             binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
         } else {
-            binding.ivMyImg.setImageURI(MyData.myData.img)
+            binding.ivMyImg.setImageURI(MyData.userMyData.img)
         }
 
-        if (MyData.myData.name.isBlank()) {
+        if (MyData.userMyData.name.isBlank()) {
             binding.tvMyName.text = getString(R.string.edit_name)
         } else {
-            binding.tvMyName.text = MyData.myData.name
+            binding.tvMyName.text = MyData.userMyData.name
         }
 
         Glide.with(this)
-            .load(MyData.myData.backgroundImg)
+            .load(MyData.userMyData.backgroundImg)
             .into(object : CustomTarget<Drawable>() {
                 override fun onResourceReady(
                     resource: Drawable,

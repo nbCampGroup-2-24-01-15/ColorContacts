@@ -1,9 +1,6 @@
 package com.example.colorcontacts.data
 
 import android.net.Uri
-import android.os.Bundle
-import android.os.Parcel
-import com.example.colorcontacts.R
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.Notification
 import java.util.UUID
@@ -22,7 +19,7 @@ data class User(
 
 object MyData {
 
-    var myData = User(
+    var userMyData = User(
         img = Uri.EMPTY,
         backgroundImg = Uri.EMPTY,
         name = "",
