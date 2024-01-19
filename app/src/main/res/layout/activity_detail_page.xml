@@ -45,23 +45,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_detail_done"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginEnd="10dp"-->
-<!--            android:background="@drawable/custom_ripple_effect"-->
-<!--            android:fontFamily="@font/pretendard_bold"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="10dp"-->
-<!--            android:text="@string/detail_done"-->
-<!--            android:textColor="@color/icon"-->
-<!--            android:textSize="20sp"-->
-<!--            android:visibility="gone"-->
-
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:background="@color/widget"
+                    android:scaleType="centerCrop"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -111,18 +95,30 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_detail_add_profile"
+                <androidx.cardview.widget.CardView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/iv_round_background"
-                    android:clickable="true"
-                    android:clipToOutline="true"
-                    android:src="@drawable/img_user_profile"
+                    android:background="@drawable/img_user_profile"
+                    app:cardCornerRadius="200dp"
 
+                    app:cardElevation="1dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_detail_add_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/img_user_profile"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:scaleType="centerCrop" />
+
+                </androidx.cardview.widget.CardView>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -132,10 +128,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@color/transparent"
-                android:gravity="center"
-                android:maxLines="1"
                 android:fontFamily="@font/pretendard_bold"
+                android:gravity="center"
                 android:hint="@string/edit_name"
+                android:maxLines="1"
                 android:textSize="24sp" />
 
             <EditText
@@ -143,9 +139,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:gravity="center"
                 android:background="@color/transparent"
                 android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
                 android:hint="010-1234-5678"
                 android:textSize="14sp" />
 
@@ -202,9 +198,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:background="@drawable/et_box_background"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@drawable/et_box_background"
                 android:visibility="gone">
 
                 <ImageView
@@ -224,13 +220,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:paddingStart="5dp"
                     android:background="@color/white"
                     android:ems="17"
                     android:fontFamily="@font/pretendard_regular"
-                    android:maxLength="30"
-                    android:textSize="15sp"
                     android:hint="email@mail.com"
+                    android:maxLength="30"
+                    android:paddingStart="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="15sp"
 
                     app:layout_constraintBottom_toBottomOf="@+id/iv_detail_email"
                     app:layout_constraintStart_toEndOf="@+id/iv_detail_email"
@@ -239,7 +237,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--            리사이클러뷰로 바꾸기-->
+            <!--            리사이클러뷰로 바꾸기-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_detail_group"
                 android:layout_width="match_parent"
@@ -247,7 +245,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/et_box_background"
                 android:padding="10dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_detail_group"
@@ -373,14 +371,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/sp_detail_event"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:background="@drawable/spinner_register_background"
-                    android:popupBackground="@drawable/spinner_register_background"
-
+                    android:background="@null"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_detail_event"
                     app:layout_constraintStart_toEndOf="@+id/tv_detail_event"
                     app:layout_constraintTop_toTopOf="@+id/tv_detail_event" />
@@ -392,14 +389,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:padding="5dp"
-                android:background="@drawable/et_box_background">
+                android:background="@drawable/et_box_background"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/tv_detail_memo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/pretendard_bold"
                     android:text="메모"

@@ -1,18 +1,28 @@
 package com.example.colorcontacts.ui.contactList
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.colorcontacts.R
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.TagMember
+import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
+import com.example.colorcontacts.dialog.DateUpdateListener
 import com.example.colorcontacts.ui.contactList.adapter.ContactAdapter
 import com.example.colorcontacts.ui.contactList.adapter.ContactItemHelper
 import com.example.colorcontacts.ui.detail.DetailPageActivity
@@ -21,7 +31,7 @@ import com.example.colorcontacts.utill.RecyclerViewBindingWrapper
 import com.example.colorcontacts.utill.SharedDataListener
 
 
-class ContactListFragment : Fragment() {
+class ContactListFragment : Fragment(),DateUpdateListener{
 
     private val bindingWrapper by lazy {
         RecyclerViewBindingWrapper(binding)
@@ -43,6 +53,7 @@ class ContactListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return binding.root
     }
 
@@ -54,13 +65,18 @@ class ContactListFragment : Fragment() {
 
         init()
         // other initialization
+
+//        onResume()
     }
+
+
     private fun init() {
         val loadedData = sharedDataListener.setContactList(UserList.layoutType)
         adapter.load(loadedData ?: emptyList())
         binding.rcContactList.layoutManager = LinearLayoutManager(context)
 
         setList()
+        setMyPageTab()
         Log.d("ContactListFragment", "Loaded data: $loadedData")
     }
 
@@ -79,36 +95,93 @@ class ContactListFragment : Fragment() {
 
         data.let { adapter.load(it) }
         Log.d("ContactListFragment", "Data loaded into adapter, size: ${adapter.itemCount}")
-        adapter.itemClick = object : ContactAdapter.ItemClick{
+        adapter.itemClick = object : ContactAdapter.ItemClick {
             override fun onClick(view: View, position: Int, key: String) {
                 Log.d("ContactListFragment", "Item clicked - Position: $position, Key: $key")
-                if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(key)
+                if (TagMember.totalTags.any { it.member.contains(key) }) sharedDataListener.offFavorite(
+                    key
+                )
                 else sharedDataListener.onFavorite(key)
-            }
-        }
-
-        adapter.itemLongClick = object : ContactAdapter.ItemLongClick{
-            override fun onLongClick(view: View, position: Int, key: String) {
-                val intent = Intent(requireActivity(), DetailPageActivity::class.java)
+                val intent = Intent(view.context, DetailPageActivity::class.java)
                 intent.putExtra("user", key)
+                intent.putExtra("TYPE", "others")
                 startActivity(intent)
             }
         }
+
+//        adapter.itemLongClick = object : ContactAdapter.ItemLongClick {
+//            override fun onLongClick(view: View, position: Int, key: String) {
+//                val intent = Intent(requireActivity(), DetailPageActivity::class.java)
+//                intent.putExtra("user", key)
+//                intent.putExtra("TYPE", "others")
+//                startActivity(intent)
+//            }
+//        }
+
         //스와이프 통화
         val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setList()
+
+    private fun setMyPageTab() {
+
+
+        if (MyData.myData.img == Uri.EMPTY) {
+            binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
+        } else {
+            binding.ivMyImg.setImageURI(MyData.myData.img)
+        }
+
+        if (MyData.myData.name.isBlank()) {
+            binding.tvMyName.text = getString(R.string.edit_name)
+        } else {
+            binding.tvMyName.text = MyData.myData.name
+        }
+
+        Glide.with(this)
+            .load(MyData.myData.backgroundImg)
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    binding.linearLayout4.background = resource
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    //Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
+        binding.linearLayout4.setOnClickListener {
+            val intent = Intent(requireActivity(), DetailPageActivity::class.java).apply {
+                putExtra("TYPE", "mypage")
+            }
+            startActivity(intent)
+        }
     }
+
+
+//    override fun onResume() {
+//        super.onResume()
+//        setList()
+//        setMyPageTab()
+//    }
 
     /**
      * TODO Fragment RecyclerView 검색
      */
     fun updateItem(text: String) {
         adapter.performSearch(text)
+    }
+
+    /**
+     * TODO : DataUpdate 될때 화면을 재구성
+     */
+    override fun onDataUpdate() {
+        setList()
     }
 
 
