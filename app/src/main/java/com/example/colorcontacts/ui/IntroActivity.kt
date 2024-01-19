@@ -11,12 +11,14 @@ import android.provider.ContactsContract
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityIntroBinding
@@ -30,6 +32,9 @@ class IntroActivity : AppCompatActivity() {
     }
     private var contactsLoaded = false
 
+    private val blick by lazy {
+        AnimationUtils.loadAnimation(this, R.anim.blink)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -46,6 +51,7 @@ class IntroActivity : AppCompatActivity() {
 
     private fun goMain() {
         Log.d("IntroActivity", "Navigating to MainActivity")
+        binding.introMotion.setTransitionDuration(4000)
         binding.introMotion.transitionToEnd()
 
         binding.introMotion.setOnClickListener {
@@ -85,9 +91,10 @@ class IntroActivity : AppCompatActivity() {
     private fun startMotion() {
         binding.introMotion.apply {
             transitionToStart()
+            binding.tvIntroTouch.startAnimation(blick)
             Handler(Looper.getMainLooper()).postDelayed({
                 goMain()
-            }, 4000)
+            }, 0)
         }
     }
 
