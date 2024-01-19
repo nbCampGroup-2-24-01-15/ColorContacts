@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,6 @@ import com.example.colorcontacts.R
 import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.TagMember
-import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.FragmentContactListBinding
 import com.example.colorcontacts.dialog.DateUpdateListener
@@ -40,7 +38,7 @@ class ContactListFragment : Fragment(),DateUpdateListener{
         DataChangedListener(adapter, bindingWrapper)
     }
     private val adapter by lazy {
-        ContactAdapter(emptyList(), NowColor.color, binding.tvContactList)
+        ContactAdapter(requireContext(), emptyList(), NowColor.color, binding.tvContactList)
     }
 
     val sharedDataListener = SharedDataListener()
@@ -164,11 +162,11 @@ class ContactListFragment : Fragment(),DateUpdateListener{
     }
 
 
-//    override fun onResume() {
-//        super.onResume()
-//        setList()
+    override fun onResume() {
+        super.onResume()
+        setList()
 //        setMyPageTab()
-//    }
+    }
 
     /**
      * TODO Fragment RecyclerView 검색
