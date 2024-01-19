@@ -1,16 +1,22 @@
 package com.example.colorcontacts.ui.favorite.adapter
 
 
+import android.content.Context
 import android.net.Uri
+import android.text.Html.ImageGetter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.databinding.ItemFavoriteTypeBinding
+import com.squareup.picasso.MemoryPolicy
 
 /**
  * 즐겨 찾기 태그를 위한 Adapter
@@ -55,9 +61,8 @@ class FavoriteTagAdapter(
         private val imageView = binding.ivFavoriteType
         private val textView = binding.tvFavoriteTitle
         fun bind(item: Tag) {
-            item.img?.let { imageView.setFavoriteTag(it) }
+            imageView.load(item.img)
             textView.text = item.title
-
             imageView.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -69,9 +74,6 @@ class FavoriteTagAdapter(
 
     fun updateItem(newItems: List<Tag>) {
         items = newItems
-        items.forEach {
-            Log.d("TAG", "${it.title}, ${it.img}")
-        }
         notifyDataSetChanged()
     }
 
