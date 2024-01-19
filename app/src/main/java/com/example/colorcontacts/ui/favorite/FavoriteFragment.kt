@@ -1,6 +1,5 @@
 package com.example.colorcontacts.ui.favorite
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +21,7 @@ import com.example.colorcontacts.ui.favorite.adapter.FavoriteViewType
 import com.example.colorcontacts.utill.DataChangedListener
 import com.example.colorcontacts.utill.RecyclerViewBindingWrapper
 import com.example.colorcontacts.utill.SharedDataListener
+import java.io.File
 
 class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
 
@@ -67,7 +67,7 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
 
     private fun init() {
         loadedData = sharedDataListener.setFavoriteList(UserList.layoutType)
-        adapter.load(loadedData ?: emptyList())
+        adapter.load(loadedData)
         binding.rcFavoriteList.layoutManager = LinearLayoutManager(context)
         setList()
         setFavoriteTypeAdapter()
@@ -144,14 +144,14 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
     /**
      * 다이얼로그에서 받은 데이터
      */
-    override fun onTagAdd(name: String, uri: Uri) {
-        TagMember.addNewTag(Tag(name, uri))
+    override fun onTagAdd(name: String, uriad: File) {
+        TagMember.addNewTag(Tag(name, uriad))
         tagAdapter?.updateItem(totalTags)
     }
 
     private fun filteredTag(
         list: List<FavoriteViewType>,
-        uri: Uri? = TagMember.defaultTag.img
+        uri: File?/* = TagMember.defaultTag.img*/
     ): List<FavoriteViewType> {
         return list.filter {
             val userKey = when (it) {

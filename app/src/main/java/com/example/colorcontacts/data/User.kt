@@ -1,30 +1,28 @@
 package com.example.colorcontacts.data
 
 import android.net.Uri
-import android.os.Bundle
-import android.os.Parcel
-import com.example.colorcontacts.R
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.Notification
+import java.io.File
 import java.util.UUID
 
 
 data class User(
     var key: String = UUID.randomUUID().toString(),
-    var img: Uri?=null,
+    var img: File?,
     var name: String="",
     var phone: String="",
     var email: String="",
     var event: String? = null,
     var info: String,
-    var backgroundImg: Uri?=null
+    var backgroundImg: File?
 )
 
 object MyData {
 
     var myData = User(
-        img = Uri.EMPTY,
-        backgroundImg = Uri.EMPTY,
+        img =null,
+        backgroundImg = null,
         name = "",
         phone = "",
         email = "",
@@ -49,6 +47,10 @@ object UserList{
     fun findUser(key:String) : User? {
         return userList.find { it.key == key }
     }
+
+    fun getURLForResource(resId: Int): String {
+        val packageName = javaClass.`package`?.name
+        return Uri.parse("android.resource://$packageName/$resId").toString() }
 }
 
 /**

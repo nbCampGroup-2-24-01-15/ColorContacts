@@ -5,68 +5,378 @@
 
     <ConstraintSet android:id="@+id/start">
         <!-- Constraints for other views -->
+        <Constraint
+            android:id="@+id/tv_intro_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:fontFamily="@font/shrikhand_regular"
+            android:text="Color\n Contatcs"
+            android:textColor="@color/white"
+            android:textSize="56sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2"/>
+        <Constraint
+            android:id="@+id/iv_intro_skyline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
+        <Constraint
+            android:id="@+id/iv_intro_actionbar2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="150dp"
+            android:alpha="0"
+            android:scaleX="-1"
+            android:src="@drawable/img_intro_actionbar2"
+            app:layout_constraintBottom_toTopOf="@id/iv_intro_actionbar1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="1.2" />
 
         <!-- Male ImageView start position (off-screen right) -->
         <Constraint
             android:id="@+id/iv_intro_male"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/img_intro_male"
             android:layout_marginStart="100dp"
             android:alpha="0"
-            app:layout_constraintHeight_percent="0.3"
-            app:layout_constraintWidth_percent="0.2"
+            android:src="@drawable/img_intro_male"
             app:layout_constraintBottom_toTopOf="@+id/linear1"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.2" />
+        <Constraint
+            android:id="@+id/iv_intro_actionbar1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="150dp"
+            android:alpha="0"
+            android:src="@drawable/img_intro_actionbar2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1.2" />
+
 
         <!-- Female ImageView start position (off-screen left) -->
         <Constraint
             android:id="@+id/iv_intro_female"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/img_intro_female"
             android:layout_marginEnd="150dp"
             android:alpha="0"
-            app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintWidth_percent="0.2"
+            android:src="@drawable/img_intro_female"
             app:layout_constraintBottom_toTopOf="@+id/linear2"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.27"
+            app:layout_constraintWidth_percent="0.2" />
+        <Constraint
+            android:id="@+id/tv_intro_touch"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.84"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/pg_intro_textred"
+            app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+            app:layout_constraintVertical_bias="0.26"
+            app:layout_constraintHorizontal_bias="0.121"
+            app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_intro_title" />
+        <Constraint
+            android:id="@+id/pg_intro_textyellow"
+            app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+            app:layout_constraintVertical_bias="0.14"
+            android:rotation="70"
+            android:alpha="0"
+            app:layout_constraintHorizontal_bias="0.545"
+            app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_intro_title" />
+        <Constraint
+            android:id="@+id/pg_intro_textyblue"
+            app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+            app:layout_constraintVertical_bias="0.78"
+            android:rotation="120"
+            app:layout_constraintHorizontal_bias="1.028"
+            app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_intro_title" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
+            android:id="@+id/tv_intro_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.9"
+            android:fontFamily="@font/shrikhand_regular"
+            android:text="Color\n Contatcs"
+            android:textColor="@color/white"
+            android:textSize="56sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+        <Constraint
+            android:id="@+id/iv_intro_actionbar1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="-100dp"
+            android:src="@drawable/img_intro_actionbar2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1.2" />
+        <Constraint
+            android:id="@+id/iv_intro_actionbar2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:scaleX="-1"
+            android:src="@drawable/img_intro_actionbar2"
+            app:layout_constraintBottom_toTopOf="@id/iv_intro_actionbar1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1.2" />
+        <Constraint
             android:id="@+id/iv_intro_male"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/img_intro_male"
             android:layout_marginStart="30dp"
-            app:layout_constraintHeight_percent="0.3"
-            app:layout_constraintWidth_percent="0.2"
+            android:src="@drawable/img_intro_male"
             app:layout_constraintBottom_toTopOf="@+id/linear1"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintHeight_percent="0.27"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.2" />
 
         <!-- Female ImageView start position (off-screen left) -->
         <Constraint
             android:id="@+id/iv_intro_female"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/img_intro_female"
             android:layout_marginEnd="30dp"
-            app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintWidth_percent="0.2"
+            android:src="@drawable/img_intro_female"
             app:layout_constraintBottom_toTopOf="@+id/linear2"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.30"
+            app:layout_constraintWidth_percent="0.2" />
+        <Constraint
+            android:id="@+id/iv_intro_skyline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4" />
+        <Constraint
+            android:id="@+id/tv_intro_touch"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.84"
+            android:alpha="0.6" />
+        <Constraint
+            android:id="@+id/pg_intro_textred"
+            app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+            app:layout_constraintVertical_bias="0.26"
+            app:layout_constraintHorizontal_bias="0.121"
+            app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_intro_title" />
+        <Constraint
+            android:id="@+id/pg_intro_textyellow"
+            app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+            app:layout_constraintVertical_bias="0.14"
+            android:rotation="70"
+            app:layout_constraintHorizontal_bias="0.545"
+            app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_intro_title" />
+        <Constraint
+            android:id="@+id/pg_intro_textyblue"
+            app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+            app:layout_constraintVertical_bias="0.78"
+            android:rotation="120"
+            app:layout_constraintHorizontal_bias="1.028"
+            app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_intro_title" />
     </ConstraintSet>
 
     <Transition
-        motion:duration="4000"
+        app:constraintSetEnd="@id/end"
         app:constraintSetStart="@id/start"
-        app:constraintSetEnd="@id/end">
+        motion:duration="4000">
         <KeyFrameSet>
             <KeyAttribute
+                android:alpha="0"
+                app:framePosition="10"
+                app:motionTarget="@id/iv_intro_skyline"
+                app:transitionEasing="accelerate" />
+            <KeyPosition
+                motion:keyPositionType="parentRelative"
+                app:percentX="1"
+                motion:framePosition="20"
+                app:motionTarget ="@+id/iv_intro_skyline"
+                app:keyPositionType="pathRelative"
+                app:framePosition="30" />
+            <KeyAttribute
+                android:alpha="1"
+                app:framePosition="30"
+                app:motionTarget="@id/iv_intro_skyline" />
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="30"
                 app:motionTarget="@id/iv_intro_male"
-                app:framePosition="20"
-                android:alpha="0"/>
+                app:transitionEasing="decelerate" />
+            <KeyAttribute
+                android:alpha="1"
+                app:framePosition="50"
+                app:motionTarget="@id/iv_intro_male" />
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="25"
+                app:motionTarget="@id/iv_intro_actionbar2"
+                app:transitionEasing="accelerate" />
+            <KeyAttribute
+                android:alpha="1"
+                app:framePosition="45"
+                app:motionTarget="@id/iv_intro_actionbar2" />
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="50"
+                app:motionTarget="@id/iv_intro_female"
+                app:transitionEasing="decelerate" />
+            <KeyAttribute
+                android:alpha="1"
+                app:framePosition="66"
+                app:motionTarget="@id/iv_intro_female" />
+
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="50"
+                app:motionTarget="@id/iv_intro_actionbar1"
+                app:transitionEasing="accelerate" />
+            <KeyAttribute
+                android:alpha="1"
+                app:framePosition="66"
+                app:motionTarget="@id/iv_intro_actionbar1" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_skyline"
+                app:framePosition="10"
+                app:keyPositionType="pathRelative"
+                app:percentX="0"
+                app:percentY="0" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_male"
+                app:framePosition="29"
+                app:keyPositionType="pathRelative"
+                app:percentX="0" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_male"
+                app:framePosition="50"
+                app:keyPositionType="pathRelative"
+                app:percentX="1" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_actionbar2"
+                app:framePosition="30"
+                app:keyPositionType="pathRelative"
+                app:percentX="0" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_actionbar2"
+                app:framePosition="47"
+                app:keyPositionType="pathRelative"
+                app:percentX="1" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_female"
+                app:framePosition="49"
+                app:keyPositionType="pathRelative"
+                app:percentX="0" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_female"
+                app:framePosition="66"
+                app:keyPositionType="pathRelative"
+                app:percentX="1" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_actionbar1"
+                app:framePosition="49"
+                app:keyPositionType="pathRelative"
+                app:percentX="0" />
+            <KeyPosition
+                app:motionTarget="@+id/iv_intro_actionbar1"
+                app:framePosition="66"
+                app:keyPositionType="pathRelative"
+                app:percentX="1" />
+            <KeyAttribute
+                app:motionTarget="@+id/tv_intro_title"
+                app:framePosition="0"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/tv_intro_title"
+                app:framePosition="10"
+                android:alpha="1" />
+            <KeyAttribute
+                app:motionTarget="@+id/tv_intro_touch"
+                app:framePosition="60"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/pg_intro_textred"
+                app:framePosition="10"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/pg_intro_textyellow"
+                app:framePosition="10"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/pg_intro_textyblue"
+                app:framePosition="10"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/pg_intro_textred"
+                app:framePosition="14"
+                android:alpha="1" />
+            <KeyAttribute
+                app:motionTarget="@+id/pg_intro_textyblue"
+                app:framePosition="14"
+                android:alpha="1" />
+            <KeyAttribute
+                app:motionTarget="@+id/pg_intro_textyellow"
+                app:framePosition="14"
+                android:alpha="0.5" />
         </KeyFrameSet>
+        <!--<OnSwipe app:maxAcceleration="1.48" />-->
     </Transition>
+
 </MotionScene>

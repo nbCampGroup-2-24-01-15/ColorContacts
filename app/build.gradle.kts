@@ -62,6 +62,9 @@ dependencies {
     // colorPicker
     implementation ("com.github.Dhaval2404:ColorPicker:2.3")
 
+    //progressbar
+    implementation ("com.github.ybq:Android-SpinKit:1.4.0")
+
     //RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 

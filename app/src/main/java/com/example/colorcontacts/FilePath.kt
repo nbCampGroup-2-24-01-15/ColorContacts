@@ -11,8 +11,9 @@ object FilePath {
         val c: Cursor? = contentResolver.query(path, proj, null, null, null)
         val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         c?.moveToFirst()
-        if (index == null) return ""
+        if (index == null) return null
 
         return c.getString(index)
     }
+
 }

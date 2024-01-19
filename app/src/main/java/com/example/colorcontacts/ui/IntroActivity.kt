@@ -1,33 +1,27 @@
 package com.example.colorcontacts.ui
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
-import android.provider.MediaStore
-import android.util.Log
-import android.view.View
 import android.view.WindowManager
-import androidx.activity.result.contract.ActivityResultContracts
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityIntroBinding
 import com.example.colorcontacts.ui.main.MainActivity
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 @Suppress("DEPRECATION")
 class IntroActivity : AppCompatActivity() {
@@ -35,6 +29,10 @@ class IntroActivity : AppCompatActivity() {
         ActivityIntroBinding.inflate(layoutInflater)
     }
     private var contactsLoaded = false
+
+    private val blick by lazy {
+        AnimationUtils.loadAnimation(this, R.anim.blink)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,19 +46,35 @@ class IntroActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         requestContactPermission()
+
+        binding.introMotion.setOnClickListener {
+            binding.introMotion.transitionToEnd()
+            startActivity(Intent(this@IntroActivity, MainActivity::class.java))
+            finish()
+        }
     }
 
     private fun goMain() {
-        Log.d("IntroActivity", "Navigating to MainActivity")
+        binding.introMotion.setTransitionDuration(4000)
         binding.introMotion.transitionToEnd()
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
+
+        binding.introMotion.setOnClickListener {
+            startActivity(Intent(this@IntroActivity, MainActivity::class.java))
             finish()
-        }, 5000)
+        }
+    }
+
+    private fun startMotion() {
+        binding.introMotion.apply {
+            transitionToStart()
+            binding.tvIntroTouch.startAnimation(blick)
+            Handler(Looper.getMainLooper()).postDelayed({
+                goMain()
+            }, 0)
+        }
     }
 
     private fun requestContactPermission() {
-        Log.d("IntroActivity", "Requesting contact permission")
         val status =
             ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
         if (status == PackageManager.PERMISSION_GRANTED) {
@@ -71,19 +85,17 @@ class IntroActivity : AppCompatActivity() {
                 arrayOf(android.Manifest.permission.READ_CONTACTS),
                 100
             )
-            binding.pbIntroLoading.isVisible = true
         }
 
 
     }
 
     private fun requestCallPermission() {
-        Log.d("IntroActivity", "Requesting call permission")
         val callPermission =
             ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
         if (callPermission == PackageManager.PERMISSION_GRANTED) {
             if (contactsLoaded) {
-                goMain()
+                startMotion()
             }
         } else {
             ActivityCompat.requestPermissions(
@@ -93,16 +105,12 @@ class IntroActivity : AppCompatActivity() {
             )
         }
     }
-// 좋아 ! 포기!
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        Log.d(
-            "IntroActivity",
-            "onRequestPermissionsResult: requestCode=$requestCode, grantResults=${grantResults.contentToString()}"
-        )
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -115,39 +123,29 @@ class IntroActivity : AppCompatActivity() {
             }
 
             55 -> {
-                if (contactsLoaded) {
-                    goMain()
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (contactsLoaded) startMotion()
                 } else {
-                    Log.d(
-                        "IntroActivity",
-                        "Call permission denied but proceeding as contacts are loaded."
-                    )
                     finish()
                 }
+
             }
         }
     }
 
     private fun loadContacts() {
-        Log.d("IntroActivity", "Loading contacts")
-        lifecycleScope.launch {
+        Thread {
             getContacts()
-            Log.d("IntroActivity", "Loading contacts2")
             runOnUiThread {
-                Log.d("IntroActivity", "Loading contacts3")
                 contactsLoaded = true
-                binding.pbIntroLoading.visibility = View.GONE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    requestCallPermission()
-                }, 2000)
+                requestCallPermission()
             }
-        }
+        }.start()
     }
 
 
     @SuppressLint("Range")
     private fun getContacts() {
-        Log.d("IntroActivity", "Getting contacts from the device")
         UserList.userList = mutableListOf()
         val contactsUri = ContactsContract.Contacts.CONTENT_URI
         val cursor = contentResolver.query(contactsUri, null, null, null, null)
@@ -190,12 +188,11 @@ class IntroActivity : AppCompatActivity() {
 
                 val photoUri =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI))
-                if (photoUri != null) {
-                    profileImageUri = Uri.parse(photoUri)
-                }
-
+                val proimg = if (photoUri != null) {
+                    savImageToFile(Uri.parse(photoUri))
+                } else null
                 val user = User(
-                    img = profileImageUri,
+                    img = proimg,
                     name = name ?: "Unknown",
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "",
@@ -209,7 +206,32 @@ class IntroActivity : AppCompatActivity() {
         UserList.userList.sortBy { it.name }
     }
 
+    fun savImageToFile(imageUri: Uri): File? {
+        val contentResolver = this.contentResolver
+        val inputStream = contentResolver.openInputStream(imageUri) ?: return null
+        val outputFile = createImageFile() ?: return null
 
+        inputStream.use { input ->
+            FileOutputStream(outputFile).use { output ->
+                val buffer = ByteArray(1024)
+                var read: Int
+                while (input.read(buffer).also { read = it } != -1) {
+                    output.write(buffer, 0, read)
+                }
+                output.flush()
+            }
+        }
 
+        return outputFile
+    }
 
+    private fun createImageFile(): File? {
+        val imageFileName = "JPEG_" + System.currentTimeMillis() + "_"
+        val storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return try {
+            File.createTempFile(imageFileName, ".jpg", storageDir)
+        } catch (e: IOException) {
+            null
+        }
+    }
 }
