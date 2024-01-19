@@ -184,12 +184,9 @@ class IntroActivity : AppCompatActivity() {
 
                 val photoUri =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI))
-                if (photoUri != null) {
-                    profileImageUri = Uri.parse(photoUri)
-                }
-
+                val proimg = if (photoUri != null) photoUri else null
                 val user = User(
-                    img = profileImageUri,
+                    img = proimg,
                     name = name ?: "Unknown",
                     phone = phoneNumber ?: "No Phone",
                     email = email ?: "",

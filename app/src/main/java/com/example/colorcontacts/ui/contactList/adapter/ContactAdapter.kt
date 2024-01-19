@@ -1,6 +1,7 @@
 package com.example.colorcontacts.ui.contactList.adapter
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.example.colorcontacts.utill.AdapterInterface
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.SharedDataListener
 
+@Suppress("DEPRECATION")
 class ContactAdapter(
     private var mItem: List<ContactViewType>,
     private var mColor: ColorTheme,
@@ -76,17 +78,13 @@ class ContactAdapter(
         when (val item = filteredList[position]) { // TODO mItem -> filteredList
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
-                    img.setImageURI(item.user.img)
+                    if (item.user.img != null) img.setImageURI(Uri.parse(item.user.img))
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)
-                    if (favorite != null) favorite.img?.let { star.setFavoriteTag(it) }
+                    if (favorite != null) favorite.img?.let { star.setFavoriteTag(Uri.parse(it)) }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
-                    Log.d(
-                        "ContactAdapter",
-                        "Star clicked - Position: $position, Key: ${item.user.key}"
-                    )
-                    star.setOnClickListener {
+                    favoritgo.setOnClickListener {
                         itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
@@ -94,16 +92,16 @@ class ContactAdapter(
                     back.setBackgroundColor(mColor.colorWidget)
                     backCall.setColorFilter(mColor.colorFont)
                     backFont.setTextColor(mColor.colorFont)
+                    detailgo.setOnClickListener {
+                        itemClick?.onClick(it, position, item.user.key)
+                        notifyDataSetChanged()
+                    }
                 }
-                holder.itemView.setOnClickListener {
-                    itemClick?.onClick(it, position, item.user.key)
-                }
-                onClickUser(holder, position, item.user.key)
             }
 
             is GridUser -> {
                 with((holder as GridViewHolder)) {
-                    img.setImageURI(item.user.img)
+                    img.setImageURI(Uri.parse(item.user.img))
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     layout.setBackgroundColor(mColor.colorLinear)
@@ -168,6 +166,8 @@ class ContactAdapter(
         val back = binding.itemListBack
         val backCall = binding.ivBackCall
         val backFont = binding.tvBackCall
+        val detailgo = binding.llDetailGo
+        val favoritgo = binding.llItemStar
 
         init {
             Log.d("ContactAdapter", "Item clicked - Position: $adapterPosition")
@@ -227,6 +227,7 @@ class ContactAdapter(
                 return filterResults
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredList = results?.values as List<ContactViewType>
                 tvContactList.checkListEmpty()

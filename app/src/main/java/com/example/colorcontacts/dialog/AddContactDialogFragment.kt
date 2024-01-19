@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.provider.MediaStore
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.View
@@ -19,15 +18,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.example.colorcontacts.data.EventTime
-import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
+import com.example.colorcontacts.utill.CheckString
 import kotlin.math.roundToInt
 
 
-interface DateUpdateListener {
+interface DataUpdateListener {
     fun onDataUpdate()
 }
 
@@ -55,13 +54,13 @@ class AddContactDialogFragment() : DialogFragment() {
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
-    private var selectedImageUri: Uri? = null
-    private var selectedBackgroundImageUri: Uri? = null
+    private var selectedImageUri: String? = null
+    private var selectedBackgroundImageUri: String? = null
 
     //데이터 업데이트 인터페이스
-    private var dateUpdateListener: DateUpdateListener? = null
+    private var dateUpdateListener: DataUpdateListener? = null
 
-    fun setDataUpdateListener(listener : DateUpdateListener){
+    fun setDataUpdateListener(listener : DataUpdateListener){
         this.dateUpdateListener = listener
     }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -161,8 +160,8 @@ class AddContactDialogFragment() : DialogFragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivAddContactProfileImg.setImageURI(selectedImageUri)
+                selectedImageUri = data?.data.toString()
+                binding.ivAddContactProfileImg.setImageURI(Uri.parse(selectedImageUri))
 
             }
         }

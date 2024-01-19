@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -18,12 +17,11 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.colorcontacts.R
-import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
-import com.google.android.material.snackbar.Snackbar
 
 private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
@@ -41,7 +39,7 @@ class DetailPageActivity : AppCompatActivity() {
     //이미지 결과값 받기
     private lateinit var backgroundGalleryResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var profileGalleryResultLauncher: ActivityResultLauncher<Intent>
-    private var selectedImageUri: Uri? = null
+    private var selectedImageUri: String? = null
 
     private val contents
         get() = listOf(
@@ -104,9 +102,11 @@ class DetailPageActivity : AppCompatActivity() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivDetailBackground.setImageURI(selectedImageUri)
-                newData.backgroundImg = selectedImageUri
+                data?.data?.let {uri ->
+                    selectedImageUri = uri.toString()
+                    binding.ivDetailBackground.setImageURI(uri)
+                    newData.backgroundImg = selectedImageUri
+                }
             }
         }
 
@@ -115,10 +115,11 @@ class DetailPageActivity : AppCompatActivity() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivDetailAddProfile.setImageURI(selectedImageUri)
-                newData.img = selectedImageUri
-
+                data?.data?.let {uri ->
+                    selectedImageUri = uri.toString()
+                    binding.ivDetailAddProfile.setImageURI(uri)
+                    newData.img = selectedImageUri
+                }
             }
         }
 
@@ -132,14 +133,8 @@ class DetailPageActivity : AppCompatActivity() {
                 } else {
                     val currentTime = System.currentTimeMillis()
                     if (currentTime - backPressedTime < 2000) {
-                        UserList.userList.find { it.key == key }?.img = defaultData.img
-                        UserList.userList.find { it.key == key }?.backgroundImg =
-                            defaultData.backgroundImg
-                        UserList.userList.find { it.key == key }?.name = defaultData.name
-                        UserList.userList.find { it.key == key }?.phone = defaultData.phone
-                        UserList.userList.find { it.key == key }?.email = defaultData.email
-                        UserList.userList.find { it.key == key }?.event = defaultData.event
-                        UserList.userList.find { it.key == key }?.info = defaultData.info
+                        val data = UserList.userList.find { it.key == key }
+                        if (data != null) defaultData = data
                         finish()
                     } else {
                         //악미치겟네수정사항없어 왜 얘가 불
@@ -278,29 +273,11 @@ class DetailPageActivity : AppCompatActivity() {
             setDefaultData(user)
             setProfile(user)
         }
-        newData = User(
-            user.key,
-            user.img,
-            user.name,
-            user.phone,
-            user.email,
-            user.event,
-            user.info,
-            user.backgroundImg
-        )
+        newData = user
     }
 
     private fun setDefaultData(user: User) {
-        defaultData = User(
-            user.key,
-            user.img,
-            user.name,
-            user.phone,
-            user.email,
-            user.event,
-            user.info,
-            user.backgroundImg
-        )
+        defaultData = user
     }
 
     private fun isSame(): Boolean {
@@ -329,8 +306,12 @@ class DetailPageActivity : AppCompatActivity() {
     @SuppressLint("ResourceAsColor")
     private fun setProfile(user: User) {
         with(binding) {
-            ivDetailBackground.setImageURI(user.backgroundImg)
-            ivDetailAddProfile.setImageURI(user.img)
+            user.backgroundImg?.let {
+                ivDetailBackground.setImageURI(Uri.parse(it))
+            }
+            user.img?.let {
+                ivDetailAddProfile.setImageURI(Uri.parse(it))
+            }
             etDetailName.setText(user.name)
             etDetailPhoneNumber.setText(user.phone)
             etDetailEmail.setText(user.email)

@@ -55,7 +55,7 @@ class FavoriteTagAdapter(
         private val imageView = binding.ivFavoriteType
         private val textView = binding.tvFavoriteTitle
         fun bind(item: Tag) {
-            item.img?.let { imageView.setFavoriteTag(it) }
+            item.img?.let { imageView.setFavoriteTag(Uri.parse(it)) }
             textView.text = item.title
 
             imageView.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.example.colorcontacts.ui.favorite.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,11 +62,11 @@ class FavoriteAdapter(
         when (val item = filteredList[position]) {
             is FavoriteViewType.FavoriteUser -> {
                 with(holder as ItemViewHolder) {
-                    img.setImageURI(item.user.img)
+                    if (item.user.img != null) img.setImageURI(Uri.parse(item.user.img))
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)
-                    if (favorite != null) favorite.img?.let { star.setFavoriteTag(it) }
+                    if (favorite != null) favorite.img?.let { star.setFavoriteTag(Uri.parse(it)) }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     star.setOnClickListener {
                         itemClick?.onClick(it, position, item.user.key)
@@ -83,7 +84,7 @@ class FavoriteAdapter(
 
             is FavoriteViewType.FavoriteGrid -> {
                 with(holder as GridViewHolder) {
-                    img.setImageURI(item.user.img)
+                    img.setImageURI(Uri.parse(item.user.img))
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     layout.setBackgroundColor(mColor.colorLinear)

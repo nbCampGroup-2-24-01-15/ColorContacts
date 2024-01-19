@@ -27,7 +27,7 @@ class AddFavoriteTagDialog : DialogFragment() {
     private val binding get() = _binding!!
 
     interface OnTagAddListener {
-        fun onTagAdd(name: String, uri: Uri)
+        fun onTagAdd(name: String, uriAdress: String)
     }
 
     private var listener: OnTagAddListener? = null
@@ -35,7 +35,7 @@ class AddFavoriteTagDialog : DialogFragment() {
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
 
-    private var selectedImageUri: Uri? = null
+    private var selectedImageUri: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,8 +87,8 @@ class AddFavoriteTagDialog : DialogFragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivAddTagImage.setImageURI(selectedImageUri)
+                selectedImageUri = data?.data.toString()
+                binding.ivAddTagImage.setImageURI(Uri.parse(selectedImageUri))
                 onButtonEnabled()
             }
         }

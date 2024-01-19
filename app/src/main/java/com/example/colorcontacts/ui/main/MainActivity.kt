@@ -14,17 +14,17 @@ import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialog.AddContactDialogFragment
+import com.example.colorcontacts.dialog.DataUpdateListener
 import com.example.colorcontacts.ui.contactList.ContactListFragment
-import com.example.colorcontacts.dialog.DateUpdateListener
-import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.ui.dialpad.DialPadFragment
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
+import com.example.colorcontacts.utill.LayoutType
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainActivity : AppCompatActivity(),DateUpdateListener{
+class MainActivity : AppCompatActivity(),DataUpdateListener{
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(),DateUpdateListener{
 
     override fun onDataUpdate() {
         val currentFragment = viewPagerAdapter.getFragment(binding.viewPager.currentItem)
-        if(currentFragment is DateUpdateListener)
+        if(currentFragment is DataUpdateListener)
             currentFragment.onDataUpdate()
     }
 

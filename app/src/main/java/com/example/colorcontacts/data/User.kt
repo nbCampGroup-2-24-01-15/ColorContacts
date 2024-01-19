@@ -1,8 +1,5 @@
 package com.example.colorcontacts.data
 
-import android.net.Uri
-import android.os.Bundle
-import android.os.Parcel
 import com.example.colorcontacts.R
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.Notification
@@ -11,20 +8,20 @@ import java.util.UUID
 
 data class User(
     var key: String = UUID.randomUUID().toString(),
-    var img: Uri?=null,
+    var img: String? = "android.resource://com.example.colorcontacts/"+ R.drawable.img_user_profile,
     var name: String="",
     var phone: String="",
     var email: String="",
     var event: String? = null,
     var info: String,
-    var backgroundImg: Uri?=null
+    var backgroundImg: String? = "android.resource://com.example.colorcontacts/"+ R.drawable.fill_vector
 )
 
 object MyData {
 
     var myData = User(
-        img = Uri.EMPTY,
-        backgroundImg = Uri.EMPTY,
+        img = "android.resource://com.example.colorcontacts/"+ R.drawable.img_user_profile,
+        backgroundImg = "android.resource://com.example.colorcontacts/"+ R.drawable.fill_vector,
         name = "",
         phone = "",
         email = "",

@@ -1,8 +1,7 @@
 package com.example.colorcontacts.ui.favorite
 
-import android.net.Uri
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,7 +67,7 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
 
     private fun init() {
         loadedData = sharedDataListener.setFavoriteList(UserList.layoutType)
-        adapter.load(loadedData ?: emptyList())
+        adapter.load(loadedData)
         binding.rcFavoriteList.layoutManager = LinearLayoutManager(context)
         setList()
         setFavoriteTypeAdapter()
@@ -146,7 +145,8 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
     /**
      * TODO 다이얼로그에서 받은 데이터
      */
-    override fun onTagAdd(name: String, uri: Uri) {
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onTagAdd(name: String, uri: String) {
         totalTags.add(Tag(name, uri))
         tagAdapter?.updateItem(totalTags)
         tagAdapter?.notifyDataSetChanged()
@@ -154,7 +154,7 @@ class FavoriteFragment : Fragment(), AddFavoriteTagDialog.OnTagAddListener {
 
     private fun filteredTag(
         list: List<FavoriteViewType>,
-        uri: Uri? = TagMember.defaultTag.img
+        uri: String? = TagMember.defaultTag.img
     ): List<FavoriteViewType> {
         return list.filter {
             val userKey = when (it) {
