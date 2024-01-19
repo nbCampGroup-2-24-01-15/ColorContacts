@@ -192,9 +192,9 @@ class IntroActivity : AppCompatActivity() {
                     img = profileImageUri,
                     name = name ?: "Unknown",
                     phone = phoneNumber ?: "No Phone",
-                    email = email ?: "No Email",
+                    email = email ?: "",
                     event = null,
-                    info = null,
+                    info = "",
                     backgroundImg = null
                 )
                 UserList.userList.add(user)

@@ -63,8 +63,9 @@
 
         <ImageView
             android:id="@+id/iv_contact_star"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:padding="15dp"
             android:layout_gravity="end|center_vertical"
             android:src="@drawable/ic_detail_favorite_outline"/>
 
