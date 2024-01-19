@@ -16,11 +16,9 @@ import com.example.colorcontacts.databinding.ActivityMainBinding
 import com.example.colorcontacts.dialog.AddContactDialogFragment
 import com.example.colorcontacts.ui.contactList.ContactListFragment
 import com.example.colorcontacts.dialog.DateUpdateListener
-import com.example.colorcontacts.test.TestActivity
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.ui.dialpad.DialPadFragment
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
-import com.example.colorcontacts.utill.LayoutType
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.google.android.material.tabs.TabLayoutMediator
