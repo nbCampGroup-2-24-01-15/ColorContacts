@@ -13,7 +13,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -47,6 +46,12 @@ class IntroActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         requestContactPermission()
+
+        binding.introMotion.setOnClickListener {
+            binding.introMotion.transitionToEnd()
+            startActivity(Intent(this@IntroActivity, MainActivity::class.java))
+            finish()
+        }
     }
 
     private fun goMain() {
@@ -58,34 +63,6 @@ class IntroActivity : AppCompatActivity() {
             startActivity(Intent(this@IntroActivity, MainActivity::class.java))
             finish()
         }
-
-        binding.introMotion.setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionStarted(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int
-            ) {
-            }
-
-            override fun onTransitionChange(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int,
-                progress: Float
-            ) {
-            }
-
-            override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
-            }
-
-            override fun onTransitionTrigger(
-                motionLayout: MotionLayout?,
-                triggerId: Int,
-                positive: Boolean,
-                progress: Float
-            ) {
-            }
-        })
     }
 
     private fun startMotion() {
@@ -179,7 +156,7 @@ class IntroActivity : AppCompatActivity() {
                 binding.pbIntroLoading.visibility = View.GONE
                 Handler(Looper.getMainLooper()).postDelayed({
                     requestCallPermission()
-                }, 2000)
+                }, 1000)
             }
         }
     }
