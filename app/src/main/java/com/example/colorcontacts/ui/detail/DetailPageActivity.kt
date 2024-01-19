@@ -16,9 +16,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import coil.load
+import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.R
-import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.TagMember.defaultTag
@@ -28,6 +30,7 @@ import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
 import com.example.colorcontacts.dialog.AddFavoriteTagDialog
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
+import java.io.File
 
 private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
@@ -40,12 +43,14 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
     lateinit var user: User
     private lateinit var key: String
+    private lateinit var file: File
+    private lateinit var backFile:File
 
 
     //이미지 결과값 받기
     private lateinit var backgroundGalleryResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var profileGalleryResultLauncher: ActivityResultLauncher<Intent>
-    private var selectedImageUri: String? = null
+    private var selectedImageUri: Uri? = null
 
     // add
     private var tagList: MutableList<Tag> = mutableListOf(Tag("태그", defaultTag.img))
@@ -115,9 +120,11 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 data?.data?.let {uri ->
-                    selectedImageUri = uri.toString()
+                    selectedImageUri = uri
                     binding.ivDetailBackground.setImageURI(uri)
-                    newData.backgroundImg = selectedImageUri
+                    val path = this.absolutelyPath(selectedImageUri!!)
+                    file = File(path)
+                    newData.backgroundImg = file
                 }
             }
         }
@@ -128,9 +135,11 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 data?.data?.let {uri ->
-                    selectedImageUri = uri.toString()
-                    binding.ivDetailAddProfile.setImageURI(uri)
-                    newData.img = selectedImageUri
+                    selectedImageUri = uri
+                    val path = this.absolutelyPath(selectedImageUri!!)
+                    backFile = File(path)
+                    binding.ivDetailAddProfile.load(file)
+                    newData.img = backFile
                 }
             }
         }
@@ -334,10 +343,10 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     private fun setProfile(user: User) {
         with(binding) {
             user.backgroundImg?.let {
-                ivDetailBackground.setImageURI(Uri.parse(it))
+                ivDetailBackground.load(it)
             }
             user.img?.let {
-                ivDetailAddProfile.setImageURI(Uri.parse(it))
+                ivDetailAddProfile.load(it)
             }
             etDetailName.setText(user.name)
             etDetailPhoneNumber.setText(user.phone)
@@ -415,7 +424,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     /**
      * 상세 화면 태그 추가
      */
-    override fun onTagAdd(name: String, uri: Uri) {
+    override fun onTagAdd(name: String, uriad: File) {
 //        val path = this.absolutelyPath(uri)
 //        if (path == null) {
 //            Log.d("TAG", "path is null")
@@ -426,7 +435,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
          * TODO
          * 여기서 에러 발생
          */
-        TagMember.addNewTag(Tag(name, uri))
+        TagMember.addNewTag(Tag(name, uriad))
         setTagList(TagMember.totalTags)
     }
 
@@ -437,8 +446,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         spinnerAdapter.notifyDataSetChanged()
     }
 
-    private fun getTagIndex(title: String?, uri: Uri?): Int {
-        return tagList.indexOfFirst { tag -> tag.title == title && tag.img == uri }
+    private fun getTagIndex(title: String?, uriad: File?): Int {
+        return tagList.indexOfFirst { tag -> tag.title == title && tag.img == uriad }
     }
 
     /**

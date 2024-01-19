@@ -1,27 +1,28 @@
 package com.example.colorcontacts.data
 
-import com.example.colorcontacts.R
+import android.net.Uri
 import com.example.colorcontacts.utill.LayoutType
 import com.example.colorcontacts.utill.Notification
+import java.io.File
 import java.util.UUID
 
 
 data class User(
     var key: String = UUID.randomUUID().toString(),
-    var img: String? = "android.resource://com.example.colorcontacts/"+ R.drawable.img_user_profile,
+    var img: File?,
     var name: String="",
     var phone: String="",
     var email: String="",
     var event: String? = null,
     var info: String,
-    var backgroundImg: String? = "android.resource://com.example.colorcontacts/"+ R.drawable.fill_vector
+    var backgroundImg: File?
 )
 
 object MyData {
 
     var myData = User(
-        img = "android.resource://com.example.colorcontacts/"+ R.drawable.img_user_profile,
-        backgroundImg = "android.resource://com.example.colorcontacts/"+ R.drawable.fill_vector,
+        img =null,
+        backgroundImg = null,
         name = "",
         phone = "",
         email = "",
@@ -46,6 +47,10 @@ object UserList{
     fun findUser(key:String) : User? {
         return userList.find { it.key == key }
     }
+
+    fun getURLForResource(resId: Int): String {
+        val packageName = javaClass.`package`?.name
+        return Uri.parse("android.resource://$packageName/$resId").toString() }
 }
 
 /**

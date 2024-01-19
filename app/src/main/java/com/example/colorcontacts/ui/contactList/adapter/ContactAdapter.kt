@@ -1,7 +1,6 @@
 package com.example.colorcontacts.ui.contactList.adapter
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.data.TagMember
@@ -77,11 +77,11 @@ class ContactAdapter(
         when (val item = filteredList[position]) {
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
-                    if (item.user.img != null) img.setImageURI(Uri.parse(item.user.img))
+                    if (item.user.img != null) img.load(item.user.img)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)
-                    if (favorite != null) favorite.img?.let { star.setFavoriteTag(Uri.parse(it)) }
+                    if (favorite != null) favorite.img?.let { star.load(it) }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     favoritgo.setOnClickListener {
                         itemClick?.onClick(it, position, item.user.key)
@@ -100,7 +100,7 @@ class ContactAdapter(
 
             is GridUser -> {
                 with((holder as GridViewHolder)) {
-                    img.setImageURI(Uri.parse(item.user.img))
+                    img.load(item.user.img)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     layout.setBackgroundColor(mColor.colorLinear)

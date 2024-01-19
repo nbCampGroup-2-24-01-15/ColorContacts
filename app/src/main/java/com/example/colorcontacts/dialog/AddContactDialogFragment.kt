@@ -17,12 +17,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
+import coil.load
+import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.data.EventTime
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.DialogAddContactBinding
 import com.example.colorcontacts.utill.CheckString
+import java.io.File
 import kotlin.math.roundToInt
 
 
@@ -54,8 +57,9 @@ class AddContactDialogFragment() : DialogFragment() {
 
     //이미지 결과값 받기
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
-    private var selectedImageUri: String? = null
+    private var selectedImageUri: Uri? = null
     private var selectedBackgroundImageUri: String? = null
+    private lateinit var file: File
 
     //데이터 업데이트 인터페이스
     private var dateUpdateListener: DataUpdateListener? = null
@@ -113,8 +117,8 @@ class AddContactDialogFragment() : DialogFragment() {
 
                 // 데이터 전달
                 val user = User(
-                    img = selectedImageUri,
-                    backgroundImg = selectedBackgroundImageUri,
+                    img = file,
+                    backgroundImg = null,
                     name = binding.etAddContactName.text.toString(),
                     phone = binding.etAddContactPhoneNumber.text.toString(),
                     email = binding.etAddContactEmail.text.toString(),
@@ -160,8 +164,10 @@ class AddContactDialogFragment() : DialogFragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data.toString()
-                binding.ivAddContactProfileImg.setImageURI(Uri.parse(selectedImageUri))
+                selectedImageUri = data?.data
+                val path = requireActivity().absolutelyPath(selectedImageUri!!)
+                file = File(path)
+                binding.ivAddContactProfileImg.load(selectedImageUri)
 
             }
         }

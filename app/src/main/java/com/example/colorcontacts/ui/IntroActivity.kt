@@ -1,20 +1,15 @@
 package com.example.colorcontacts.ui
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
-import android.provider.MediaStore
-import android.util.Log
-import android.view.View
 import android.view.WindowManager
-import androidx.activity.result.contract.ActivityResultContracts
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -24,9 +19,9 @@ import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityIntroBinding
 import com.example.colorcontacts.ui.main.MainActivity
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 @Suppress("DEPRECATION")
 class IntroActivity : AppCompatActivity() {
@@ -193,7 +188,9 @@ class IntroActivity : AppCompatActivity() {
 
                 val photoUri =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI))
-                val proimg = if (photoUri != null) photoUri else null
+                val proimg = if (photoUri != null) {
+                    savImageToFile(Uri.parse(photoUri))
+                } else null
                 val user = User(
                     img = proimg,
                     name = name ?: "Unknown",
@@ -207,5 +204,34 @@ class IntroActivity : AppCompatActivity() {
             }
         }
         UserList.userList.sortBy { it.name }
+    }
+
+    fun savImageToFile(imageUri: Uri): File? {
+        val contentResolver = this.contentResolver
+        val inputStream = contentResolver.openInputStream(imageUri) ?: return null
+        val outputFile = createImageFile() ?: return null
+
+        inputStream.use { input ->
+            FileOutputStream(outputFile).use { output ->
+                val buffer = ByteArray(1024)
+                var read: Int
+                while (input.read(buffer).also { read = it } != -1) {
+                    output.write(buffer, 0, read)
+                }
+                output.flush()
+            }
+        }
+
+        return outputFile
+    }
+
+    private fun createImageFile(): File? {
+        val imageFileName = "JPEG_" + System.currentTimeMillis() + "_"
+        val storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return try {
+            File.createTempFile(imageFileName, ".jpg", storageDir)
+        } catch (e: IOException) {
+            null
+        }
     }
 }
