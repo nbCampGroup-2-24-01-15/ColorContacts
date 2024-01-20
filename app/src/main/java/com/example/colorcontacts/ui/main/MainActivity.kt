@@ -1,6 +1,8 @@
 package com.example.colorcontacts.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
@@ -67,8 +69,13 @@ class MainActivity : AppCompatActivity(),DataUpdateListener{
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    binding.searchView.setQuery("", false)
-                    binding.toolBar.visibility = if (position == 2) View.GONE else View.VISIBLE
+                    if (position == 2) {
+                        binding.toolBar.visibility = View.GONE
+                        launchDialer()
+                    } else {
+                        binding.toolBar.visibility = View.VISIBLE
+                        binding.searchView.setQuery("", false)
+                    }
                 }
             })
         }
@@ -79,6 +86,11 @@ class MainActivity : AppCompatActivity(),DataUpdateListener{
         }.attach()
 
         setDialog()
+    }
+
+    private fun launchDialer() {
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:010"))
+        startActivity(intent)
     }
 
     private fun setDialog() {
