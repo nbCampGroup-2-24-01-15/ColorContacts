@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.al.mond.fastscroller.FastScroller
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -113,6 +114,7 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         //스와이프 통화
         val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
+        FastScroller(binding.handleView).bind(binding.rcContactList)
     }
 
 
