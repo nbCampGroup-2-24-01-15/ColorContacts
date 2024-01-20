@@ -125,6 +125,7 @@ val pendingIntent = PendingIntent.getBroadcast(
 #### 일정 시간 이후 알람이 울리도록 등록하였다.
 ```kotlin
 //매니저에게 해당시간이후에 울리도록 설정
+val alarmTimeMillis = currentTimeMillis + parseTimeMillis(user.event.toString())
 
 alarmManager.setExactAndAllowWhileIdle( // 정확한 시간에 알람이 발생하는 메소드
     AlarmManager.RTC_WAKEUP,//실시간 시계 시스템 기반으로 하는 알람을 설정
