@@ -112,3 +112,33 @@ Color Contacts
 
 요청이 완료되면 사용자의 연락처 데이터를 갱신한다
 
+## [Main Activity 메인 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/MainActivity.md)
+<p align ="center">
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/a631dd83-0bfe-41d8-892a-d6820e99493a" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/0487f1cd-5d33-4a07-8f8e-6799c231946f" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/fb19dcc6-bf27-4a59-b366-3babc72c99c3" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/4d011b31-44b6-4671-8f63-85f11c13dd56" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/ce840980-3e44-4244-a91d-050bccbf811c" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/d11635fb-4074-438b-a13b-d1b6ed723df7" width="150" heigth="70" />
+</p>
+
+앱은 기본적으로 리니어 타입인데
+
+우측 상단의 창문모양 아이콘을 클릭하면 연락처 화면을 그리드 형태로 배치할 수 있다
+
+또한 검색창이 있는데, 즐겨찾기 기본 연락처 탭에서 사용가능하며
+
+유저의 이름을 검색해 빠르게 찾을 수 있다
+
+레이아웃 타입변경 아이콘 옆에 팔레트 모양의 아이콘은 앱의 테마색을 변경 할 수 있다
+
+다이얼로그로 항목을 정해주고, 그 항목을 선택하면 컬러피커가 나와서 사용자가 원하는대로 색깔을 커스텀 할수 있게 만들었다
+
+
+
+### [기본 연락처 리스트 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/ContactListFragment.md)
+<p align ="center">
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/378bff8e-fceb-4c92-88a6-3dbff719147b" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/5d02ae5f-2192-48a1-9ae7-3df92a42f77d" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/ba41a54c-6d8f-43eb-acc6-192c7d466e42" width="150" heigth="70" />
+</p>
