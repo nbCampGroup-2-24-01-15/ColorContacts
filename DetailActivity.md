@@ -49,6 +49,8 @@ Detail Activity
 
 # Activity
 
+##선언한 변수
+
 ```kotlin
 
     private lateinit var getUserByIntent: User
@@ -93,10 +95,62 @@ Detail Activity
         info = "",
         backgroundImg = null
     )
+//현재 편집중인지 아닌지 확인하는 변수
+    private var isEditing = false
 ```
-
-
+받아온 값의 수정 여부를 판단하기 위해 디폴트 값 변수와 새로 쓸 변수를 각각 나눈다
+수정하기 버튼을 누를 때마다 디폴트 변수의 값이 지정된다
+현재 편집 화면인지 보기 전용 화면인지에 따라 보여지는 내용과 수정 가능 여부가 변하도록 편집 중인지 확인할 수 있는 boolean변수를 만든다
 
 
 ```kotlin
+//뒤로가기를 눌렀을 때 시간 간격 확인 변수
+    private var backPressedTime: Long = 0
+```
+수정 중에 뒤로가기 버튼을 눌렀을 때 한 번 걸리게 하기 위해서 뒤로가기 버튼을 누른 시간을 측정하기 위한 변수를 만든다
+
+```kotlin
+// myData
+    private var isMyData: Boolean = false
+```
+리사이클러뷰에서 마이페이지를 선택했는지 다른 연락처를 선택했는지를 구분해서 현재 페이지가 내 정보인지 다른 연락처 정보인지 알 수 있는 boolean 변수를 만든다
+
+```kotlin
+//유효성 확인용 editText값
+    private val editTexts
+        get() = listOf(
+            binding.etDetailName,
+            binding.etDetailPhoneNumber,
+            binding.etDetailEmail
+        )
+
+    private var allValid = false
+
+```
+마지막으로 편집 중에 화면에 있는 텍스트 입력 값들이 각각의 형식에 맞게 쓰였는지 확인하기 위한 유효성 검사 확인 변수를 만든다
+
+##기능 동작 메서드
+
+```kotlin
+
+```
+
+```kotlin
+
+```
+
+```kotlin
+
+```
+
+```kotlin
+
+```
+
+```kotlin
+
+```
+
+```kotlin
+
 ```
