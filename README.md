@@ -1,9 +1,9 @@
 <h1 align="center">
 <img width="40px" src="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/bababef4-cb06-4bb1-8689-53e3cc6e5ccc" align="center" alt="" />
- Color Contacts
+ Color Contacts 🎨
 </h1>
  <p align="center">
-   <a>다양한 색으로 자신만의 연락처를 커스텀 해보세요!</a>
+   <a>다양한 색으로 자신만의 연락처를 커스텀 해보세요!👨‍🎨</a>
    <br />
    <br />
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/actions/new">
@@ -38,7 +38,9 @@
   <p align="center">
     <a>페이지 상세 설명</a>
     <br />
-    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Splash.md">인트로 화면</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Splash.md">인트로</a>
+    ·
+    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/ChooseProfileActivity.md">메인 페이지</a>
     ·
     <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/ChooseProfileActivity.md">연락처</a>
     ·
@@ -66,40 +68,45 @@
 Color Contacts
 
 ### 앱 이름의 의미
-다채로운 색의 연락처라는 뜻으로
+🎨 다채로운 색의 연락처📕 라는 뜻으로
 
-다양한 태그와, 색을 다양하게 고르고 커스텀 할 수 있는 앱 입니다
+다양한 태그와⭐, 다양한 색을🌈 고르고 커스텀 할 수 있는 앱 입니다
 
 ### 앱의 목적
 연락처의 인물들을 다양한 태그로 분류하고, 자신이 원하는대로 커스텀 하는것
 
 ### 프로젝트 일정
-24/01/15 ~ 24/01/19
+24/01/15 ~ 24/01/20
 
 ### 프로젝트 기획
 자유롭게 아이디어 브레인스토밍을 하고 [브레인 스토밍](https://www.canva.com/design/DAF55l5LO04/qqUeBCckypKrerrXVGGTtw/edit?referrer=mind-maps-landing-page)
 어느정도 아이디어를 나눈뒤 Figma를 가지고 기본적인 레이아웃을 디자인하고 거기서 아이디어가 추가되며 컨셉과,래퍼런스를 확실하게 틀을 잡았다 
 
-<Figma 링크>
-
+<details>
+ <summary>Figma</summary>
+ 
 <p align="center">
  <a href="https://www.figma.com/file/CgOd3iFfg7NUMGO59OYDHX/2%EC%A1%B0?type=design&node-id=0-1&mode=design&t=cywNrgs2RaacWiCu-0">
   <img alt="와이어프레임" src="https://github.com/heesoo-park/TeamAssignment3_2/assets/116724657/b2320d98-d709-404d-b107-79b2a7c360d1"
 </p>
 
+</details>
+
 ### 역할 분담
-심규상 : 인트로페이지 구현
+심규상 : 실제 폰에 있는 연락처 불러오기, ItemViewType 변경, Swipe-to-Action,RecyclerView.ItemAnimator, MotionLayout으로특수 효과 활용, View 색상 커스텀, 연락처 “ㄱ,ㄴ,ㄷ,ㄹ” 헤더 추가, 배경 설정으로 연락처 배경 이미지 추가
 
-심수빈 : 
+심수빈 : TabLayout 와 ViewPager, 검색 기능, 다양한 태그의 즐겨찾기 추가, 상세 화면&수정화면에서 즐겨찾기 태그 추가 및 정보 업데이트, 다이얼 패드로 이동
 
-이상오 : 
+이상오 : 연락처 추가 (AddContactDialog or AddContactDialogFragment), Event 시간에 맞춰 Notification 표시, 다이얼로그로 유저 추가시, 연락처에 업데이트
 
-최영정 : 
+최영정 : 상세 정보 (ContactDetailFragment) & 마이 페이지 (MyPageFragment), 상세 정보 수정, 인물 정보 삭제
 
-공통 :
+공통 : Readme 작성, 버그 수정, 코드 수정
 
 
-## [인트로화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/Splash.md)
+## 기능구현
+
+### [인트로](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/Splash.md)
 ![Honeycam 2024-01-19 13-36-51](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/7d7efb72-419c-46b0-8ae6-99843734318f)
 
 연락처에서 스와이프하며 통화하는걸
@@ -112,7 +119,7 @@ Color Contacts
 
 요청이 완료되면 사용자의 연락처 데이터를 갱신한다
 
-## [메인 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/MainActivity.md)
+### [메인 페이지](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/MainActivity.md)
 <p align ="center">
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/a631dd83-0bfe-41d8-892a-d6820e99493a" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/fb19dcc6-bf27-4a59-b366-3babc72c99c3" width="150" heigth="70" />
@@ -134,7 +141,7 @@ Color Contacts
 
 다이얼로그로 항목을 정해주고, 그 항목을 선택하면 컬러피커가 나와서 사용자가 원하는대로 색깔을 커스텀 할수 있게 만들었다
 
-### [유저추가 다이얼로그](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/AddContactDialog.md)
+#### [유저추가 다이얼로그](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/AddContactDialog.md)
 
 <p align ="center">
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/0487f1cd-5d33-4a07-8f8e-6799c231946f" width="150" heigth="70" />
@@ -145,7 +152,7 @@ Color Contacts
 
 이벤트로 알림을 울릴 수 있다
 
-### [기본 연락처 리스트 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/ContactListFragment.md)
+#### [기본 연락처 리스트 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/ContactListFragment.md)
 <p align ="center">
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/378bff8e-fceb-4c92-88a6-3dbff719147b" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/5d02ae5f-2192-48a1-9ae7-3df92a42f77d" width="150" heigth="70" />
@@ -160,7 +167,7 @@ Color Contacts
 
 또한 우측 버튼을 클릭시 즐겨찾기가 추가가 가능하다
 
-### [즐겨찾기 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/FavoriteFragment.md)
+#### [즐겨찾기 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/FavoriteFragment.md)
 <p align ="center">
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/8be636a1-b831-402f-b128-bf64eb4094b3" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/987a1200-d617-4542-b51a-254eb979f3c5" width="150" heigth="70" />
@@ -172,7 +179,7 @@ Color Contacts
 
 멤버는 상세 페이지로가면 추가할 수 있다.
 
-## [상세 페이지](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/DetailActivity.md)
+### [상세 페이지](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/DetailActivity.md)
 <p align ="center">
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/3f657cfa-cc29-44a8-8807-f53aa47d310c" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/86fb2d29-08fe-4583-a29d-aca8313dba56" width="150" heigth="70" />
