@@ -99,7 +99,7 @@ Color Contacts
 공통 :
 
 
-## [Splash 인트로화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/Splash.md)
+## [인트로화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/Splash.md)
 ![Honeycam 2024-01-19 13-36-51](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/7d7efb72-419c-46b0-8ae6-99843734318f)
 
 연락처에서 스와이프하며 통화하는걸
@@ -112,7 +112,7 @@ Color Contacts
 
 요청이 완료되면 사용자의 연락처 데이터를 갱신한다
 
-## [Main Activity 메인 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/MainActivity.md)
+## [메인 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/MainActivity.md)
 <p align ="center">
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/a631dd83-0bfe-41d8-892a-d6820e99493a" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/fb19dcc6-bf27-4a59-b366-3babc72c99c3" width="150" heigth="70" />
