@@ -367,16 +367,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         onButtonAction()
         // spinner 비활성화
         binding.detailSpinner.isEnabled = false
-        if (isMyData) {
-            binding.clDetailBtns.isVisible = false
-            binding.clDetailGroup.isVisible = false
-            binding.tvDetailDelete.isVisible = false
-        } else {
-            binding.clDetailBtns.isVisible = true
-            binding.clDetailGroup.isVisible = true
-            binding.tvDetailDelete.isVisible = true
-            binding.clDetailEvent.isVisible = newData.event != null
-        }
     }
 
     //수정하기 전 디폴트 값 세팅하는 함수?
@@ -429,7 +419,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             binding.clDetailBtns.isVisible = true
             binding.clDetailGroup.isVisible = true
             binding.tvDetailDelete.isVisible = true
-            binding.clDetailEvent.isVisible = newData.event != null
         }
         if (binding.etDetailName.text.isNotBlank()) {
             binding.etDetailName.setTextColor(R.color.black)
@@ -443,6 +432,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         } else {
             binding.clDetailEmail.isVisible = false
         }
+        binding.clDetailEvent.isVisible = newData.event != null
         if (binding.etDetailMemo.text.isNotBlank()) {
             binding.etDetailMemo.setTextColor(R.color.black)
         }
