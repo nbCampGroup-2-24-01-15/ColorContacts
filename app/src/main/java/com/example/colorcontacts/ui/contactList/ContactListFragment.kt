@@ -113,7 +113,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
     override fun onResume() {
         super.onResume()
         setList()
-//        setMyPageTab()
     }
 
     /**
