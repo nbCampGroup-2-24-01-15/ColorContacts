@@ -276,8 +276,247 @@ PhoneNumberFormattingTextWatcher()를 이용해서 전화번호에 -를 자동�
 
 
 ```kotlin
+    // Spinner 연결 부분
+    // selectedEvent 의 값을 정한다.
+    private fun setSpinner() {
+        val spinner = binding.spDetailEvent
+        val items = EventTime.timeArray
+        val adapter = EventAdapter(this, items)
+        spinner.adapter = adapter
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                selectedEvent = parent?.getItemAtPosition(position).toString()
+                if (selectedEvent == EventTime.timeArray[0]) selectedEvent = null
+                newData.event = selectedEvent
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }.also { spinner.onItemSelectedListener = it }
+    }
 
 ```
+setSpinner에서는 이벤트 스피너를 세팅하고 X가 선택되어 있을 때는 newData의 event값을 null로 설정한다
+
+
+```kotlin
+    /**
+     * 상세 화면 태그 추가
+     */
+    override fun onTagAdd(name: String, uriad: File) {
+//        val path = this.absolutelyPath(uri)
+//        if (path == null) {
+//            Log.d("TAG", "path is null")
+//        }
+//        val file = File(path!!)
+//        Log.d("TAG", "$path")
+        /**
+         * TODO
+         * 여기서 에러 발생
+         */
+        TagMember.addNewTag(Tag(name, uriad))
+        setTagList(TagMember.totalTags)
+    }
+
+    private fun setTagList(list: List<Tag>) {
+        tagList = mutableListOf(Tag("태그", defaultTag.img))
+        tagList.addAll(list)
+        spinnerAdapter.updateItem(tagList)
+        spinnerAdapter.notifyDataSetChanged()
+    }
+
+    private fun getTagIndex(title: String?, uriad: File?): Int {
+        return tagList.indexOfFirst { tag -> tag.title == title && tag.img == uriad }
+    }
+
+    /**
+     * 회원에 대한 태그 정보 가져오기
+     */
+    private fun setUserTagOnSpinner() {
+
+        userTag = TagMember.getFindTag(newData.key)
+
+        val selectedIndex = if (userTag == null) {
+            0
+        } else {
+            getTagIndex(userTag!!.title, userTag!!.img).coerceAtLeast(0)
+        }
+
+        binding.detailSpinner.setSelection(selectedIndex)
+    }
+
+    private fun onButtonVisible() {
+        binding.ivTagCancel.visibility = if (selectedItem == null) View.GONE else View.VISIBLE
+    }
+
+```
+태그 정보를 가져오고 설정하는 함수를 만든다
+
+```kotlin
+    /**
+     * 수정 화면이 아닐 경우 스피너가 비활성화 되어야 함
+     * 수정 화면일 경우만 편집이 가능
+     * 스피너, 더하기 버튼, 엑스 버튼 상태 관리
+     * 스피너 세팅
+     */
+    private fun setUpTagSpinner() {
+        tagList.addAll(TagMember.totalTags)
+
+
+
+        spinnerAdapter = SpinnerAdapter(this@DetailPageActivity, R.layout.item_tag_spinner, tagList)
+        binding.detailSpinner.adapter = spinnerAdapter
+
+        binding.detailSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                if (position > 0) {
+                    val tag = binding.detailSpinner.getItemAtPosition(position) as Tag
+                    binding.tvSelectedItem.text = "선택 된 태그 : ${tag.title}"
+                    selectedItem = tag
+                } else {
+                    selectedItem = null
+                    binding.tvSelectedItem.text = getString(R.string.detail_spinner_empty_item)
+                    binding.ivTagCancel.visibility = View.GONE
+                }
+                onButtonVisible()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        }
+    }
+
+```
+태그를 지정하는 스피너를 세팅하는 함수를 만든다
+
+
+```kotlin
+
+    private fun onButtonAction() {
+        // 태그 추가 버튼
+        binding.ivDetailGroupAdd.setOnClickListener {
+            showAddTagDialog()
+        }
+
+        // 태그 삭제 버튼
+        binding.ivTagCancel.setOnClickListener {
+            clearSelectedTag()
+        }
+    }
+
+    /**
+     * 선택된 태그가 있는지 확인 후 추가
+     * 원래 있었는데 없어질 경우 태그 목록에서 멤버 삭제
+     */
+    private fun updateUserTag() {
+        when {
+            userTag != null && selectedItem == null -> {
+                TagMember.removeMember(newData.key)
+            }
+
+            userTag == null && selectedItem != null -> {
+                TagMember.addMember(selectedItem!!, newData.key)
+            }
+
+            selectedItem != null -> {
+                updateMemberTag(newData.key, selectedItem!!)
+            }
+        }
+    }
+
+    private fun setTagEnabled(enabled: Boolean) {
+        binding.detailSpinner.isEnabled = enabled
+        binding.ivDetailGroupAdd.isEnabled = enabled
+        binding.ivTagCancel.isEnabled = enabled
+    }
+
+    private fun showAddTagDialog() {
+        val dialog = AddFavoriteTagDialog()
+        dialog.setOnTagAddListener(this@DetailPageActivity)
+        dialog.show(supportFragmentManager, FavoriteFragment.DIALOG_TAG)
+    }
+
+    private fun clearSelectedTag() {
+        selectedItem = null
+        binding.tvSelectedItem.text = getString(R.string.detail_spinner_empty_item)
+        onButtonVisible()
+    }
+
+```
+추가 버튼을 눌렀을 때 사용자 정의 태그를 추가하는 다이얼로그 창을 띄운다
+
+
+
+
+```kotlin
+
+        //배경 부분 눌렀을 때 배경 이미지 갤러리에서 가져오기
+        binding.ivDetailBackground.setOnClickListener {
+
+            val galleryIntent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            backgroundGalleryResultLauncher.launch(galleryIntent)
+
+
+        }
+
+        //프로필 눌렀을 때 이미지 가져오기
+        binding.ivDetailAddProfile.setOnClickListener {
+            val galleryIntent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            profileGalleryResultLauncher.launch(galleryIntent)
+
+
+        }
+
+        backgroundGalleryResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                data?.data?.let { uri ->
+                    selectedImageUri = uri
+                    binding.ivDetailBackground.setImageURI(uri)
+                    val path = this.absolutelyPath(selectedImageUri!!)
+                    file = File(path)
+                    newData.backgroundImg = file
+                }
+            }
+        }
+
+        profileGalleryResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                data?.data?.let { uri ->
+                    selectedImageUri = uri
+                    val path = this.absolutelyPath(selectedImageUri!!)
+                    backFile = File(path)
+                    binding.ivDetailAddProfile.load(file)
+                    newData.img = backFile
+                }
+            }
+        }
+```
+편집 화면에서 프로필 배경을 눌렀을 때와 프로필 사진 이미지를 눌렀을 때 갤러리로 연결해서 사진을 가져오는 기능
+
+
+```kotlin
+
+```
+
 
 ```kotlin
 
