@@ -341,7 +341,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         key = intent.getStringExtra("user").toString()
         val type = intent.getStringExtra("TYPE")
-        //인텐트로 타입 따로 받아서 마이페이지 화면 따로 구성?을 하고 싶었는데 뭐가 잘 안 되어서 자꾸 에러가 난다 그냥 빼버릴까...
         if (type == "mypage") {
             setDefaultData(myData)
             setProfile(myData)
@@ -378,6 +377,16 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         // spinner 비활성화
 
         binding.detailSpinner.isEnabled = false
+        if (isMyData) {
+            binding.clDetailBtns.isVisible = false
+            binding.clDetailGroup.isVisible = false
+            binding.tvDetailDelete.isVisible = false
+        } else {
+            binding.clDetailBtns.isVisible = true
+            binding.clDetailGroup.isVisible = true
+            binding.tvDetailDelete.isVisible = true
+            binding.clDetailEvent.isVisible = newData.event != null
+        }
     }
 
     //수정하기 전 디폴트 값 세팅하는 함수?
@@ -423,7 +432,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         binding.etDetailEmail.isEnabled = false
         binding.spDetailEvent.isEnabled = false
         binding.etDetailMemo.isEnabled = false
-        binding.clDetailBtns.isVisible = true
 
         // 회원에 대한 태그 정보 가져오기
         setUserTagOnSpinner()
@@ -434,6 +442,16 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     //이미지, 텍스트, 스피너 선택값에 대해 값이 있을 떄만 보이도록
     @SuppressLint("ResourceAsColor")
     private fun setVisibility() {
+        if (isMyData) {
+            binding.clDetailBtns.isVisible = false
+            binding.clDetailGroup.isVisible = false
+            binding.tvDetailDelete.isVisible = false
+        } else {
+            binding.clDetailBtns.isVisible = true
+            binding.clDetailGroup.isVisible = true
+            binding.tvDetailDelete.isVisible = true
+            binding.clDetailEvent.isVisible = newData.event != null
+        }
         if (binding.etDetailName.text.isNotBlank()) {
             binding.etDetailName.setTextColor(R.color.black)
         }
@@ -446,16 +464,13 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         } else {
             binding.clDetailEmail.isVisible = false
         }
-        binding.clDetailEvent.isVisible = newData.event != null
         if (binding.etDetailMemo.text.isNotBlank()) {
             binding.etDetailMemo.setTextColor(R.color.black)
         }
         if (TagMember.totalTags.any { it.member.contains(key) }) {
-            SharedDataListener().offFavorite(key)
-            binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_outline)
-        } else {
-            SharedDataListener().onFavorite(key)
             binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_filled)
+        } else {
+            binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_outline)
         }
     }
 
