@@ -49,6 +49,19 @@ object EventTime{
 
 ## 1. 권한 확인 후 처리
 
+A. 매니페스트에 권한추가
+```xml
+<!--    알람 및 Notification 권한 설정-->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+```
+- 매니페스트에 관련된 권한을 등록한다.
+
+B. requestPermissionNotifcation(activity)
+- AlarmManager , NotificationManger 를 사용하기위해 권한이 필요하다.
+- 권한의 경우 Activity 내에서 직접 처리해야하므로 Activity 인자값을 받아들인다
+
 ```kotlin
 private lateinit var alarmManager: AlarmManager
 private lateinit var notificationManager: NotificationManager
@@ -61,11 +74,9 @@ fun settingNotification(activity: Activity) {
 
     }
 ```
-A .requestPermissionNotifcation(activity)
-- AlarmManager , NotificationManger 를 사용하기위해 권한이 필요하다.
-- 권한의 경우 Activity 내에서 직접 처리해야하므로 Activity 인자값을 받아들인다
 
-B .setSystemService(activity)
+
+C. setSystemService(activity)
 - 권한이 있으면 서비스를 이용하기위한 Manager 들을 연결한다. 
 ## 2. Notifitcation 채널 등록
 ```kotlin
