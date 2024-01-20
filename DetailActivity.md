@@ -47,7 +47,7 @@ Detail Activity
 편집을 완료하고 확인 버튼을 누르면 수정한 내용이 보이고 수정이 불가능해진 것을 확인할 수 있다.
 
 
-# (2)Activity [DetailPageActivity]()
+# (2)Activity [DetailPageActivity](app/src/main/java/com/example/colorcontacts/ui/detail/DetailPageActivity.kt)
 
 ## 선언한 변수
 
