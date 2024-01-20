@@ -38,7 +38,7 @@
   <p align="center">
     <a>페이지 상세 설명</a>
     <br />
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/SignUpPageActivity.md">인트로 화면</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Splash.md">인트로 화면</a>
     ·
     <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/ChooseProfileActivity.md">연락처</a>
     ·
@@ -99,7 +99,7 @@ Color Contacts
 공통 :
 
 
-## [Splash 인트로화면](https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/SignInPageActivity.md)
+## [Splash 인트로화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Splash.md)
 ![Honeycam 2024-01-19 13-36-51](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/7d7efb72-419c-46b0-8ae6-99843734318f)
 
 연락처에서 스와이프하며 통화하는걸
