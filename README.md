@@ -152,7 +152,7 @@ Color Contacts
 
 이벤트로 알림을 울릴 수 있다
 
-#### [기본 연락처 리스트 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/ContactListFragment.md)
+#### [기본 연락처 리스트 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/ContactListFragment.md)
 <p align ="center">
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/378bff8e-fceb-4c92-88a6-3dbff719147b" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/5d02ae5f-2192-48a1-9ae7-3df92a42f77d" width="150" heigth="70" />
