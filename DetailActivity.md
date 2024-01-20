@@ -581,17 +581,114 @@ setSpinner에서는 이벤트 스피너를 세팅하고 X가 선택되어 있을
 
 
 ```kotlin
+        //편집 버튼 눌렀을 때
+        binding.ivDetailEdit.setOnClickListener {
+            setTextChangedListener()
+            setNewDataText()
+            //현재 편집중이 아니면 버튼 눌렀을 때 버튼은 확인 이미지로 바뀌고 편집중 true로 바꾸기
+            //편집중이면 버튼을 눌렀을 때 버튼 편집 이미지로 바뀌고 현재 새로 바뀐 데이터를 싱글턴 데이터 리스트에 각각 반영하고 편집 종료 false로 바꾸기
+            isEditing = if (isEditing) {// 수정하는 부분
+                if (!isMyData) {
+                    if (allValid) {
+                        binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                        UserList.userList.find { it.key == key }?.let { newData }
+                        UserList.userList.find { it.key == key }?.let { it1 ->
+                            defaultData
+
+                            // 알람 등록
+                            if (selectedEvent != null)
+                                UserList.notification.setUserAlarm(it1, this)
+                        }
+                        // 태그 추가
+                        updateUserTag()
+                        false
+
+                    } else {
+                        Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+
+                } else {
+                    if (allValid) {
+                        binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                        myData = newData
+                        defaultData = myData
+                        false
+                    } else {
+                        Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                }
+
+            } else {
+                binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
+                defaultData = getUserByIntent
+                true
+            }
+
+            //그리고 편집 시작했을때/끝났을 때 화면에 보이는 값과 수정가능한 값 세팅
+            //편집중이면 배경 사진 선택하기 아이콘 및 모든 항목이 보이고 수정가능해야 하고 전화 버튼 안 보이고
+            //편집이 끝났으면 사진선택아이콘은 안 보이고 전화 버튼은 보이고 항목들은 다 수정가능하고
+            //항목에 값이 있는 것만 보여야 하고
+            if (isEditing) {
+
+                binding.ivDetailAddPhoto.isVisible = true
+                binding.clDetailEmail.isVisible = true
+                binding.clDetailEvent.isVisible = true
+                binding.ivDetailBackground.isEnabled = true
+                binding.ivDetailAddProfile.isEnabled = true
+                binding.etDetailName.isEnabled = true
+                binding.etDetailPhoneNumber.isEnabled = true
+                binding.etDetailEmail.isEnabled = true
+                binding.spDetailEvent.isEnabled = true
+                binding.etDetailMemo.isEnabled = true
+                binding.clDetailBtns.isVisible = false
+
+                binding.detailSpinner.isEnabled = true
+                binding.ivDetailGroupAdd.visibility = View.VISIBLE
+
+                //mydata 상태 일때는 이벤트 처리 비 활성화
+                if (isMyData) binding.clDetailEvent.visibility = View.GONE
+
+            } else {
+
+                binding.ivDetailAddPhoto.isVisible = false
+                binding.clDetailBtns.isVisible = true
+                binding.ivDetailBackground.isEnabled = false
+                binding.ivDetailAddProfile.isEnabled = false
+                binding.etDetailName.isEnabled = false
+                binding.etDetailPhoneNumber.isEnabled = false
+                binding.etDetailEmail.isEnabled = false
+                binding.spDetailEvent.isEnabled = false
+                binding.etDetailMemo.isEnabled = false
+                setVisibility()
+                binding.detailSpinner.isEnabled = false
+                binding.ivDetailGroupAdd.visibility = View.GONE
+                binding.ivTagCancel.visibility = View.GONE
+            }
+        }
+
 
 ```
+편집 버튼을 눌렀을 때의 동작
 
 
 
 ```kotlin
+        //삭제 버튼을 눌렀을 때 다이얼로그 뜨면서 삭제 여부 다시 물어보고
+        //네를 눌렀을 때 유저 정보 리스트에서 해당 유저정보가 삭제되고 finish로 연락처 목록 돌아가기
+        binding.tvDetailDelete.setOnClickListener {
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle("연락처 삭제")
+            builder.setMessage("정말 삭제하시겠습니까?")
+            builder.setPositiveButton("네") { _, _ ->
+                UserList.userList.remove(getUserByIntent)
+                finish()
+            }
+            builder.setNegativeButton("아니오", null)
+            builder.show()
+        }
 
 ```
 
 
-
-```kotlin
-
-```
