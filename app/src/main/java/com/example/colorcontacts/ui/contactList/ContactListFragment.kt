@@ -95,7 +95,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
                     )
                     else sharedDataListener.onFavorite(key)
                 } else {
-                    Log.d("qwe", "Item clicked - view:$view, Position: $position, Key: $key")
                     val intent = Intent(view.context, DetailPageActivity::class.java)
                     intent.putExtra("user", key)
                     intent.putExtra("TYPE", "others")
@@ -109,7 +108,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
         FastScroller(binding.handleView).bind(binding.rcContactList)
     }
-
 
 
     override fun onResume() {
