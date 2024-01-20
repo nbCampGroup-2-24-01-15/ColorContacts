@@ -231,12 +231,12 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                             selectedEvent
                         UserList.userList.find { it.key == key }?.info =
                             binding.etDetailMemo.text.toString()
-                        UserList.userList.find { it.key == key }?.let { it1 ->
-                            setDefaultData(it1)
+                        UserList.userList.find { it.key == key }?.let { it ->
+                            defaultData
 
                             // 알람 등록
                             if (selectedEvent != null)
-                                UserList.notification.setUserAlarm(it1, this)
+                                UserList.notification.setUserAlarm(it, this)
                         }
                         // 태그 추가
                         updateUserTag()
@@ -258,7 +258,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                             email = binding.etDetailEmail.text.toString()
                             event = selectedEvent
                             info = binding.etDetailMemo.text.toString()
-                            setDefaultData(this)
+                            defaultData = this
                         }
                         false
                     } else {
@@ -269,7 +269,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
-                setDefaultData(defaultData)
+                defaultData = getUserByIntent
                 true
             }
 
@@ -348,7 +348,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             }
         }!!
 
-        setDefaultData(getUserByIntent)
+        defaultData = getUserByIntent
         newData = getUserByIntent
         setProfile(getUserByIntent)
 
@@ -360,11 +360,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         // 버튼 액션
         onButtonAction()
 
-    }
-
-    //수정하기 전 디폴트 값 세팅하는 함수?
-    private fun setDefaultData(user: User) {
-        defaultData = user
     }
 
 
