@@ -249,6 +249,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                         updateUserTag()
 
                     } else {
+                        binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
                         myData.run {
                             img = newData.img
                             backgroundImg = newData.backgroundImg
@@ -258,8 +259,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                             event = selectedEvent
                             info = binding.etDetailMemo.text.toString()
                             setDefaultData(this)
-                            if (selectedEvent != null)
-                                UserList.notification.setUserAlarm(this, this@DetailPageActivity)
                         }
                     }
                     false
@@ -279,6 +278,16 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             //편집이 끝났으면 사진선택아이콘은 안 보이고 전화 버튼은 보이고 항목들은 다 수정가능하고
             //항목에 값이 있는 것만 보여야 하고
             if (isEditing) {
+                if (isMyData) {
+                    binding.clDetailEmail.isVisible = true
+                    binding.ivDetailBackground.isEnabled = true
+                    binding.ivDetailAddProfile.isEnabled = true
+                    binding.etDetailName.isEnabled = true
+                    binding.etDetailPhoneNumber.isEnabled = true
+                    binding.etDetailEmail.isEnabled = true
+                    binding.etDetailMemo.isEnabled = true
+                    return@setOnClickListener
+                }
                 binding.ivDetailAddPhoto.isVisible = true
                 binding.clDetailEmail.isVisible = true
                 binding.clDetailEvent.isVisible = true
@@ -294,7 +303,18 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 binding.detailSpinner.isEnabled = true
                 binding.ivDetailGroupAdd.visibility = View.VISIBLE
 
+
             } else {
+                if (isMyData) {
+                    binding.clDetailEmail.isVisible = false
+                    binding.ivDetailBackground.isEnabled = false
+                    binding.ivDetailAddProfile.isEnabled = false
+                    binding.etDetailName.isEnabled = false
+                    binding.etDetailPhoneNumber.isEnabled = false
+                    binding.etDetailEmail.isEnabled = false
+                    binding.etDetailMemo.isEnabled = false
+                    return@setOnClickListener
+                }
                 binding.ivDetailAddPhoto.isVisible = false
                 binding.clDetailBtns.isVisible = true
                 binding.ivDetailBackground.isEnabled = false
@@ -579,7 +599,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
-                id: Long
+                id: Long,
             ) {
                 if (position > 0) {
                     val tag = binding.detailSpinner.getItemAtPosition(position) as Tag
@@ -648,7 +668,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     }
 
     private fun setMyPage() {
-        with(binding){
+        with(binding) {
             clDetailBtns.visibility = View.GONE
             clDetailGroup.visibility = View.GONE
             clDetailEvent.visibility = View.GONE
