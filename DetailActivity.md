@@ -216,12 +216,64 @@ setSpinner로 이벤트 스피너를 세팅하고 setTextChangerListener로 텍�
 
 
 ```kotlin
+   //editText 유효성 검사
+    private fun setTextChangedListener() {
+        editTexts.forEach { et ->
+            et.addTextChangedListener {
+                et.error = when (et) {
+                    binding.etDetailName -> CheckString().checkName(et.text.toString())
+                        ?.let { getString(it) }
+
+                    binding.etDetailPhoneNumber -> CheckString().checkPhoneNumber(et.text.toString())
+                        ?.let { getString(it) }
+
+                    else -> CheckString().checkEmail(et.text.toString())
+                        ?.let { getString(it) }
+
+                }
+            }
+        }
+
+        allValid = editTexts.all { it.error == null }
+
+        binding.etDetailPhoneNumber.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+        
+    }
 
 ```
+디테일 페이지에 있는 editText 각각을 검사하는 함수를 만든다
+CheckString은 유효성 검사를 위해 따로 만들어 둔 클래스로 각 함수에 값이 입력되었을 때 올바른 형식인지 검사해서 에러메세지를 반환한다
+모든 editText들의 에러메세지가 null이면 allValid는 true가 된다.
+PhoneNumberFormattingTextWatcher()를 이용해서 전화번호에 -를 자동으로 집어넣는다.
+
 
 ```kotlin
+    //기존 데이터랑 현재 데이터랑 비교해서 다 같으면 true
+    //false일 때만 뒤로가기 막기
+    private fun isSame(): Boolean {
+        //각 데이터 값 확인용 로그
+        Log.d("same", "img = ${defaultData.img} & ${newData.img}")
+        Log.d("same", "back = ${defaultData.backgroundImg} & ${newData.backgroundImg}")
+        Log.d("same", "name = ${defaultData.name} & ${binding.etDetailName.text.toString()}")
+        Log.d(
+            "same",
+            "phone = ${defaultData.phone} & ${binding.etDetailPhoneNumber.text.toString()}"
+        )
+        Log.d("same", "email = ${defaultData.email} & ${binding.etDetailEmail.text.toString()}")
+        Log.d("same", "event = ${defaultData.event} & ${newData.event}")
+        Log.d("same", "info = ${defaultData.info} & ${binding.etDetailMemo.text.toString()}")
 
+        return (defaultData.img == newData.img
+                && defaultData.backgroundImg == newData.backgroundImg
+                && defaultData.name == binding.etDetailName.text.toString()
+                && defaultData.phone == binding.etDetailPhoneNumber.text.toString()
+                && defaultData.email == binding.etDetailEmail.text.toString()
+                && defaultData.event == newData.event
+                && defaultData.info == binding.etDetailMemo.text.toString())
+    }
 ```
+디폴트 값과 편집 중에 변한 값을 비교하는 함수를 만든다
+
 
 ```kotlin
 
