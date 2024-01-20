@@ -3,7 +3,7 @@ Detail Activity
 
 [readme](README.md)
 
-# Layout
+# (1)Layout [activity_detail_page.xml](app/src/main/res/layout/activity_detail_page.xml)
 <img src="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/151485887/aa7e96b9-fa01-4dff-8a67-6063b853e1fc" width="300" height="650">
 
 
@@ -47,7 +47,7 @@ Detail Activity
 편집을 완료하고 확인 버튼을 누르면 수정한 내용이 보이고 수정이 불가능해진 것을 확인할 수 있다.
 
 
-# Activity
+# (2)Activity [DetailPageActivity]()
 
 ## 선언한 변수
 
