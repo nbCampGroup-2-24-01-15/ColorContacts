@@ -142,6 +142,8 @@ class ContactAdapter(
                     else img.setImageResource(R.drawable.img_user_profile)
                     back.setBackgroundColor(mColor.colorLinear)
                     name.setTextColor(mColor.colorFont)
+                    if (item.user.backgroundImg != null) back.load(item.user.backgroundImg)
+                    else back.setImageResource(R.drawable.fill_vector)
                     back.setOnClickListener {
                         itemClick?.onClick(it,position,item.user.key)
                         notifyDataSetChanged()
