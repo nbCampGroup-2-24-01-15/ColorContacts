@@ -4,7 +4,8 @@ Detail Activity
 [readme](README.md)
 
 # Layout
-![image]()
+<img src="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/151485887/aa7e96b9-fa01-4dff-8a67-6063b853e1fc" width="300" height="650">
+
 
 가장 위에 뒤로가기와 편집 버튼이 있는 바를 만들고
 그 아래에 스크롤뷰로 구성
@@ -24,13 +25,18 @@ Detail Activity
 
 편집 버튼을 누르기 전에는 항목을 눌러도 수정할 수 없도록 했다.
 
-![image]()
+
+<img src="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/151485887/c16018c7-cb4a-471d-a4ee-e38bd32739fd" width="300" height="650">
+
 
 삭제하기 버튼을 누르면 정말 삭제하시겠습니까?를 묻는 다이얼로그가 나오고 확인을 누르면 싱글턴으로 사용하는 연락처 리스트에서 제거된다.
 
+<img src="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/151485887/5f13c62f-0b26-46d8-ac1a-a600cc5cbd20" width="300" height="650">
 편집 버튼을 눌렀을 때는 오른쪽 상단의 편집 버튼이 체크 이미지로 바뀌고 값을 입력할 수 있도록 모든 항목이 보이고 수정할 수 있다.
 편집 중에 전화나 문자를 할 수는 없도록 전화 문자 버튼은 보이지 않게 한다.
 
+
+<img src="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/151485887/06fbc97e-7ea1-469d-99f9-f7a27e25ce23" width="300" height="650">
 
 편집 중일 때 항목의 내용이 하나라도 바뀐 상태에서 뒤로가기를 누르면 정보가 저장되지 않고 취소된다는 토스트 메시지가 뜨고 2초 간격 내로 다시 한 번 클릭하면 연락처 리스트로 돌아간다.
 다시 상세 페이지로 들어가서 확인해 보면 수정 전의 내용 그대로인 것을 확인할 수 있다.
