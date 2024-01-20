@@ -219,53 +219,61 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         //편집 버튼 눌렀을 때
         binding.ivDetailEdit.setOnClickListener {
+            setTextChangedListener()
             //현재 편집중이 아니면 버튼 눌렀을 때 버튼은 확인 이미지로 바뀌고 편집중 true로 바꾸기
             //편집중이면 버튼을 눌렀을 때 버튼 편집 이미지로 바뀌고 현재 새로 바뀐 데이터를 싱글턴 데이터 리스트에 각각 반영하고 편집 종료 false로 바꾸기
             isEditing = if (isEditing) {// 수정하는 부분
-                if (allValid) {//항목 전부 유효성 검사 통과했을 때
                     if (!isMyData) {
-                        binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                        UserList.userList.find { it.key == key }?.img = newData.img
-                        UserList.userList.find { it.key == key }?.backgroundImg =
-                            newData.backgroundImg
-                        UserList.userList.find { it.key == key }?.name =
-                            binding.etDetailName.text.toString()
-                        UserList.userList.find { it.key == key }?.phone =
-                            binding.etDetailPhoneNumber.text.toString()
-                        UserList.userList.find { it.key == key }?.email =
-                            binding.etDetailEmail.text.toString()
-                        UserList.userList.find { it.key == key }?.event =
-                            selectedEvent
-                        UserList.userList.find { it.key == key }?.info =
-                            binding.etDetailMemo.text.toString()
-                        UserList.userList.find { it.key == key }?.let { it1 ->
-                            setDefaultData(it1)
+                        if (allValid) {
+                            binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                            UserList.userList.find { it.key == key }?.img = newData.img
+                            UserList.userList.find { it.key == key }?.backgroundImg =
+                                newData.backgroundImg
+                            UserList.userList.find { it.key == key }?.name =
+                                binding.etDetailName.text.toString()
+                            UserList.userList.find { it.key == key }?.phone =
+                                binding.etDetailPhoneNumber.text.toString()
+                            UserList.userList.find { it.key == key }?.email =
+                                binding.etDetailEmail.text.toString()
+                            UserList.userList.find { it.key == key }?.event =
+                                selectedEvent
+                            UserList.userList.find { it.key == key }?.info =
+                                binding.etDetailMemo.text.toString()
+                            UserList.userList.find { it.key == key }?.let { it1 ->
+                                setDefaultData(it1)
 
-                            // 알람 등록
-                            if (selectedEvent != null)
-                                UserList.notification.setUserAlarm(it1, this)
+                                // 알람 등록
+                                if (selectedEvent != null)
+                                    UserList.notification.setUserAlarm(it1, this)
+                            }
+                            // 태그 추가
+                            updateUserTag()
+                            false
+
+                        } else {
+                            Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                            true
                         }
-                        // 태그 추가
-                        updateUserTag()
 
                     } else {
-                        binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                        myData.run {
-                            img = newData.img
-                            backgroundImg = newData.backgroundImg
-                            name = binding.etDetailName.text.toString()
-                            phone = binding.etDetailPhoneNumber.text.toString()
-                            email = binding.etDetailEmail.text.toString()
-                            event = selectedEvent
-                            info = binding.etDetailMemo.text.toString()
-                            setDefaultData(this)
+                        if (allValid) {
+                            binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                            myData.run {
+                                img = newData.img
+                                backgroundImg = newData.backgroundImg
+                                name = binding.etDetailName.text.toString()
+                                phone = binding.etDetailPhoneNumber.text.toString()
+                                email = binding.etDetailEmail.text.toString()
+                                event = selectedEvent
+                                info = binding.etDetailMemo.text.toString()
+                                setDefaultData(this)
+                            }
+                            false
+                        } else {
+                            Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                            true
                         }
                     }
-                    false
-                } else {
-                    Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
-                    true
-                }
 
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
@@ -278,16 +286,16 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             //편집이 끝났으면 사진선택아이콘은 안 보이고 전화 버튼은 보이고 항목들은 다 수정가능하고
             //항목에 값이 있는 것만 보여야 하고
             if (isEditing) {
-                if (isMyData) {
-                    binding.clDetailEmail.isVisible = true
-                    binding.ivDetailBackground.isEnabled = true
-                    binding.ivDetailAddProfile.isEnabled = true
-                    binding.etDetailName.isEnabled = true
-                    binding.etDetailPhoneNumber.isEnabled = true
-                    binding.etDetailEmail.isEnabled = true
-                    binding.etDetailMemo.isEnabled = true
-                    return@setOnClickListener
-                }
+//                if (isMyData) {
+//                    binding.clDetailEmail.isVisible = true
+//                    binding.ivDetailBackground.isEnabled = true
+//                    binding.ivDetailAddProfile.isEnabled = true
+//                    binding.etDetailName.isEnabled = true
+//                    binding.etDetailPhoneNumber.isEnabled = true
+//                    binding.etDetailEmail.isEnabled = true
+//                    binding.etDetailMemo.isEnabled = true
+//                    return@setOnClickListener
+//                }
                 binding.ivDetailAddPhoto.isVisible = true
                 binding.clDetailEmail.isVisible = true
                 binding.clDetailEvent.isVisible = true
@@ -305,16 +313,16 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
 
             } else {
-                if (isMyData) {
-                    binding.clDetailEmail.isVisible = false
-                    binding.ivDetailBackground.isEnabled = false
-                    binding.ivDetailAddProfile.isEnabled = false
-                    binding.etDetailName.isEnabled = false
-                    binding.etDetailPhoneNumber.isEnabled = false
-                    binding.etDetailEmail.isEnabled = false
-                    binding.etDetailMemo.isEnabled = false
-                    return@setOnClickListener
-                }
+//                if (isMyData) {
+//                    binding.clDetailEmail.isVisible = false
+//                    binding.ivDetailBackground.isEnabled = false
+//                    binding.ivDetailAddProfile.isEnabled = false
+//                    binding.etDetailName.isEnabled = false
+//                    binding.etDetailPhoneNumber.isEnabled = false
+//                    binding.etDetailEmail.isEnabled = false
+//                    binding.etDetailMemo.isEnabled = false
+//                    return@setOnClickListener
+//                }
                 binding.ivDetailAddPhoto.isVisible = false
                 binding.clDetailBtns.isVisible = true
                 binding.ivDetailBackground.isEnabled = false
@@ -340,9 +348,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             builder.setPositiveButton("네") { _, _ ->
                 UserList.userList.remove(getUserByIntent)
                 finish()
-                //프래그먼트에 어떻게 알리지...? notify 안되는데
-                //그냥 프래그먼트를 매번 새로고침 하면 안 되나
-                //인터페이스로? 어떻게 하지 방법 찾아봐야겠다
             }
             builder.setNegativeButton("아니오", null)
             builder.show()
@@ -435,6 +440,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             binding.clDetailBtns.isVisible = false
             binding.clDetailGroup.isVisible = false
             binding.tvDetailDelete.isVisible = false
+            binding.clDetailEvent.isVisible = false
         } else {
             binding.clDetailBtns.isVisible = true
             binding.clDetailGroup.isVisible = true
