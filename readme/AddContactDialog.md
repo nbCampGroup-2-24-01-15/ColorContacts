@@ -1,4 +1,4 @@
-    # AddContactDialog
+# AddContactDialog
 ContactList에 보여질 연락처를 추가하는 다이얼로그
 - DialogFragment 를 상속하여 구현
 # 레이아웃 구성
