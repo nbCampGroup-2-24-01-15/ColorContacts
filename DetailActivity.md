@@ -515,7 +515,81 @@ setSpinner에서는 이벤트 스피너를 세팅하고 X가 선택되어 있을
 
 ```kotlin
 
+        //뒤로가기 버튼 눌렀을 때 상태에 따라 동작
+        binding.ivDetailBack.setOnClickListener {
+            if (isEditing) { // 페이지를 수정 중일때
+                //편집 버튼을 눌렀을 때의 값과 현재 값이 같은지 확인
+                if (isSame()) {// 페이지가 같다면 액티비티 종료
+                    //같으면 수정사항이 없으니까 그냥 뒤로가기
+                    //finish말고 수정 전 디테일 페이지로 가는 게 더 자연스러울 것 같은데 그것까지는 못 했다
+                    finish()
+                } else {
+                    //내용이 다르면 수정한 게 있는 거니까 취소할지 일단 물어보고 확실히 취소하는 거면 편집 눌렀을 때 넣어 둔 디폴트 값으로 다시 바꾸고 닫기
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime - backPressedTime < 2000) {
+                        val data = UserList.userList.find { it.key == key }
+                        if (data != null) defaultData = data
+                        finish()
+                    } else {
+                        Toast.makeText(this, "저장하지 않고 돌아가려면 버튼을 한 번 더 누르세요", Toast.LENGTH_SHORT)
+                            .show()
+                        backPressedTime = currentTime
+                    }
+                }
+            } else {
+                finish()
+            }
+        }
+
 ```
+뒤로가기 버튼 클릭 시의 동작
+편집 화면이 아니라면 바로 뒤로가기 실행이 되고, 편집 화면에서는 바뀐 정보가 없을 때 뒤로가기가 바로 실행된다
+편집 중에 바뀐 정보가 있다면 뒤로가기를 눌렀을 때 경고 토스트 메세지가 뜨고 2초 이내에 바로 한 번 더 클릭하면 뒤로가기가 되면서 바꾼 내용은 저장되지 않고 편집 전 정보로 되돌아간다
+
+
+```kotlin
+        //전화 버튼 눌렀을 때 해당 번호로 전화 연결
+        binding.ibDetailPhone.setOnClickListener {
+            val callUri = Uri.parse("tel:${getUserByIntent.phone} ")
+            val callIntent = Intent(Intent.ACTION_CALL, callUri)
+            startActivity(callIntent)
+
+        }
+
+        //메세지 버튼 눌렀을 때 해당 번호로 문자 창 연결
+        binding.ibDetailMessage.setOnClickListener {
+            val messageUri = Uri.parse("smsto:${getUserByIntent.phone}")
+            val messageIntent = Intent(Intent.ACTION_SENDTO, messageUri)
+            startActivity(messageIntent)
+        }
+
+        //별 버튼 눌렀을 때 즐겨찾기 기본 목록에 추가하고 색 바뀌기
+        binding.ibDetailFavorite.setOnClickListener {
+            if (TagMember.totalTags.any { it.member.contains(key) }) {
+                SharedDataListener().offFavorite(key)
+                binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_outline)
+            } else {
+                SharedDataListener().onFavorite(key)
+                binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_filled)
+            }
+        }
+```
+번호 아래 있는 각 버튼의 기능
+전화 버튼을 누르면 인텐트로 해당 번호에 통화 연결이 된다
+메세지 버튼을 누르면 기기의 기본 문자 앱으로 연결되고
+별 버튼을 누르면 기본 태그로 즐겨찾기 리스트에 추가가 된다
+
+
+```kotlin
+
+```
+
+
+
+```kotlin
+
+```
+
 
 
 ```kotlin
