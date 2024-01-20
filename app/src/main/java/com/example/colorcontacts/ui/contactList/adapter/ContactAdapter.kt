@@ -15,6 +15,7 @@ import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.databinding.ItemContactGridBinding
 import com.example.colorcontacts.databinding.ItemContactListBinding
+import com.example.colorcontacts.databinding.ItemContactSelfBinding
 import com.example.colorcontacts.databinding.ItemContactsHeaderBinding
 import com.example.colorcontacts.ui.contactList.adapter.ContactViewType.GridUser
 import com.example.colorcontacts.utill.AdapterInterface
@@ -40,6 +41,7 @@ class ContactAdapter(
         private const val ITEM_VIEW_TYPE_GRID = 0
         private const val ITEM_VIEW_TYPE_ITEM = 1
         private const val ITEM_VIEW_TYPE_HEAD = 2
+        private const val Item_VIEW_TYPE_SELF = 3
     }
 
     interface ItemClick {
@@ -66,7 +68,10 @@ class ContactAdapter(
                 val binding = ItemContactsHeaderBinding.inflate(LayoutInflater.from(parent.context),parent,false)
                 HeadHolder(binding)
             }
-
+            Item_VIEW_TYPE_SELF -> {
+                val binding = ItemContactSelfBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+                SelfHolder(binding)
+            }
             else -> {
                 val binding = ItemContactListBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -108,7 +113,6 @@ class ContactAdapter(
                     backFont.setTextColor(mColor.colorFont)
                     detailgo.setOnClickListener {
                         itemClick?.onClick(it, position, item.user.key)
-                        Log.d("qw4124e", "Item clicked - view:$it, Position: $position, Key: $item.user.key")
                         notifyDataSetChanged()
                     }
                 }
@@ -122,10 +126,25 @@ class ContactAdapter(
 
             is GridUser -> {
                 with((holder as GridViewHolder)) {
-                    img.load(item.user.img)
+                    if (item.user.img != null) {
+                        img.load(item.user.img)
+                    }else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     layout.setBackgroundColor(mColor.colorLinear)
+                }
+            }
+
+            is ContactViewType.MyProfile -> {
+                with((holder as SelfHolder)) {
+                    if (item.user.img != null) img.load(item.user.img)
+                    else img.setImageResource(R.drawable.img_user_profile)
+                    back.setBackgroundColor(mColor.colorLinear)
+                    name.setTextColor(mColor.colorFont)
+                    back.setOnClickListener {
+                        itemClick?.onClick(it,position,item.user.key)
+                        notifyDataSetChanged()
+                    }
                 }
             }
         }
@@ -175,6 +194,7 @@ class ContactAdapter(
             is ContactViewType.ContactUser -> ITEM_VIEW_TYPE_ITEM
             is GridUser -> ITEM_VIEW_TYPE_GRID
             is ContactViewType.Header -> ITEM_VIEW_TYPE_HEAD
+            is ContactViewType.MyProfile -> Item_VIEW_TYPE_SELF
         }
     }
 
@@ -221,6 +241,13 @@ class ContactAdapter(
         val head = binding.tvContactHeader
     }
 
+    inner class SelfHolder(binding: ItemContactSelfBinding) : RecyclerView.ViewHolder(binding.root) {
+        val name = binding.tvContactName
+        val img = binding.ivContactImg
+        val layout = binding.swipeItemContact
+        val back = binding.backImg
+    }
+
     /**
      * 검색 기능
      */
@@ -248,6 +275,7 @@ class ContactAdapter(
                             }
 
                             is ContactViewType.Header -> false
+                            is ContactViewType.MyProfile -> false
                         }
                     }
 

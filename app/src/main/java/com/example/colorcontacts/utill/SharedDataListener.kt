@@ -1,5 +1,6 @@
 package com.example.colorcontacts.utill
 
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.User
@@ -41,7 +42,7 @@ class SharedDataListener : OnSharedDataListener {
             }
             else UserList.userList.map { ContactViewType.GridUser(it) }
 
-        return contactList
+        return listOf(ContactViewType.MyProfile(MyData.myData)) + contactList
     }
 
     override fun setFavoriteList(type: LayoutType): List<FavoriteViewType> {

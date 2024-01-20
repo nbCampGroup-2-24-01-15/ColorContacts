@@ -20,6 +20,7 @@ import coil.load
 import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.data.TagMember
@@ -300,7 +301,9 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             setDefaultData(myData)
             setProfile(myData)
         } else {
-            user = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
+            user = if (key != "My") {
+                UserList.findUser(key)!!
+            } else MyData.myData
             setDefaultData(user)
             setProfile(user)
         }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="10dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/swipe_item_contact"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="start"
+        android:background="@drawable/iv_round_background"
+        android:backgroundTint="@color/white"
+        android:clipToOutline="true">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            app:layout_constraintHeight_percent="1"
+            android:alpha="0.72"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <LinearLayout
+            android:id="@+id/ll_detail_go"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_marginVertical="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="999dp"
+                android:layout_marginEnd="16dp"
+                app:strokeColor="@color/white"
+                app:strokeWidth="2dp">
+        <ImageView
+            android:id="@+id/iv_contact_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/img_user_profile"/>
+            </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:id="@+id/tv_contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:textSize="16sp"
+            android:text="나" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

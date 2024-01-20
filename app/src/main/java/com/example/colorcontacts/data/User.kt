@@ -24,13 +24,14 @@ data class User(
 object MyData {
 
     var myData = User(
+        key = "My",
         img = null,
         backgroundImg = null,
-        name = "",
-        phone = "",
+        name = "Me",
+        phone = "01000000000",
         email = "",
         event = null,
-        info = "",
+        info = "정보를 입력해주세요",
     )
 
     fun Context.copyResourceToFile(resId: Int): File {
