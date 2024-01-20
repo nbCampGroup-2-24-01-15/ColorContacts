@@ -286,16 +286,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             //편집이 끝났으면 사진선택아이콘은 안 보이고 전화 버튼은 보이고 항목들은 다 수정가능하고
             //항목에 값이 있는 것만 보여야 하고
             if (isEditing) {
-//                if (isMyData) {
-//                    binding.clDetailEmail.isVisible = true
-//                    binding.ivDetailBackground.isEnabled = true
-//                    binding.ivDetailAddProfile.isEnabled = true
-//                    binding.etDetailName.isEnabled = true
-//                    binding.etDetailPhoneNumber.isEnabled = true
-//                    binding.etDetailEmail.isEnabled = true
-//                    binding.etDetailMemo.isEnabled = true
-//                    return@setOnClickListener
-//                }
+
                 binding.ivDetailAddPhoto.isVisible = true
                 binding.clDetailEmail.isVisible = true
                 binding.clDetailEvent.isVisible = true
@@ -311,18 +302,11 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 binding.detailSpinner.isEnabled = true
                 binding.ivDetailGroupAdd.visibility = View.VISIBLE
 
+                //mydata 상태 일때는 이벤트 처리 비 활성화
+                if(isMyData) binding.clDetailEvent.visibility = View.GONE
 
             } else {
-//                if (isMyData) {
-//                    binding.clDetailEmail.isVisible = false
-//                    binding.ivDetailBackground.isEnabled = false
-//                    binding.ivDetailAddProfile.isEnabled = false
-//                    binding.etDetailName.isEnabled = false
-//                    binding.etDetailPhoneNumber.isEnabled = false
-//                    binding.etDetailEmail.isEnabled = false
-//                    binding.etDetailMemo.isEnabled = false
-//                    return@setOnClickListener
-//                }
+
                 binding.ivDetailAddPhoto.isVisible = false
                 binding.clDetailBtns.isVisible = true
                 binding.ivDetailBackground.isEnabled = false
@@ -440,7 +424,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             binding.clDetailBtns.isVisible = false
             binding.clDetailGroup.isVisible = false
             binding.tvDetailDelete.isVisible = false
-            binding.clDetailEvent.isVisible = false
         } else {
             binding.clDetailBtns.isVisible = true
             binding.clDetailGroup.isVisible = true
@@ -604,6 +587,9 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
      */
     private fun setUpTagSpinner() {
         tagList.addAll(TagMember.totalTags)
+
+
+
         spinnerAdapter = SpinnerAdapter(this@DetailPageActivity, R.layout.item_tag_spinner, tagList)
         binding.detailSpinner.adapter = spinnerAdapter
 
@@ -680,6 +666,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         onButtonVisible()
     }
 
+
+    //
     private fun setMyPage() {
         with(binding) {
             clDetailBtns.visibility = View.GONE
