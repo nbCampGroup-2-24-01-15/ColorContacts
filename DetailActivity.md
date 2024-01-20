@@ -129,11 +129,49 @@ Detail Activity
 ```
 마지막으로 편집 중에 화면에 있는 텍스트 입력 값들이 각각의 형식에 맞게 쓰였는지 확인하기 위한 유효성 검사 확인 변수를 만든다
 
+
+
 ##기능 동작 메서드
 
+onCreate 내부에는 화면을 초기화하는 initView와 각 항목을 클릭했을 때의 동작을 수행하는 setOnClickListener들이 있다
+
 ```kotlin
+    //디테일 페이지 초기 화면 구성
+    private fun initView() {
+
+        // 태그 Spinner
+        setUpTagSpinner()
+
+        key = intent.getStringExtra("user").toString()
+
+        getUserByIntent = intent.getStringExtra("user")?.let {
+            if (it != "My") UserList.findUser(it)!!
+            else {
+                isMyData = true
+                setMyPage()
+                MyData.myData
+            }
+        }!!
+
+        setDefaultData(getUserByIntent)
+        newData = getUserByIntent
+        setProfile(getUserByIntent)
+
+        //binding.spDetailEvent 부분 함수화
+        setSpinner()
+
+        setTextChangedListener()
+
+        // 버튼 액션
+        onButtonAction()
+
+    }
 
 ```
+initView에서는 일단 인텐트로 키 값을 받아오고 키의 값에 따라 내 정보인지 연락처 정보인지 구분해서 유저 데이터 클래스의 정보를 받아온다
+key가 My로 되어 있는 내 정보일 경우 isMyData변수를 True로 바꾸고 마이페이지에 필요없는 태그와 전화 버튼, 삭제 버튼을 보이지 않게 하는 setMyPage()를 호출한다
+받아온 정보를 디폴트 변수와 new 변수에 넣고 setProfile함수에서 보이는 화면을 세팅한다
+setSpinner로 이벤트 스피너를 세팅하고 setTextChangerListener로 텍스트의 유효성 검사를 진행한다
 
 ```kotlin
 
