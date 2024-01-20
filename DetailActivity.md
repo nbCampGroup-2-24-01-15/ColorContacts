@@ -49,7 +49,7 @@ Detail Activity
 
 # Activity
 
-##선언한 변수
+## 선언한 변수
 
 ```kotlin
 
@@ -131,7 +131,7 @@ Detail Activity
 
 
 
-##기능 동작 메서드
+## 기능 동작 메서드
 
 onCreate 내부에는 화면을 초기화하는 initView와 각 항목을 클릭했을 때의 동작을 수행하는 setOnClickListener들이 있다
 
