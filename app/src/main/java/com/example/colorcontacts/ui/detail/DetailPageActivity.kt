@@ -212,31 +212,20 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         //편집 버튼 눌렀을 때
         binding.ivDetailEdit.setOnClickListener {
             setTextChangedListener()
+            setNewDataText()
             //현재 편집중이 아니면 버튼 눌렀을 때 버튼은 확인 이미지로 바뀌고 편집중 true로 바꾸기
             //편집중이면 버튼을 눌렀을 때 버튼 편집 이미지로 바뀌고 현재 새로 바뀐 데이터를 싱글턴 데이터 리스트에 각각 반영하고 편집 종료 false로 바꾸기
             isEditing = if (isEditing) {// 수정하는 부분
                 if (!isMyData) {
                     if (allValid) {
                         binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                        UserList.userList.find { it.key == key }?.img = newData.img
-                        UserList.userList.find { it.key == key }?.backgroundImg =
-                            newData.backgroundImg
-                        UserList.userList.find { it.key == key }?.name =
-                            binding.etDetailName.text.toString()
-                        UserList.userList.find { it.key == key }?.phone =
-                            binding.etDetailPhoneNumber.text.toString()
-                        UserList.userList.find { it.key == key }?.email =
-                            binding.etDetailEmail.text.toString()
-                        UserList.userList.find { it.key == key }?.event =
-                            selectedEvent
-                        UserList.userList.find { it.key == key }?.info =
-                            binding.etDetailMemo.text.toString()
-                        UserList.userList.find { it.key == key }?.let { it ->
+                        UserList.userList.find { it.key == key }?.let { newData }
+                        UserList.userList.find { it.key == key }?.let { it1 ->
                             defaultData
 
                             // 알람 등록
                             if (selectedEvent != null)
-                                UserList.notification.setUserAlarm(it, this)
+                                UserList.notification.setUserAlarm(it1, this)
                         }
                         // 태그 추가
                         updateUserTag()
@@ -250,16 +239,8 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 } else {
                     if (allValid) {
                         binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                        myData.run {
-                            img = newData.img
-                            backgroundImg = newData.backgroundImg
-                            name = binding.etDetailName.text.toString()
-                            phone = binding.etDetailPhoneNumber.text.toString()
-                            email = binding.etDetailEmail.text.toString()
-                            event = selectedEvent
-                            info = binding.etDetailMemo.text.toString()
-                            defaultData = this
-                        }
+                        myData = newData
+                        defaultData = myData
                         false
                     } else {
                         Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
@@ -295,7 +276,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 binding.ivDetailGroupAdd.visibility = View.VISIBLE
 
                 //mydata 상태 일때는 이벤트 처리 비 활성화
-                if(isMyData) binding.clDetailEvent.visibility = View.GONE
+                if (isMyData) binding.clDetailEvent.visibility = View.GONE
 
             } else {
 
@@ -330,6 +311,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         }
 
     }
+
 
     //디테일 페이지 초기 화면 구성
     private fun initView() {
@@ -455,7 +437,14 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         binding.etDetailPhoneNumber.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
+    }
 
+    private fun setNewDataText() {
+        newData.name = binding.etDetailName.text.toString()
+        newData.phone = binding.etDetailPhoneNumber.text.toString()
+        newData.email = binding.etDetailEmail.text.toString()
+        newData.event = selectedEvent
+        newData.info = binding.etDetailMemo.text.toString()
     }
 
 
