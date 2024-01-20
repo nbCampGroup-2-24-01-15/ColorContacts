@@ -1,5 +1,6 @@
 package com.example.colorcontacts.ui.detail
 
+//import com.example.colorcontacts.dialog.DateUpdateListener
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -11,7 +12,6 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,11 +19,11 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.ItemTouchHelper
 import coil.load
 import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.MyData.myData
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.data.TagMember
@@ -32,13 +32,10 @@ import com.example.colorcontacts.data.TagMember.updateMemberTag
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityDetailPageBinding
-//import com.example.colorcontacts.dialog.DateUpdateListener
-import com.example.colorcontacts.utill.AdapterInterface
-import com.example.colorcontacts.utill.SharedDataListener
-import com.google.android.material.snackbar.Snackbar
 import com.example.colorcontacts.dialog.AddFavoriteTagDialog
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
 import com.example.colorcontacts.utill.CheckString
+import com.example.colorcontacts.utill.SharedDataListener
 import java.io.File
 
 
@@ -340,42 +337,35 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         setUpTagSpinner()
 
         key = intent.getStringExtra("user").toString()
-        val type = intent.getStringExtra("TYPE")
-        if (type == "mypage") {
+        if (key == "My") {
             setDefaultData(myData)
             setProfile(myData)
 
             isMyData = true
 
+            setMyPage()
             setSpinner()
         } else {
 
-            getUserByIntent = intent.getStringExtra("user")?.let { UserList.findUser(it) }!!
+            getUserByIntent = intent.getStringExtra("user")?.let {
+                if (it != "My") UserList.findUser(it)!!
+                else MyData.myData
+            }!!
+
             setDefaultData(getUserByIntent)
             setProfile(getUserByIntent)
 
-            newData = User(
-                getUserByIntent.key,
-                getUserByIntent.img,
-                getUserByIntent.name,
-                getUserByIntent.phone,
-                getUserByIntent.email,
-                getUserByIntent.event,
-                getUserByIntent.info,
-                getUserByIntent.backgroundImg
-            )
+            newData = getUserByIntent
 
             //binding.spDetailEvent 부분 함수화
             setSpinner()
         }
-//        newData = user
 
         setTextChangedListener()
 
         // 버튼 액션
         onButtonAction()
         // spinner 비활성화
-
         binding.detailSpinner.isEnabled = false
         if (isMyData) {
             binding.clDetailBtns.isVisible = false
@@ -392,16 +382,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     //수정하기 전 디폴트 값 세팅하는 함수?
     private fun setDefaultData(user: User) {
         defaultData = user
-//        defaultData = User(
-//            user.key,
-//            user.img,
-//            user.name,
-//            user.phone,
-//            user.email,
-//            user.event,
-//            user.info,
-//            user.backgroundImg
-//        )
     }
 
 
@@ -435,7 +415,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         // 회원에 대한 태그 정보 가져오기
         setUserTagOnSpinner()
-
     }
 
 
@@ -499,7 +478,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
 
     }
-
 
 
     //기존 데이터랑 현재 데이터랑 비교해서 다 같으면 true
@@ -595,7 +573,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             getTagIndex(userTag!!.title, userTag!!.img).coerceAtLeast(0)
         }
 
-
         binding.detailSpinner.setSelection(selectedIndex)
     }
 
@@ -685,5 +662,14 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         selectedItem = null
         binding.tvSelectedItem.text = getString(R.string.detail_spinner_empty_item)
         onButtonVisible()
+    }
+
+    private fun setMyPage() {
+        with(binding){
+            clDetailBtns.visibility = View.GONE
+            clDetailGroup.visibility = View.GONE
+            clDetailEvent.visibility = View.GONE
+            tvDetailDelete.visibility = View.GONE
+        }
     }
 }

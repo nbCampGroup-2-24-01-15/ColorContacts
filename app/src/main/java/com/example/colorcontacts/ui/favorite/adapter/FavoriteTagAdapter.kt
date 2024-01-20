@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.bumptech.glide.Glide
+import com.example.colorcontacts.R
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.databinding.ItemFavoriteTypeBinding
 
@@ -57,7 +58,9 @@ class FavoriteTagAdapter(
         private val textView = binding.tvFavoriteTitle
         fun bind(item: Tag) {
             Log.d("adress", "${item.img}")
-            item.img?.let { imageView.load(it) }
+            if (item.img != null) {
+                item.img.let { imageView.load(it) }
+            }else imageView.setImageResource(R.drawable.ic_detail_favorite_filled)
             textView.text = item.title
 
             imageView.setOnClickListener {

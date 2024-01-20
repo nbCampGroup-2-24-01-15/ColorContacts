@@ -20,6 +20,7 @@ import androidx.fragment.app.DialogFragment
 import coil.load
 import com.example.colorcontacts.FilePath.absolutelyPath
 import com.example.colorcontacts.data.EventTime
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
@@ -127,7 +128,7 @@ class AddContactDialogFragment() : DialogFragment() {
                 )
                 // 데이터를 전달
                 UserList.userList.add(user)
-                UserList.userList.sortBy { it.name }
+                UserList.userList = MyData.sortContacts(UserList.userList).toMutableList()
 
                 dateUpdateListener?.onDataUpdate()
 

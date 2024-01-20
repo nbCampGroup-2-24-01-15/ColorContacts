@@ -1,9 +1,9 @@
 package com.example.colorcontacts.utill
 
-import com.example.colorcontacts.data.ColorTheme
-import com.example.colorcontacts.data.NowColor
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.Tag
 import com.example.colorcontacts.data.TagMember
+import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.ui.contactList.adapter.ContactViewType
 import com.example.colorcontacts.ui.favorite.adapter.FavoriteViewType
@@ -14,6 +14,7 @@ class SharedDataListener : OnSharedDataListener {
     lateinit var contactList: List<ContactViewType>
     lateinit var favoriteList: List<FavoriteViewType>
 
+    private var createHeader = HeaderList()
     /**
      * TODO TagMember에 가입하기
      *
@@ -30,10 +31,18 @@ class SharedDataListener : OnSharedDataListener {
 
     override fun setContactList(type: LayoutType): List<ContactViewType> {
         contactList =
-            if (type == LayoutType.LINEAR) UserList.userList.map { ContactViewType.ContactUser(it) }
+            if (type == LayoutType.LINEAR) {
+                createHeader(UserList.userList).map {
+                    when(it) {
+                        is String -> ContactViewType.Header(it)
+                        is User -> ContactViewType.ContactUser(it)
+                        else -> ContactViewType.Header("error")
+                    }
+                }
+            }
             else UserList.userList.map { ContactViewType.GridUser(it) }
 
-        return contactList
+        return listOf(ContactViewType.MyProfile(MyData.myData)) + contactList
     }
 
     override fun setFavoriteList(type: LayoutType): List<FavoriteViewType> {

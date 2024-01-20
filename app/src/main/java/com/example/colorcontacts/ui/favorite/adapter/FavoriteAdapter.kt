@@ -63,15 +63,22 @@ class FavoriteAdapter(
             is FavoriteViewType.FavoriteUser -> {
                 with(holder as ItemViewHolder) {
                     if (item.user.img != null) img.load(item.user.img)
+                    else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)
-                    if (favorite != null) favorite.img?.let { star.load(it) }
+                    if (favorite != null) {
+                        if (favorite.img != null) {
+                            favorite.img?.let { star.load(it) }
+                        } else star.setImageResource(R.drawable.ic_detail_favorite_filled)
+                    }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     star.setOnClickListener {
                         itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
+                    if (item.user.backgroundImg != null) backImg.load(item.user.backgroundImg)
+                    else backImg.setImageResource(R.drawable.fill_vector)
                     swipeLayout.background.setTint(mColor.colorLinear)
                     back.setBackgroundColor(mColor.colorWidget)
                     backCall.setColorFilter(mColor.colorFont)
@@ -126,6 +133,7 @@ class FavoriteAdapter(
         val back = binding.itemListBack
         val backCall = binding.ivBackCall
         val backFont = binding.tvBackCall
+        val backImg = binding.backImg
 
         init {
             itemView.setOnClickListener {

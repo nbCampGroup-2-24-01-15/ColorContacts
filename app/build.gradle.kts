@@ -78,4 +78,7 @@ dependencies {
     // picasso
     implementation("com.squareup.picasso:picasso:2.8")
 
+    // fast scroll bar
+    implementation ("com.github.mond-al:recyclerview-fastscroller:1.0")
+
 }

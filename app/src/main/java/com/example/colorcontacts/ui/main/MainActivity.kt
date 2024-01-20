@@ -224,6 +224,7 @@ class MainActivity : AppCompatActivity(),DataUpdateListener{
             getString(R.string.main_color_header) -> NowColor.color.colorHeader
             else -> NowColor.color.colorBackground
         }
+
         ColorPickerDialog.Builder(this).setTitle(colorType)
             .setColorShape(ColorShape.SQAURE)   // Default ColorShape.CIRCLE
             .setDefaultColor(nowColor)     // Pass Default Color

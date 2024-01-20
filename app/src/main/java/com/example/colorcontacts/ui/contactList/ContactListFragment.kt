@@ -1,7 +1,6 @@
 package com.example.colorcontacts.ui.contactList
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,12 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import com.al.mond.fastscroller.FastScroller
 import com.example.colorcontacts.R
-import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.NowColor
 import com.example.colorcontacts.data.TagMember
 import com.example.colorcontacts.data.UserList
@@ -46,7 +41,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         FragmentContactListBinding.inflate(layoutInflater)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,9 +56,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         dataChangedListener
 
         init()
-        // other initialization
-
-//        onResume()
     }
 
 
@@ -74,7 +65,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         binding.rcContactList.layoutManager = LinearLayoutManager(context)
 
         setList()
-        setMyPageTab()
         Log.d("ContactListFragment", "Loaded data: $loadedData")
     }
 
@@ -116,46 +106,7 @@ class ContactListFragment : Fragment(), DataUpdateListener {
         //스와이프 통화
         val itemTouchHelper = ItemTouchHelper(ContactItemHelper(requireContext()))
         itemTouchHelper.attachToRecyclerView(binding.rcContactList)
-    }
-
-
-    private fun setMyPageTab() {
-
-
-        if (MyData.myData.img == null) {
-            binding.ivMyImg.setImageResource(R.drawable.img_user_profile)
-        } else {
-            binding.ivMyImg.load(MyData.myData.img)
-        }
-
-        if (MyData.myData.name.isBlank()) {
-            binding.tvMyName.text = getString(R.string.edit_name)
-        } else {
-            binding.tvMyName.text = MyData.myData.name
-        }
-
-        Glide.with(this)
-            .load(MyData.myData.backgroundImg)
-            .into(object : CustomTarget<Drawable>() {
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    binding.llMyPage.background = resource
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    //Toast.makeText(view?.context, "이미지 로드 실패", Toast.LENGTH_SHORT).show()
-                }
-            })
-
-
-        binding.llMyPage.setOnClickListener {
-            val intent = Intent(requireActivity(), DetailPageActivity::class.java).apply {
-                putExtra("TYPE", "mypage")
-            }
-            startActivity(intent)
-        }
+        FastScroller(binding.handleView).bind(binding.rcContactList)
     }
 
 
