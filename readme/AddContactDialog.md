@@ -1,4 +1,4 @@
-# AddContactDialog
+    # AddContactDialog
 ContactList에 보여질 연락처를 추가하는 다이얼로그
 - DialogFragment 를 상속하여 구현
 # 레이아웃 구성
@@ -65,8 +65,10 @@ private fun openGallery() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivAddContactProfileImg.setImageURI(selectedImageUri)
+                selectedImageUri = data?.data
+                val path = requireActivity().absolutelyPath(selectedImageUri!!)
+                file = File(path)
+                binding.ivAddContactProfileImg.load(selectedImageUri)
 
             }
         }
@@ -122,7 +124,7 @@ class CheckString {
 ```kotlin
 // 데이터 전달
 val user = User(
-img = selectedImageUri,
+img = file,
 backgroundImg = selectedBackgroundImageUri,
 name = binding.etAddContactName.text.toString(),
 phone = binding.etAddContactPhoneNumber.text.toString(),
