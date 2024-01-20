@@ -137,11 +137,15 @@ UserList.userList.sortBy { it.name }
 
 
 ### interface DateUpdateListener 
+
 ### 데이터 업데이트 리스너 실행
 - 데이터 업데이트에 따른 MainActivity,ContactListFragment 에서 기능들을 수행하기위해 인터페이스 실행
 
 
 ### 알람을 등록
-//알람 설명 링크 
+[Notification.kt](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Notification.md) 클래스내의 메소드를 이용
 - setUserAlarm(user,requireContext())
     - 새로생성된 user 에 대한 알람을 등록
+
+
+이후 해당 다이얼로그 종료
