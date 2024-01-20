@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.telephony.PhoneNumberFormattingTextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -60,7 +61,8 @@ class AddContactDialogFragment() : DialogFragment() {
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
     private var selectedBackgroundImageUri: String? = null
-    private lateinit var file: File
+//    private lateinit var file: File
+    private var file: File? = null
 
     //데이터 업데이트 인터페이스
     private var dateUpdateListener: DataUpdateListener? = null
@@ -115,6 +117,7 @@ class AddContactDialogFragment() : DialogFragment() {
         // Ok 버튼
         binding.btnAddContactOk.run {
             setOnClickListener {
+                Log.d("file", "image = ${file}")
 
                 // 데이터 전달
                 val user = User(

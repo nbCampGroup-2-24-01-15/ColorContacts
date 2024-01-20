@@ -29,8 +29,9 @@ class SpinnerAdapter(
         val model = items[position]
         try {
             binding.imgSpinner.clipToOutline = true
-            binding.imgSpinner.load(model.img)
+//            binding.imgSpinner.load(model.img)
 //            binding.imgSpinner.setColorFilter(ContextCompat.getColor(context, R.color.white))
+            if(model.img!=null) binding.imgSpinner.load(model.img) else binding.imgSpinner.setImageResource(R.drawable.ic_detail_favorite_filled)
             binding.txtName.text = model.title
             binding.txtName.setTextColor(ContextCompat.getColor(context, R.color.black))
         } catch (e: Exception) {
@@ -45,7 +46,8 @@ class SpinnerAdapter(
         val model = items[position]
         try {
             binding.imgSpinner.clipToOutline = true
-            binding.imgSpinner.load(model.img)
+//            binding.imgSpinner.load(model.img)
+            if(model.img!=null) binding.imgSpinner.load(model.img) else binding.imgSpinner.setImageResource(R.drawable.ic_detail_favorite_filled)
             binding.txtName.text = model.title
 
         } catch (e: Exception) {

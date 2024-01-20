@@ -72,15 +72,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
     //수정 전의 기존 값과 수정 완료를 눌렀을 때 바뀌어있는 값
     private lateinit var defaultData: User
-    private var newData = User(
-        img = null,
-        name = "",
-        phone = "",
-        email = "",
-        event = null,
-        info = "",
-        backgroundImg = null
-    )
+    private lateinit var newData: User
 
     //뒤로가기를 눌렀을 때 시간 간격 확인 변수
     private var backPressedTime: Long = 0
@@ -219,27 +211,17 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         //편집 버튼 눌렀을 때
         binding.ivDetailEdit.setOnClickListener {
+            setTextChangedListener()
+            setNewDataText()
             //현재 편집중이 아니면 버튼 눌렀을 때 버튼은 확인 이미지로 바뀌고 편집중 true로 바꾸기
             //편집중이면 버튼을 눌렀을 때 버튼 편집 이미지로 바뀌고 현재 새로 바뀐 데이터를 싱글턴 데이터 리스트에 각각 반영하고 편집 종료 false로 바꾸기
             isEditing = if (isEditing) {// 수정하는 부분
-                if (allValid) {//항목 전부 유효성 검사 통과했을 때
-                    if (!isMyData) {
+                if (!isMyData) {
+                    if (allValid) {
                         binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
-                        UserList.userList.find { it.key == key }?.img = newData.img
-                        UserList.userList.find { it.key == key }?.backgroundImg =
-                            newData.backgroundImg
-                        UserList.userList.find { it.key == key }?.name =
-                            binding.etDetailName.text.toString()
-                        UserList.userList.find { it.key == key }?.phone =
-                            binding.etDetailPhoneNumber.text.toString()
-                        UserList.userList.find { it.key == key }?.email =
-                            binding.etDetailEmail.text.toString()
-                        UserList.userList.find { it.key == key }?.event =
-                            selectedEvent
-                        UserList.userList.find { it.key == key }?.info =
-                            binding.etDetailMemo.text.toString()
+                        UserList.userList.find { it.key == key }?.let { newData }
                         UserList.userList.find { it.key == key }?.let { it1 ->
-                            setDefaultData(it1)
+                            defaultData
 
                             // 알람 등록
                             if (selectedEvent != null)
@@ -247,30 +229,28 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                         }
                         // 태그 추가
                         updateUserTag()
+                        false
 
                     } else {
-                        myData.run {
-                            img = newData.img
-                            backgroundImg = newData.backgroundImg
-                            name = binding.etDetailName.text.toString()
-                            phone = binding.etDetailPhoneNumber.text.toString()
-                            email = binding.etDetailEmail.text.toString()
-                            event = selectedEvent
-                            info = binding.etDetailMemo.text.toString()
-                            setDefaultData(this)
-                            if (selectedEvent != null)
-                                UserList.notification.setUserAlarm(this, this@DetailPageActivity)
-                        }
+                        Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                        true
                     }
-                    false
+
                 } else {
-                    Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
-                    true
+                    if (allValid) {
+                        binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit)
+                        myData = newData
+                        defaultData = myData
+                        false
+                    } else {
+                        Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                        true
+                    }
                 }
 
             } else {
                 binding.ivDetailEdit.setImageResource(R.drawable.ic_detail_edit_done)
-                setDefaultData(defaultData)
+                defaultData = getUserByIntent
                 true
             }
 
@@ -279,6 +259,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             //편집이 끝났으면 사진선택아이콘은 안 보이고 전화 버튼은 보이고 항목들은 다 수정가능하고
             //항목에 값이 있는 것만 보여야 하고
             if (isEditing) {
+
                 binding.ivDetailAddPhoto.isVisible = true
                 binding.clDetailEmail.isVisible = true
                 binding.clDetailEvent.isVisible = true
@@ -294,7 +275,11 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 binding.detailSpinner.isEnabled = true
                 binding.ivDetailGroupAdd.visibility = View.VISIBLE
 
+                //mydata 상태 일때는 이벤트 처리 비 활성화
+                if (isMyData) binding.clDetailEvent.visibility = View.GONE
+
             } else {
+
                 binding.ivDetailAddPhoto.isVisible = false
                 binding.clDetailBtns.isVisible = true
                 binding.ivDetailBackground.isEnabled = false
@@ -320,15 +305,13 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             builder.setPositiveButton("네") { _, _ ->
                 UserList.userList.remove(getUserByIntent)
                 finish()
-                //프래그먼트에 어떻게 알리지...? notify 안되는데
-                //그냥 프래그먼트를 매번 새로고침 하면 안 되나
-                //인터페이스로? 어떻게 하지 방법 찾아봐야겠다
             }
             builder.setNegativeButton("아니오", null)
             builder.show()
         }
 
     }
+
 
     //디테일 페이지 초기 화면 구성
     private fun initView() {
@@ -337,48 +320,36 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         setUpTagSpinner()
 
         key = intent.getStringExtra("user").toString()
-        //인텐트로 타입 따로 받아서 마이페이지 화면 따로 구성?을 하고 싶었는데 뭐가 잘 안 되어서 자꾸 에러가 난다 그냥 빼버릴까...
-        if (key == "My") {
-            setDefaultData(myData)
-            setProfile(myData)
 
-            isMyData = true
+        getUserByIntent = intent.getStringExtra("user")?.let {
+            if (it != "My") UserList.findUser(it)!!
+            else {
+                isMyData = true
+                setMyPage()
+                MyData.myData
+            }
+        }!!
 
-            setMyPage()
-            setSpinner()
-        } else {
+        defaultData = getUserByIntent
+        newData = getUserByIntent
+        setProfile(getUserByIntent)
 
-            getUserByIntent = intent.getStringExtra("user")?.let {
-                if (it != "My") UserList.findUser(it)!!
-                else MyData.myData
-            }!!
-
-            setDefaultData(getUserByIntent)
-            setProfile(getUserByIntent)
-
-            newData = getUserByIntent
-
-            //binding.spDetailEvent 부분 함수화
-            setSpinner()
-        }
+        //binding.spDetailEvent 부분 함수화
+        setSpinner()
 
         setTextChangedListener()
 
         // 버튼 액션
         onButtonAction()
-        // spinner 비활성화
-        binding.detailSpinner.isEnabled = false
-    }
 
-    //수정하기 전 디폴트 값 세팅하는 함수?
-    private fun setDefaultData(user: User) {
-        defaultData = user
     }
 
 
     //받아온 데이터로 화면에 정보 배치
     @SuppressLint("ResourceAsColor")
     private fun setProfile(user: User) {
+        //화면 구성할 때 값이 있는지 없는지 확인해서 없으면 안 보이게 하고
+        //보여지는 화면이니까 일단 수정 불가능하게 기본값 설정
         with(binding) {
             user.backgroundImg?.let {
                 ivDetailBackground.load(it)
@@ -390,20 +361,18 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
             etDetailPhoneNumber.setText(user.phone)
             etDetailEmail.setText(user.email)
             etDetailMemo.setText(user.info)
+            ivDetailAddPhoto.isVisible = false
+            ivDetailBackground.isEnabled = false
+            ivDetailAddProfile.isEnabled = false
+            etDetailName.isEnabled = false
+            etDetailPhoneNumber.isEnabled = false
+            etDetailEmail.isEnabled = false
+            spDetailEvent.isEnabled = false
+            etDetailMemo.isEnabled = false
+            // spinner 비활성화
+            detailSpinner.isEnabled = false
         }
-
-        //화면 구성할 때 값이 있는지 없는지 확인해서 없으면 안 보이게 하고
-        //보여지는 화면이니까 일단 수정 불가능하게 기본값 설정
-        binding.ivDetailAddPhoto.isVisible = false
         setVisibility()
-        binding.ivDetailBackground.isEnabled = false
-        binding.ivDetailAddProfile.isEnabled = false
-        binding.etDetailName.isEnabled = false
-        binding.etDetailPhoneNumber.isEnabled = false
-        binding.etDetailEmail.isEnabled = false
-        binding.spDetailEvent.isEnabled = false
-        binding.etDetailMemo.isEnabled = false
-        binding.clDetailBtns.isVisible = true
 
         // 회원에 대한 태그 정보 가져오기
         setUserTagOnSpinner()
@@ -413,6 +382,15 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     //이미지, 텍스트, 스피너 선택값에 대해 값이 있을 떄만 보이도록
     @SuppressLint("ResourceAsColor")
     private fun setVisibility() {
+        if (isMyData) {
+            binding.clDetailBtns.isVisible = false
+            binding.clDetailGroup.isVisible = false
+            binding.tvDetailDelete.isVisible = false
+        } else {
+            binding.clDetailBtns.isVisible = true
+            binding.clDetailGroup.isVisible = true
+            binding.tvDetailDelete.isVisible = true
+        }
         if (binding.etDetailName.text.isNotBlank()) {
             binding.etDetailName.setTextColor(R.color.black)
         }
@@ -459,7 +437,14 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
 
         binding.etDetailPhoneNumber.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
+    }
 
+    private fun setNewDataText() {
+        newData.name = binding.etDetailName.text.toString()
+        newData.phone = binding.etDetailPhoneNumber.text.toString()
+        newData.email = binding.etDetailEmail.text.toString()
+        newData.event = selectedEvent
+        newData.info = binding.etDetailMemo.text.toString()
     }
 
 
@@ -571,6 +556,9 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
      */
     private fun setUpTagSpinner() {
         tagList.addAll(TagMember.totalTags)
+
+
+
         spinnerAdapter = SpinnerAdapter(this@DetailPageActivity, R.layout.item_tag_spinner, tagList)
         binding.detailSpinner.adapter = spinnerAdapter
 
@@ -579,7 +567,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
-                id: Long
+                id: Long,
             ) {
                 if (position > 0) {
                     val tag = binding.detailSpinner.getItemAtPosition(position) as Tag
@@ -647,8 +635,10 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
         onButtonVisible()
     }
 
+
+    //
     private fun setMyPage() {
-        with(binding){
+        with(binding) {
             clDetailBtns.visibility = View.GONE
             clDetailGroup.visibility = View.GONE
             clDetailEvent.visibility = View.GONE
