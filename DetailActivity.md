@@ -173,9 +173,47 @@ key가 My로 되어 있는 내 정보일 경우 isMyData변수를 True로 바꾸
 받아온 정보를 디폴트 변수와 new 변수에 넣고 setProfile함수에서 보이는 화면을 세팅한다
 setSpinner로 이벤트 스피너를 세팅하고 setTextChangerListener로 텍스트의 유효성 검사를 진행한다
 
+
 ```kotlin
+    //이미지, 텍스트, 스피너 선택값에 대해 값이 있을 떄만 보이도록
+    @SuppressLint("ResourceAsColor")
+    private fun setVisibility() {
+        if (isMyData) {
+            binding.clDetailBtns.isVisible = false
+            binding.clDetailGroup.isVisible = false
+            binding.tvDetailDelete.isVisible = false
+        } else {
+            binding.clDetailBtns.isVisible = true
+            binding.clDetailGroup.isVisible = true
+            binding.tvDetailDelete.isVisible = true
+        }
+        if (binding.etDetailName.text.isNotBlank()) {
+            binding.etDetailName.setTextColor(R.color.black)
+        }
+        if (binding.etDetailPhoneNumber.text.isNotBlank()) {
+            binding.etDetailPhoneNumber.setTextColor(R.color.black)
+        }
+        if (binding.etDetailEmail.text.isNotBlank()) {
+            binding.clDetailEmail.isVisible = true
+            binding.etDetailEmail.setTextColor(R.color.black)
+        } else {
+            binding.clDetailEmail.isVisible = false
+        }
+        binding.clDetailEvent.isVisible = newData.event != null
+        if (binding.etDetailMemo.text.isNotBlank()) {
+            binding.etDetailMemo.setTextColor(R.color.black)
+        }
+        if (TagMember.totalTags.any { it.member.contains(key) }) {
+            binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_filled)
+        } else {
+            binding.ibDetailFavorite.setImageResource(R.drawable.ic_detail_favorite_outline)
+        }
+    }
 
 ```
+처음 화면이 보일 때와 수정 완료 시에 보이는 화면에서 각 항목이 나타날지 아닐지를 결정하는 함수를 만든다
+항목에 내용이 있을 경우에만 나타나도록 한다
+
 
 ```kotlin
 
