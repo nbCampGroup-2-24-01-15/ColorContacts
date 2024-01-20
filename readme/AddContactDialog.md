@@ -145,7 +145,7 @@ UserList.userList.sortBy { it.name }
 
 
 ### 알람을 등록
-[Notification.kt](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Notification.md) 클래스내의 메소드를 이용
+[Notification](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/Notification.md) 클래스내의 메소드를 이용
 - setUserAlarm(user,requireContext())
     - 새로생성된 user 에 대한 알람을 등록
 
