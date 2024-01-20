@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.colorcontacts.R
+import com.example.colorcontacts.data.MyData
 import com.example.colorcontacts.data.User
 import com.example.colorcontacts.data.UserList
 import com.example.colorcontacts.databinding.ActivityIntroBinding
@@ -33,6 +34,7 @@ class IntroActivity : AppCompatActivity() {
     private val blick by lazy {
         AnimationUtils.loadAnimation(this, R.anim.blink)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -203,7 +205,7 @@ class IntroActivity : AppCompatActivity() {
                 UserList.userList.add(user)
             }
         }
-        UserList.userList.sortBy { it.name }
+        UserList.userList = MyData.sortContacts(UserList.userList).toMutableList()
     }
 
     fun savImageToFile(imageUri: Uri): File? {
