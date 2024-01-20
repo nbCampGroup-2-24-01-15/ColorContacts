@@ -331,3 +331,18 @@ fun performSearch(query: String) {
         }
     }
 ````
+## 3.주소록 추가 다이얼로그
+Button 으로 구성 하였으며,항상 상단 위에 고정되어있고, 
+
+해당 버튼을 클릭시 [AddContactDialog](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/AddContactDialog.md) 가 실행된다.
+
+```kotlin
+private fun setDialog() {
+    //플로팅 버튼(주소록 추가 다이얼로그)
+    binding.btnAddContactDialog.setOnClickListener {
+        val addContactDialogFragment = AddContactDialogFragment()
+        addContactDialogFragment.setDataUpdateListener(this)
+        addContactDialogFragment.show(supportFragmentManager, "AddContactDialogFragment")
+    }
+}
+```
