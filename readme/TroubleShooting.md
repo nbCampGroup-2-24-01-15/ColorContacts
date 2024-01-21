@@ -79,3 +79,24 @@ PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
 →안드로이드 스튜디오 설정에서 gradle JDK 버전을 바꿨더니 해결되었다
 
 
+### 이미지 권한 문제 
+----------
+
+> 문제
+
+갤러리에서 이미지를 정상적으로 불러왔음에도 화면에 불러온 이미지가 안 보이는 문제가 발생하였다. 
+
+처음에는 코드 문제인줄 알고 코드를 수정해봤지만 코드에는 문제가 없었고 관련 이슈에 대해 검색해보니 권한 관련 문제였다. 
+
+> 원인
+
+기존에 `READ_EXTERNAL_STORAGE` 권한을 사용했는데 Target SDK를 33으로 변경하게 되면 `READ_EXTERNAL_STORAGE`에 대해  세분화가 진행 된다.
+
+기존에 `READ_EXTERNAL_STORAGE` 권한만 적용되어 있다면 이미지 권한이 사라지게 된 것이다. 
+
+> 해결
+
+Manifest에 `READ_MEDIA_IMAGES`에 대한 권한을 선언해주고 해당 권한으로 사용자에게 권한 요청하는 부분을 추가하였다. 
+
+디바이스의 Android SDK VERSION을 확인하여 13(TIRAMISU) 이상일 경우 `READ_MEDIA_IMAGES`를 추가 요청했다. 
+
