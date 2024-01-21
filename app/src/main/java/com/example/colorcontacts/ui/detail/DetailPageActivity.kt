@@ -12,7 +12,6 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.*
@@ -36,6 +35,7 @@ import com.example.colorcontacts.dialog.AddFavoriteTagDialog
 import com.example.colorcontacts.ui.favorite.FavoriteFragment
 import com.example.colorcontacts.utill.CheckString
 import com.example.colorcontacts.utill.SharedDataListener
+import com.google.android.material.snackbar.Snackbar
 import java.io.File
 
 
@@ -171,7 +171,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                         if (data != null) defaultData = data
                         finish()
                     } else {
-                        Toast.makeText(this, "저장하지 않고 돌아가려면 버튼을 한 번 더 누르세요", Toast.LENGTH_SHORT)
+                        Snackbar.make(binding.root, "저장하지 않고 돌아가려면 버튼을 한 번 더 누르세요", Snackbar.LENGTH_SHORT)
                             .show()
                         backPressedTime = currentTime
                     }
@@ -232,7 +232,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                         false
 
                     } else {
-                        Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "유효하지 않은 값이 존재합니다", Snackbar.LENGTH_SHORT).show()
                         true
                     }
 
@@ -243,7 +243,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                         defaultData = myData
                         false
                     } else {
-                        Toast.makeText(this, "유효하지 않은 값이 존재합니다", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "유효하지 않은 값이 존재합니다", Snackbar.LENGTH_SHORT).show()
                         true
                     }
                 }
