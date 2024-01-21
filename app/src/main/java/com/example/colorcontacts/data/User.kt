@@ -28,10 +28,10 @@ object MyData {
         img = null,
         backgroundImg = null,
         name = "Me",
-        phone = "01000000000",
-        email = "",
+        phone = "010-1321-4432",
+        email = "me@sparta.com",
         event = null,
-        info = "정보를 입력해주세요",
+        info = "안녕하세요 마이페이지 입니다",
     )
 
     fun Context.copyResourceToFile(resId: Int): File {
