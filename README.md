@@ -16,10 +16,10 @@
       <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/nbCampGroup-2-24-01-15/ColorContacts" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/issues">
-      <img alt="Issues" src="https://img.shields.io/github/issues/nbCampGroup-2-24-01-15/ColorContacts?color=0088ff" />
+      <img alt="Issues" src="https://img.shields.io/github/issues/nbCampGroup-2-24-01-15/ColorContacts?color=yellow" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/pulls">
-      <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/nbCampGroup-2-24-01-15/ColorContacts?color=0088ff" />
+      <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/nbCampGroup-2-24-01-15/ColorContacts?color=red" />
     </a>
      <br />
     <br />
