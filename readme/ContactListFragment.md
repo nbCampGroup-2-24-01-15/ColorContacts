@@ -1,5 +1,7 @@
 [ContactListFragment](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/java/com/example/colorcontacts/ui/contactList/ContactListFragment.kt)
 =
+[readme](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/README.md)
+
 # [Layout](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/res/layout/fragment_contact_list.xml)
 
 ![image](https://github.com/mond-al/recyclerview-fastscroller/assets/116724657/20e085a9-99bf-4c84-b1fd-e7f8bb7df1d3)
