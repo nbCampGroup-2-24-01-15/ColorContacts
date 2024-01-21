@@ -7,10 +7,10 @@
    <br />
    <br />
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/actions/new">
-      <img alt="Tests Passing" src="https://github.com/heesoo-park/TeamAssignment3_2/workflows/Test/badge.svg" />
+      <img alt="Tests Passing" src="https://img.shields.io/github/languages/top/nbCampGroup-2-24-01-15/ColorContacts?style=flat&logo=kotlin&logoColor=white" />
     </a>
     <a href="https://codecov.io/gh/anuraghazra/github-readme-stats">
-      <img alt="Tests Coverage" src="https://codecov.io/gh/heesoo-park/TeamAssignment3_2/branch/master/graph/badge.svg" />
+      <img alt="Tests Coverage" src="https://img.shields.io/github/commit-activity/m/nbCampGroup-2-24-01-15/ColorContacts" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/graphs/contributors">
       <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/nbCampGroup-2-24-01-15/ColorContacts" />
@@ -21,7 +21,7 @@
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/pulls">
       <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/nbCampGroup-2-24-01-15/ColorContacts?color=0088ff" />
     </a>
-    <br />
+     <br />
     <br />
   </p>
   <p align="center">
@@ -48,6 +48,15 @@
     ·
     <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/DetailPageActivity.md">상세 페이지</a>
   </p>
+</p>
+<p align = "center">
+ 
+<a>
+   <img alt="kotlin" src = "https://img.shields.io/badge/Kotlin-%230095D5.svg?&style=for-the-badge&logo=kotlin&logoColor=white" />
+  </a>
+ <a>
+   <img alt="Gradle" src = "https://img.shields.io/badge/Gradle-02303A.svg?&style=for-the-badge&logo=gradle&logoColor=white" />
+  </a>
 </p>
  <h3 align = "center">PreView</h3>
 
