@@ -84,7 +84,7 @@ class IntroActivity : AppCompatActivity() {
         } else {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(android.Manifest.permission.READ_CONTACTS),
+                arrayOf(android.Manifest.permission.READ_CONTACTS,android.Manifest.permission.WRITE_CONTACTS),
                 100
             )
         }
