@@ -49,6 +49,19 @@ object EventTime{
 
 ## 1. 권한 확인 후 처리
 
+A. 매니페스트에 권한추가
+```xml
+<!--    알람 및 Notification 권한 설정-->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+```
+- 매니페스트에 관련된 권한을 등록한다.
+
+B. requestPermissionNotifcation(activity)
+- AlarmManager , NotificationManger 를 사용하기위해 권한이 필요하다.
+- 권한의 경우 Activity 내에서 직접 처리해야하므로 Activity 인자값을 받아들인다
+
 ```kotlin
 private lateinit var alarmManager: AlarmManager
 private lateinit var notificationManager: NotificationManager
@@ -61,10 +74,10 @@ fun settingNotification(activity: Activity) {
 
     }
 ```
-A. AlarmManager , NotificationManger 를 사용하기위해 권한이 필요하다.
 
-B. 권한의 경우 Activity 내에서 직접 처리해야하므로 Activity 인자값을 받아들인다
 
+C. setSystemService(activity)
+- 권한이 있으면 서비스를 이용하기위한 Manager 들을 연결한다. 
 ## 2. Notifitcation 채널 등록
 ```kotlin
 private fun createChannel() {
@@ -88,6 +101,10 @@ fun setUserAlarm(user: User, context: Context)
 ### 해당 User 의 Event 값이 있다면 이 함수를 불러들어 알람을 등록하는 함수
 
 #### 2개의 Intent 를 정의하고 알람 서비스에 전달한다.
+- alarmIntent : onReceive() 에서 받는 Intent 을 정의
+    - User 의 이름와,이벤트 값(시간) 그리고 알림을 구분짓는 고유 코드값(Int) 
+- pendingIntent : 알람서비스에 등록할 Intent
+
 ```kotlin
     
 //onReceive 에 불려질 인텐트 데이터
@@ -108,6 +125,7 @@ val pendingIntent = PendingIntent.getBroadcast(
 #### 일정 시간 이후 알람이 울리도록 등록하였다.
 ```kotlin
 //매니저에게 해당시간이후에 울리도록 설정
+val alarmTimeMillis = currentTimeMillis + parseTimeMillis(user.event.toString())
 
 alarmManager.setExactAndAllowWhileIdle( // 정확한 시간에 알람이 발생하는 메소드
     AlarmManager.RTC_WAKEUP,//실시간 시계 시스템 기반으로 하는 알람을 설정
@@ -122,7 +140,7 @@ alarmManager.setExactAndAllowWhileIdle( // 정확한 시간에 알람이 발생�
 override fun onReceive(context: Context?, intent: Intent?)
 ``` 
 ### 알람(Alarm)이 울리면 발생하는 메소드
-- 이때, 해당 intent를 받아 알림(Notifitcation)을 등록한다.
+- 이때, 해당 intent(alarmIntent)를 받아 알림(Notifitcation)을 등록한다.
 
 ## 5. notification을 생성하고 표시
 

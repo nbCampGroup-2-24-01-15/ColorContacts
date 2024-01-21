@@ -52,7 +52,6 @@ class ContactListFragment : Fragment(), DataUpdateListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rcContactList.adapter = adapter
-        Log.d("ContactListFragment", "Adapter initialized with empty list")
         dataChangedListener
 
         init()
