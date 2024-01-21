@@ -145,13 +145,16 @@ Color Contacts
 ### [유저추가 다이얼로그](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/AddContactDialog.md)
 
 <p align ="center">
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/0487f1cd-5d33-4a07-8f8e-6799c231946f" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/52961d5e-e6e7-467d-b059-39cfa9f65e79" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/0b61eb37-959c-4c7a-8979-4717a723b2de" width="150" heigth="70" />
  </p>
 우측 하단의 플로팅 버튼을 클릭하면 다이얼로그가 뜨면서 유저를 추가 할 수 있다
 
 유효성 검사와, 휴대폰 번호를 입력시 숫자만 눌러도 010-0000-0000 형식으로 입력하게 되고
 
 이벤트로 알림을 울릴 수 있다
+
+여기서 연락처를 추가하면 실제 연락처에도 연락처가 등록된다
 
 ### [기본 연락처 리스트 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/ContactListFragment.md)
 <p align ="center">
@@ -182,10 +185,11 @@ Color Contacts
 
 ## [상세 페이지](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/DetailActivity.md)
 <p align ="center">
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/3f657cfa-cc29-44a8-8807-f53aa47d310c" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/86fb2d29-08fe-4583-a29d-aca8313dba56" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/6c08a170-9938-4fcd-9986-b9bcd25e0877" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/be69ae9d-25f2-4f9d-b758-fd310e35ed42" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/5925c1ab-dbba-4e31-8e91-a2647136fe09" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/fce83b1c-a96d-41a2-8bfc-174d80f64542" width="150" heigth="70" />
 </p>
 
 상세페이지에선 유저의 정보를 수정할 수 있다
