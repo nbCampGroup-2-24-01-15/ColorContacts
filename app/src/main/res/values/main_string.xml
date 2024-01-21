@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_search_hint">검색어를 입력하세요.</string>
+
+    <!--theme edit dialog-->
+    <string name="main_dialog_title">변경할 색상을 선택하세요</string>
+    <string name="main_color_widget">위젯 색상</string>
+    <string name="main_color_search">검색 색상</string>
+    <string name="main_color_icon">아이콘 색상</string>
+    <string name="main_color_font">폰트 색상</string>
+    <string name="main_color_basic">기본 색상</string>
+    <string name="main_color_select">선택 색상</string>
+    <string name="main_color_list">목록 색상</string>
+    <string name="main_color_header">헤더 색상</string>
+    <string name="main_color_back">배경 색상</string>
+</resources>

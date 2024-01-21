@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/intro_motion"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    app:layoutDescription="@xml/activity_intro_scene">
+
+    <ImageView
+        android:id="@+id/iv_intro_skyline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_intro_skyline"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        android:contentDescription="TODO" />
+
+    <TextView
+        android:id="@+id/tv_intro_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/hakgyoansimwoojur"
+        android:text="Color\n Contatcs"
+        android:textColor="@color/black"
+        android:textSize="56sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/pg_intro_textred"
+        style="@style/SpinKitView.Large.FadingCircle"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        app:SpinKit_Color="@color/red"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="@+id/tv_intro_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+        app:layout_constraintVertical_bias="0.26" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/pg_intro_textyellow"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        style="@style/SpinKitView.Large.FadingCircle"
+        app:SpinKit_Color="@color/yellow_700"
+        android:rotation="70"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="@+id/tv_intro_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+        app:layout_constraintVertical_bias="0.14" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/pg_intro_textyblue"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        style="@style/SpinKitView.Large.FadingCircle"
+        app:SpinKit_Color="@color/blue_600"
+        android:rotation="120"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_intro_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_intro_title"
+        app:layout_constraintHorizontal_bias="1.028"
+        app:layout_constraintStart_toStartOf="@+id/tv_intro_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_intro_title"
+        app:layout_constraintVertical_bias="0.78" />
+
+    <ImageView
+        android:id="@+id/iv_intro_actionbar2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scaleX="-1"
+        android:src="@drawable/img_intro_actionbar"
+        app:layout_constraintBottom_toTopOf="@id/iv_intro_actionbar1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="1.2" />
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/iv_intro_actionbar2"
+        app:layout_constraintStart_toStartOf="@id/iv_intro_actionbar2"
+        app:layout_constraintTop_toTopOf="@id/iv_intro_actionbar2" />
+
+    <ImageView
+        android:id="@+id/iv_intro_male"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/img_intro_male"
+        app:layout_constraintBottom_toTopOf="@+id/linear1"
+        app:layout_constraintHeight_percent="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.2"
+        android:contentDescription="TODO" />
+
+    <ImageView
+        android:id="@+id/iv_intro_actionbar1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_intro_actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="1.2" />
+
+    <LinearLayout
+        android:id="@+id/linear2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="14dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/iv_intro_actionbar1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_intro_actionbar1" />
+
+    <ImageView
+        android:id="@+id/iv_intro_female"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/img_intro_female"
+        app:layout_constraintBottom_toTopOf="@+id/linear2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.30"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <TextView
+        android:id="@+id/tv_intro_touch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="화면을 터치해 주세요"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:alpha="0.6"
+        android:layout_centerInParent="true"
+        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.motion.widget.MotionLayout>
