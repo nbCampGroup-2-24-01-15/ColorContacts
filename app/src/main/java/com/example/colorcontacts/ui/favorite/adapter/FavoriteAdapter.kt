@@ -1,5 +1,6 @@
 package com.example.colorcontacts.ui.favorite.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,8 +63,11 @@ class FavoriteAdapter(
         when (val item = filteredList[position]) {
             is FavoriteViewType.FavoriteUser -> {
                 with(holder as ItemViewHolder) {
+                    Log.d("file", "FavoriteData = ${item.user}")
                     if (item.user.img != null) img.load(item.user.img)
-                    else img.setImageResource(R.drawable.img_user_profile)
+                    else img.setImageURI(null)
+                    //즐겨찾기 리스트에서 프로필 이미지 값이 null인 항목 프로필이 위나 아래 항목 프로필로 보여지는? 현상 해결
+//                    else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)

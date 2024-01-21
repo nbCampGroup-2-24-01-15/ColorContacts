@@ -89,6 +89,7 @@ class ContactAdapter(
         when (val item = filteredList[position]) {
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
+                    Log.d("file", "Adapterdata = ${item.user}")
                     if (item.user.img != null) img.load(item.user.img)
                     else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
@@ -131,6 +132,7 @@ class ContactAdapter(
             }
 
             is GridUser -> {
+                Log.d("file", "Adapterdata = ${item.user}")
                 with((holder as GridViewHolder)) {
                     if (item.user.img != null) {
                         img.load(item.user.img)
@@ -150,6 +152,7 @@ class ContactAdapter(
             }
 
             is ContactViewType.MyProfile -> {
+                Log.d("file", "Adapterdata = ${item.user}")
                 with((holder as SelfHolder)) {
                     if (item.user.img != null) img.load(item.user.img)
                     else img.setImageResource(R.drawable.img_user_profile)
@@ -254,7 +257,9 @@ class ContactAdapter(
 
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition, "")
+                val item = filteredList[adapterPosition] as ContactViewType.GridUser
+                //연락처 리스트 그리드뷰 아이템 클릭 시 앱 종료 해결
+                itemClick?.onClick(it, adapterPosition, item.user.key)
             }
         }
     }
