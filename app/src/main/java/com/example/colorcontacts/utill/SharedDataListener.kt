@@ -15,6 +15,7 @@ class SharedDataListener : OnSharedDataListener {
     lateinit var favoriteList: List<FavoriteViewType>
 
     private var createHeader = HeaderList()
+
     /**
      * TODO TagMember에 가입하기
      *
@@ -33,27 +34,32 @@ class SharedDataListener : OnSharedDataListener {
         contactList =
             if (type == LayoutType.LINEAR) {
                 createHeader(UserList.userList).map {
-                    when(it) {
+                    when (it) {
                         is String -> ContactViewType.Header(it)
                         is User -> ContactViewType.ContactUser(it)
                         else -> ContactViewType.Header("error")
                     }
                 }
+            } else createHeader(UserList.userList).map {
+                    when (it) {
+                        is String -> ContactViewType.Header(it)
+                        is User -> ContactViewType.GridUser(it)
+                        else -> ContactViewType.Header("error")
+                    }
+                }
+
+                return listOf(ContactViewType.MyProfile(MyData.myData)) + contactList
             }
-            else UserList.userList.map { ContactViewType.GridUser(it) }
 
-        return listOf(ContactViewType.MyProfile(MyData.myData)) + contactList
-    }
-
-    override fun setFavoriteList(type: LayoutType): List<FavoriteViewType> {
-        favoriteList = TagMember.totalTags.flatMap { keyTag ->
-            UserList.userList.filter { keyTag.member.contains(it.key) }.map { user ->
-                when (type) {
-                    LayoutType.LINEAR -> FavoriteViewType.FavoriteUser(user)
-                    else -> FavoriteViewType.FavoriteGrid(user)
+        override fun setFavoriteList(type: LayoutType): List<FavoriteViewType> {
+            favoriteList = TagMember.totalTags.flatMap { keyTag ->
+                UserList.userList.filter { keyTag.member.contains(it.key) }.map { user ->
+                    when (type) {
+                        LayoutType.LINEAR -> FavoriteViewType.FavoriteUser(user)
+                        else -> FavoriteViewType.FavoriteGrid(user)
+                    }
                 }
             }
+            return favoriteList
         }
-        return favoriteList
     }
-}

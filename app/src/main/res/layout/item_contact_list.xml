@@ -74,13 +74,13 @@
                 app:cardCornerRadius="999dp"
                 app:strokeColor="@color/white"
                 app:strokeWidth="2dp">
-
-                <ImageView
-                    android:id="@+id/iv_contact_img"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/img_user_profile" />
+        <ImageView
+            android:id="@+id/iv_contact_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_user_profile"/>
             </com.google.android.material.card.MaterialCardView>
 
             <TextView

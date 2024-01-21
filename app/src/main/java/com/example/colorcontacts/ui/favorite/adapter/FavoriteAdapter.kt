@@ -77,8 +77,14 @@ class FavoriteAdapter(
                         itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
-                    if (item.user.backgroundImg != null) backImg.load(item.user.backgroundImg)
-                    else backImg.setImageResource(R.drawable.fill_vector)
+                    if (item.user.backgroundImg != null) {
+                        backImg.load(item.user.backgroundImg)
+                        backImg.alpha = 0.72F
+                    }
+                    else {
+                        backImg.setImageResource(R.drawable.fill_vector)
+                        backImg.alpha = 0F
+                    }
                     swipeLayout.background.setTint(mColor.colorLinear)
                     back.setBackgroundColor(mColor.colorWidget)
                     backCall.setColorFilter(mColor.colorFont)

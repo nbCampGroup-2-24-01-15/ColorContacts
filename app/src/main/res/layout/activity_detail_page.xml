@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.detail.DetailPageActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,18 +67,24 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_detail_photo"
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
+                android:layout_height="300dp">
 
                 <ImageView
                     android:id="@+id/iv_detail_background"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="250dp"
                     android:background="@color/widget"
                     android:scaleType="centerCrop"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.66"
+                    android:src="@drawable/img_effet"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <ImageView
                     android:id="@+id/iv_detail_add_photo"
@@ -97,6 +104,7 @@
                     android:layout_height="100dp"
                     android:background="@drawable/img_user_profile"
                     app:cardCornerRadius="200dp"
+                    android:layout_marginBottom="30dp"
 
                     app:cardElevation="1dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -123,7 +131,6 @@
                 android:id="@+id/et_detail_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="@color/transparent"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
@@ -241,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/et_box_background"
-                android:padding="10dp"
+                android:padding="20dp"
                 android:visibility="visible">
 
 
@@ -344,7 +351,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/et_box_background"
-                android:padding="5dp">
+                android:padding="15dp">
 
                 <TextView
                     android:id="@+id/tv_detail_memo"

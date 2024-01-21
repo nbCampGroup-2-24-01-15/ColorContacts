@@ -15,6 +15,6 @@ class RecyclerViewBindingWrapper(val binding: Any) : BindingWithRecyclerView {
         get() = when (binding) {
             is FragmentContactListBinding -> binding.rcContactList
             is FragmentFavoriteBinding -> binding.rcFavoriteList
-            else -> throw IllegalArgumentException("Unsupported binding type")
+            else -> throw IllegalArgumentException("")
         }
 }

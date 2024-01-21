@@ -3,8 +3,25 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_round_radius"
+    android:backgroundTint="@color/white"
+    android:clipToOutline="true"
+    android:padding="1dp"
     android:paddingVertical="1dp">
 
+
+    <ImageView
+        android:id="@+id/back_img"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        app:layout_constraintHeight_percent="1"
+        android:alpha="0.72"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <LinearLayout
         android:id="@+id/item_layout"
         android:layout_width="wrap_content"
