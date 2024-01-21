@@ -230,7 +230,21 @@ Color Contacts
 </details>
 <details>
 <summary > <h3>심수빈</h3> </summary>
+### 갤러리 이미지의 URI 재사용시 이미지가 안 뜨고 에러가 발생하는 문제    
+
+--------------  
+->  문제  
+>갤러리에서 이미지의 uri를 가지고 온 후에 앱 내에서 uri를 재사용하여 사용하는 경우 ImageView에 이미지가 안 뜨고 아래와 같은 에러가 발생하는 문제  
+```
+class com.bumptech.glide.load.engine.GlideException: Failed to load resource There was 1 root cause: java.lang.SecurityException(Permission Denial: opening provider   
+```
+->   원인  
+>우리 앱은 갤러리에서 이미지의 uri를 가져와서 앱 내에 uri를 저장하여 재사용하는 방식으로 구현했었다. 처음은 uri를 가져오는 데 문제가 없지만 그 다음부터는 경로를 제어를 못 해서 구글에서 재사용할 수 없게 막아 놓는 것으로 보여진다.   
+
+->  해결  
+> uri를 재사용하지 않고 갤러리에서 이미지를 가져올 때 디바이스에 있는 파일의 직접 경로를 찾아 uri가 아닌 경로를 저장한 후 해당 실제 경로를 가지고 뷰에 세팅 하는 방식으로 해결하였다.   
 </details>
+
 <details>
 <summary > <h3>최영정</h3> </summary>
 </details>
