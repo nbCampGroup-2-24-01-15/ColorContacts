@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.telephony.PhoneNumberFormattingTextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -148,7 +147,7 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
                     selectedImageUri = uri
                     val path = this.absolutelyPath(selectedImageUri!!)
                     backFile = File(path)
-                    binding.ivDetailAddProfile.load(file)
+                    binding.ivDetailAddProfile.load(backFile)
                     newData.img = backFile
                 }
             }
@@ -451,17 +450,6 @@ class DetailPageActivity : AppCompatActivity(), AddFavoriteTagDialog.OnTagAddLis
     //기존 데이터랑 현재 데이터랑 비교해서 다 같으면 true
     //false일 때만 뒤로가기 막기
     private fun isSame(): Boolean {
-        //각 데이터 값 확인용 로그
-        Log.d("same", "img = ${defaultData.img} & ${newData.img}")
-        Log.d("same", "back = ${defaultData.backgroundImg} & ${newData.backgroundImg}")
-        Log.d("same", "name = ${defaultData.name} & ${binding.etDetailName.text.toString()}")
-        Log.d(
-            "same",
-            "phone = ${defaultData.phone} & ${binding.etDetailPhoneNumber.text.toString()}"
-        )
-        Log.d("same", "email = ${defaultData.email} & ${binding.etDetailEmail.text.toString()}")
-        Log.d("same", "event = ${defaultData.event} & ${newData.event}")
-        Log.d("same", "info = ${defaultData.info} & ${binding.etDetailMemo.text.toString()}")
 
         return (defaultData.img == newData.img
                 && defaultData.backgroundImg == newData.backgroundImg

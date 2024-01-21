@@ -86,7 +86,6 @@ class ContactAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d("ContactAdapter", "onBindViewHolder - Position: $position")
         when (val item = filteredList[position]) {
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
@@ -106,8 +105,14 @@ class ContactAdapter(
                         itemClick?.onClick(it, position, item.user.key)
                         notifyDataSetChanged()
                     }
-                    if (item.user.backgroundImg != null) backImg.load(item.user.backgroundImg)
-                    else backImg.setImageResource(R.drawable.fill_vector)
+                    if (item.user.backgroundImg != null) {
+                        backImg.load(item.user.backgroundImg)
+                        backImg.alpha = 0.72F
+                    }
+                    else {
+                        backImg.setImageResource(R.drawable.fill_vector)
+                        backImg.alpha = 0F
+                    }
                     swipeLayout.background.setTint(mColor.colorLinear)
                     back.setBackgroundColor(mColor.colorWidget)
                     backCall.setColorFilter(mColor.colorFont)
@@ -133,6 +138,14 @@ class ContactAdapter(
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     layout.setBackgroundColor(mColor.colorLinear)
+                    if (item.user.backgroundImg != null) {
+                        backImg.load(item.user.backgroundImg)
+                        backImg.alpha = 0.72F
+                    }
+                    else {
+                        backImg.setImageResource(R.drawable.fill_vector)
+                        backImg.alpha = 0F
+                    }
                 }
             }
 
@@ -142,8 +155,14 @@ class ContactAdapter(
                     else img.setImageResource(R.drawable.img_user_profile)
                     back.setBackgroundColor(mColor.colorLinear)
                     name.setTextColor(mColor.colorFont)
-                    if (item.user.backgroundImg != null) back.load(item.user.backgroundImg)
-                    else back.setImageResource(R.drawable.fill_vector)
+                    if (item.user.backgroundImg != null) {
+                        back.load(item.user.backgroundImg)
+                        back.alpha = 0.72F
+                    }
+                    else {
+                        back.setImageResource(R.drawable.fill_vector)
+                        back.alpha = 0F
+                    }
                     back.setOnClickListener {
                         itemClick?.onClick(it,position,item.user.key)
                         notifyDataSetChanged()
@@ -231,6 +250,7 @@ class ContactAdapter(
         val name = binding.tvContactName
         val img = binding.ivContactImg
         val layout = binding.itemLayout
+        val backImg = binding.backImg
 
         init {
             itemView.setOnClickListener {
