@@ -254,7 +254,8 @@ class ContactAdapter(
 
         init {
             itemView.setOnClickListener {
-                itemClick?.onClick(it, adapterPosition, "")
+                val item = filteredList[adapterPosition] as GridUser
+                itemClick?.onClick(it, adapterPosition, item.user.key)
             }
         }
     }
