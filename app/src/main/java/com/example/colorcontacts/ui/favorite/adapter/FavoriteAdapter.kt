@@ -65,9 +65,9 @@ class FavoriteAdapter(
                 with(holder as ItemViewHolder) {
                     Log.d("file", "FavoriteData = ${item.user}")
                     if (item.user.img != null) img.load(item.user.img)
-                    else img.setImageURI(null)
-                    //즐겨찾기 리스트에서 프로필 이미지 값이 null인 항목 프로필이 위나 아래 항목 프로필로 보여지는? 현상 해결
-//                    else img.setImageResource(R.drawable.img_user_profile)
+                    else img.setImageResource(R.drawable.img_user_profile)
+                    Log.d("file", "FavoriteDataImg = ${item.user.img}")
+                    Log.d("file", "FavoriteDataImage = ${img.drawable}")
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)
@@ -101,7 +101,9 @@ class FavoriteAdapter(
 
             is FavoriteViewType.FavoriteGrid -> {
                 with(holder as GridViewHolder) {
-                    img.load(item.user.img)
+//                    img.load(item.user.img)
+                    if (item.user.img != null) img.load(item.user.img)
+                    else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     layout.setBackgroundColor(mColor.colorLinear)
