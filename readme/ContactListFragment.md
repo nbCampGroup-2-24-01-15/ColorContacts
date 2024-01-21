@@ -1,5 +1,7 @@
 [ContactListFragment](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/java/com/example/colorcontacts/ui/contactList/ContactListFragment.kt)
 =
+[readme](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/README.md)
+
 # [Layout](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/app/src/main/res/layout/fragment_contact_list.xml)
 
 ![image](https://github.com/mond-al/recyclerview-fastscroller/assets/116724657/20e085a9-99bf-4c84-b1fd-e7f8bb7df1d3)
@@ -662,3 +664,13 @@ class ContactItemHelper(val context: Context): ItemTouchHelper.Callback() {
 }
 ```
 
+</details>
+getMovementFlags를 makeMovementFlags(0, swipeFqwelags)로 설정해 오른쪽으로만 스와이프 가능하게 변경
+
+onSwiped에서 스와이프 이벤트를 설정해주는데 direction이 ItemTouchHelper.RIGHT일때 Uri로 폰번호에 연결하고 전화를 호출한다
+
+뒤에 숨어 있는 레이아웃도 같이 이동하지 않게 설정해줘야 하는데
+
+onChildDraw를 이용한다.
+
+스와이프 액션을 감지했을때 리사이클러뷰와 연결하고 위치를 고정시켰다

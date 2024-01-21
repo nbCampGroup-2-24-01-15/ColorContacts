@@ -331,6 +331,7 @@ fun performSearch(query: String) {
         }
     }
 ````
+
 ## 3.주소록 추가 다이얼로그
 Button 으로 구성 하였으며,항상 상단 위에 고정되어있고, 
 
@@ -346,3 +347,5 @@ private fun setDialog() {
     }
 }
 ```
+
+## 4. 테마 변경 다이얼로그

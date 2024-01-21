@@ -136,8 +136,41 @@ info = null,
 UserList.userList.add(user)
 UserList.userList.sortBy { it.name }
 ```
+### 실제 연락처에 정보를 저장하기
+### addUserToContacts(user: User) 
+- User의 name,email,phoneNumber의 문자열을 연락처를 실제로 저장한다
+```kotlin
+private fun addUserToContacts(user: User) {
+
+    // ContentResolver를 정의(DB 삽입,업데이트,삭제 같은 작업을 수행할수 있게 해줌)
+    val contentResolver = requireContext().contentResolver
+
+    // ContentValues 객체를 초기화(Key,value)
+    val contentValues = ContentValues()
+    contentValues.put(ContactsContract.RawContacts.ACCOUNT_TYPE, null as String?)
+    contentValues.put(ContactsContract.RawContacts.ACCOUNT_NAME, null as String?)
+
+    // Raw contact을 추가하고 contact ID를 가져옴
+    val rawContactUri: Uri? =
+        contentResolver.insert(ContactsContract.RawContacts.CONTENT_URI, contentValues)
+    val rawContactId: Long = rawContactUri?.lastPathSegment?.toLongOrNull() ?: return
 
 
+    // 데이터 추가 부분
+
+    // 이름 추가
+    contentValues.clear()
+    contentValues.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+    contentValues.put(
+        ContactsContract.Data.MIMETYPE,
+        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+    )
+    contentValues.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, user.name)
+    contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
+
+    ...
+}
+```
 ### interface DateUpdateListener 
 
 ### 데이터 업데이트 리스너 실행
