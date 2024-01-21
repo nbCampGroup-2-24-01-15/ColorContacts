@@ -230,6 +230,7 @@ Color Contacts
 </details>
 <details>
 <summary > <h3>심수빈</h3> </summary>
+ 
 ### 갤러리 이미지의 URI 재사용시 이미지가 안 뜨고 에러가 발생하는 문제    
 
 --------------  
