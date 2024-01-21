@@ -7,10 +7,10 @@
    <br />
    <br />
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/actions/new">
-      <img alt="Tests Passing" src="https://github.com/heesoo-park/TeamAssignment3_2/workflows/Test/badge.svg" />
+      <img alt="Tests Passing" src="https://img.shields.io/github/languages/top/nbCampGroup-2-24-01-15/ColorContacts?style=flat&logo=kotlin&logoColor=white&color=800080" />
     </a>
-    <a href="https://codecov.io/gh/anuraghazra/github-readme-stats">
-      <img alt="Tests Coverage" src="https://codecov.io/gh/heesoo-park/TeamAssignment3_2/branch/master/graph/badge.svg" />
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/commits/dev/">
+      <img alt="Tests Coverage" src="https://img.shields.io/github/commit-activity/m/nbCampGroup-2-24-01-15/ColorContacts" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/graphs/contributors">
       <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/nbCampGroup-2-24-01-15/ColorContacts" />
@@ -21,7 +21,7 @@
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/pulls">
       <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/nbCampGroup-2-24-01-15/ColorContacts?color=0088ff" />
     </a>
-    <br />
+     <br />
     <br />
   </p>
   <p align="center">
@@ -49,6 +49,24 @@
     <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/DetailPageActivity.md">상세 페이지</a>
   </p>
 </p>
+<p align = "center">
+ 
+<a>
+   <img alt="kotlin" src = "https://img.shields.io/badge/Kotlin-%230095D5.svg?&style=for-the-badge&logo=kotlin&logoColor=white" />
+  </a>
+  <a>
+   <img alt="Android Studio" src="https://img.shields.io/badge/Android_Studio-3DDC84.svg?&style=for-the-badge&logo=android-studio&logoColor=white" />
+  </a>
+ <a>
+   <img alt="Gradle" src = "https://img.shields.io/badge/Gradle-02303A.svg?&style=for-the-badge&logo=gradle&logoColor=white" />
+  </a>
+  <a href ="https://www.notion.so/SA-fa7aba8ca3604a76bef1b90c83093a69">
+   <img alt="Notion" src="https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=notion&logoColor=white" />
+  </a>
+  <a href="https://github.com/nbCampGroup-2-24-01-15/">
+   <img alt="GitHub" src="https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+</p>
  <h3 align = "center">PreView</h3>
 
  <p align ="center">
@@ -62,24 +80,24 @@
 
 # 프로젝트 개요
 
-## 프로젝트 팀원
+## 1.프로젝트 팀원
 심규상, 심수빈, 이상오, 최영정
 
-## 앱 이름
+## 2.앱 이름
 Color Contacts
 
-## 앱 이름의 의미
+## 3.앱 이름의 의미
 🎨 다채로운 색의 연락처📕 라는 뜻으로
 
 다양한 태그와⭐, 다양한 색을🌈 고르고 커스텀 할 수 있는 앱 입니다
 
-## 앱의 목적
+## 4.앱의 목적
 연락처의 인물들을 다양한 태그로 분류하고, 자신이 원하는대로 커스텀 하는것
 
-## 프로젝트 일정
+## 5.프로젝트 일정
 24/01/15 ~ 24/01/20
 
-## 프로젝트 기획
+## 6.프로젝트 기획
 자유롭게 아이디어 브레인스토밍을 하고 [브레인 스토밍](https://www.canva.com/design/DAF55l5LO04/qqUeBCckypKrerrXVGGTtw/edit?referrer=mind-maps-landing-page)
 어느정도 아이디어를 나눈뒤 Figma를 가지고 기본적인 레이아웃을 디자인하고 거기서 아이디어가 추가되며 컨셉과,래퍼런스를 확실하게 틀을 잡았다 
 
@@ -93,7 +111,7 @@ Color Contacts
 
 </details>
 
-## 역할 분담
+## 7.역할 분담
 심규상 : 실제 폰에 있는 연락처 불러오기, ItemViewType 변경, Swipe-to-Action,RecyclerView.ItemAnimator, MotionLayout으로특수 효과 활용, View 색상 커스텀, 연락처 “ㄱ,ㄴ,ㄷ,ㄹ” 헤더 추가, 배경 설정으로 연락처 배경 이미지 추가
 
 심수빈 : TabLayout 와 ViewPager, 검색 기능, 다양한 태그의 즐겨찾기 추가, 상세 화면&수정화면에서 즐겨찾기 태그 추가 및 정보 업데이트, 다이얼 패드로 이동
@@ -145,13 +163,16 @@ Color Contacts
 ### [유저추가 다이얼로그](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/AddContactDialog.md)
 
 <p align ="center">
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/0487f1cd-5d33-4a07-8f8e-6799c231946f" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/52961d5e-e6e7-467d-b059-39cfa9f65e79" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/0b61eb37-959c-4c7a-8979-4717a723b2de" width="150" heigth="70" />
  </p>
 우측 하단의 플로팅 버튼을 클릭하면 다이얼로그가 뜨면서 유저를 추가 할 수 있다
 
 유효성 검사와, 휴대폰 번호를 입력시 숫자만 눌러도 010-0000-0000 형식으로 입력하게 되고
 
 이벤트로 알림을 울릴 수 있다
+
+여기서 연락처를 추가하면 실제 연락처에도 연락처가 등록된다
 
 ### [기본 연락처 리스트 화면](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/ContactListFragment.md)
 <p align ="center">
@@ -182,10 +203,11 @@ Color Contacts
 
 ## [상세 페이지](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/DetailActivity.md)
 <p align ="center">
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/3f657cfa-cc29-44a8-8807-f53aa47d310c" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/86fb2d29-08fe-4583-a29d-aca8313dba56" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/6c08a170-9938-4fcd-9986-b9bcd25e0877" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/be69ae9d-25f2-4f9d-b758-fd310e35ed42" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/5925c1ab-dbba-4e31-8e91-a2647136fe09" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/fce83b1c-a96d-41a2-8bfc-174d80f64542" width="150" heigth="70" />
 </p>
 
 상세페이지에선 유저의 정보를 수정할 수 있다
@@ -203,15 +225,90 @@ Color Contacts
 처음부터 자세하게 기능 역할 분담을 하지 않아서
 나중에 보니 같은 기능을 서로 다른 페이지에 추가하려고하는 문제가 발생했다.
 
+-> 해결: 기본적인 틀을 잡아두고(디테일 페이지 UI), 추가로 들어가는 기능(알림설정, 즐겨찾기 태그 추가 등)는 담당하는 인원이 맡게해서 진행
+
+---
+뷰모델을 사용해서 구현 했는데, 문제가 생겨서 뷰모델 제거후 데이터 갱신이 안됨
+
+-> 해결: 인터페이스로 리스너를 만들어 해결
+
 <details>
 <summary > <h3>심규상</h3> </summary>
+
+#### 즐겨찾기 추가시 다른 유저가 추가되던 문제
+---
+-> 해결: 처음에 만들때 adapter에서 포지션을 받고 그걸로 유저데이터 리스트에서 즐겨찾기를 수정했는데 후에 뷰타입을 늘리면서 리사이클러뷰에 연락처 데이터 외에 다른 데이터가 들어가게됨
+ 반환값에 유저의 key값을 반환하게 해서 key로 구별하고 데이터를 변경
+
+
+ #### 모션 레이아웃 애니메이션이 순식간에 end로 이동하던문제
+ ---
+ -> 해결: 자동 완성으로 보여주는 코드들을 조사한뒤 setTransitionDuration으로 애니메이션 시간만큼 조정해주면 원하는대로 애니메이션이 실행됨
+
+ #### 기본이미지가 안뜨던 문제
+ ---
+ -> 이미지 타입을 URI -> File로 바꾸고 coil.load로 불러오게 변경한 이후, 기본이미지는 drawable이라 설정 하지 못했는데
+데이터에 File이 null이면 기본이미지를 setImageReseource로 drawble로 넣고 null이 아닐시 load하게 만들어 해결
+
 </details>
 <details>
 <summary > <h3>심수빈</h3> </summary>
+ 
+### 갤러리 이미지의 URI 재사용시 이미지가 안 뜨고 에러가 발생하는 문제    
+
+--------------  
+->  문제  
+>갤러리에서 이미지의 uri를 가지고 온 후에 앱 내에서 uri를 재사용하여 사용하는 경우 ImageView에 이미지가 안 뜨고 아래와 같은 에러가 발생하는 문제  
+```
+class com.bumptech.glide.load.engine.GlideException: Failed to load resource There was 1 root cause: java.lang.SecurityException(Permission Denial: opening provider   
+```
+->   원인  
+>우리 앱은 갤러리에서 이미지의 uri를 가져와서 앱 내에 uri를 저장하여 재사용하는 방식으로 구현했었다. 처음은 uri를 가져오는 데 문제가 없지만 그 다음부터는 경로를 제어를 못 해서 구글에서 재사용할 수 없게 막아 놓는 것으로 보여진다.   
+
+->  해결  
+> uri를 재사용하지 않고 갤러리에서 이미지를 가져올 때 디바이스에 있는 파일의 직접 경로를 찾아 uri가 아닌 경로를 저장한 후 해당 실제 경로를 가지고 뷰에 세팅 하는 방식으로 해결하였다.   
 </details>
+
 <details>
 <summary > <h3>최영정</h3> </summary>
+
+
+### 내 정보와 나머지 연락처 정보 구분해서 처리
+------------
+#### 1. 기기의 내 번호 정보를 따로 받아오기
+내 기기의 번호는 일반 연락처 정보가 아닌 민감한 개인정보로 분류되기 때문에 따로 권한요청을 해야 하고 그 방법은 별로 권장되지는 않는다
+
+→ 그냥 프로필을 작성하는 것처럼 마이페이지에서 사용자가 직접 입력하게 하는 방식을 선택했다
+
+#### 2. 같은 디테일 페이지를 사용하면서 내 정보와 타인 연락처를 구별
+
+-> 마이페이지에 대한 클릭은 프래그먼트 코드에서 감지해서 인텐트로 타입을 보내고 나머지 연락처 리스트 각각에 대한 클릭은 리사이클러뷰의 어댑터에서 처리하도록 했었다
+데이터가 한 리스트에 있지 않고 따로 있어서인지nullPointException이나 초기화 에러가 자꾸 발생했다
+→ 아예 액티비티를 따로 만들어야 할지 고민했는데 규상님이 리사이클러뷰 뷰 타입으로 다시 만들고 key값만 따로 해서 구분되게 해결을 해 주셨다
+
+
+### 이벤트 설정 관련
+------------
+알림을 설정하고 그대로 있거나 페이지를 나가기만 할 때는 정상적으로 알림이 오는데 설정하고 나갔다가 시간이 지나기 전에 다시 해당 연락처의 상세 페이지로 들어가면 설정한 알림이 다시 x로 초기화되는 문제가 있었다
+
+→ 알림 설정 완료 시간으로 계산해서 알림이 울릴 시간을 따로 변수에 저장해두고 그 시간과 현재 시간을 비교해서 이벤트 값을 초기화하는 조건문을 만들면 해결될 것 같다
+
+
+### 특정 동작이 의도한 대로 되지 않을 때
+------------
+한 페이지 내에서 나뉘는 경우의 수가 많아서 각 경우에 알맞은 값이 제대로 들어와야 의도한 화면이 나오는데 코드만으로는 이게 되어야 하는데 왜 안 되지 싶은 것들이 있었다.
+
+→ 해당 변수에 대해 로그를 찍어서 어디에서 잘못 들어왔는지 바로 확인하는 것을 습관화하자
+
+
+### dk 버전 차이 문제
+------------
+이미지 처리 방식을 변경해서 pull을 했는데 프로젝트 clean을 해도 import가 제대로 되지 않았다
+
+→안드로이드 스튜디오 설정에서 gradle JDK 버전을 바꿨더니 해결되었다
+
 </details>
+
 <details>
 <summary > <h3>이상오</h3> </summary>
 
@@ -255,3 +352,15 @@ PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
 ----------------
 
 </details>
+
+# 후기
+
+심규상 : 시작전에 준비를 많이 했는데 팀원분들이 잘 따라줘서 고마웠고, 미처 생각하지못한 부족한부분을 채울 수 있어서 좋았습니다
+
+이상오 : 이번 프로젝트에서 역할 분담을 하고 데드라인을 정하면서 하니까 더 체계적인 프로젝트를 할 수 있었던것 같습니다. 막힌 부분이 있으면 각각 피드백해주시고 의사소통도 열심히 해주기도하시고, 프로젝트 진행에 있어서 열정적이라 많은 자극받고 갑니다.
+
+최영정 : 열심히 하시고 잘 하시는 분들을 보면서 많이 배웠고 도움도 많이 받을 수 있었습니다. 별 생각 없이 쓰던 기능을 직접 만들어 보려니까 생각보다 쉽지 않다는 걸 느꼈습니다. 협업을 할 때 전체적인 프로젝트 구조에 맞게 우선순위를 잘 정하는 게 중요하다는 것을 알았습니다.
+
+심수빈 : 역할 분담이나 깃 사용에 있어서 프로젝트 시작부터 규칙을 정하여 진행하다보니 프로젝트를 진행하며 큰 어려움이 없었던 것 같아 만족스러웠다.
+다만, 이미지 관련 권한 문제와 같은 예상치 못 했던 문제를 겪으면서 기능면에서 추가하고 싶은 부분이 많았는데 문제를 해결하는데 시간이 생각보다 많이 걸리다보니 아쉬움이 있었다. 
+팀원들 모두 열심히 최선을 다하여 진행한 만큼 만족스러운 결과를 낼 수 있었고 프로젝트를 진행하며 많이 배우고 앞으로 더 열심히 해야겠다는 생각이 들었다.
