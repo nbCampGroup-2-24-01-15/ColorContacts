@@ -40,13 +40,13 @@
     <br />
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Splash.md">인트로</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/ChooseProfileActivity.md">메인 페이지</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/MainActivity.md">메인 페이지</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/ChooseProfileActivity.md">연락처</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/ContactListFragment.md">연락처</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/MainlPageActivity.md">즐겨찾기</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/FavoriteFragment.md">즐겨찾기</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/DetailPageActivity.md">상세 페이지</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/DetailActivity.md">상세 페이지</a>
   </p>
 </p>
 <p align = "center">
