@@ -9,7 +9,7 @@
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/actions/new">
       <img alt="Tests Passing" src="https://img.shields.io/github/languages/top/nbCampGroup-2-24-01-15/ColorContacts?style=flat&logo=kotlin&logoColor=white" />
     </a>
-    <a href="https://codecov.io/gh/anuraghazra/github-readme-stats">
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/commits/dev/">
       <img alt="Tests Coverage" src="https://img.shields.io/github/commit-activity/m/nbCampGroup-2-24-01-15/ColorContacts" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/graphs/contributors">
