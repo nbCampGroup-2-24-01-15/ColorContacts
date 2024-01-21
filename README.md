@@ -98,7 +98,7 @@ Color Contacts
 24/01/15 ~ 24/01/20
 
 ## 6.프로젝트 기획
-자유롭게 아이디어 브레인스토밍을 하고 [브레인 스토밍](https://www.canva.com/design/DAF55l5LO04/qqUeBCckypKrerrXVGGTtw/edit?referrer=mind-maps-landing-page)
+자유롭게 아이디어 [브레인 스토밍](https://www.canva.com/design/DAF55l5LO04/qqUeBCckypKrerrXVGGTtw/edit?referrer=mind-maps-landing-page)을 하고
 어느정도 아이디어를 나눈뒤 Figma를 가지고 기본적인 레이아웃을 디자인하고 거기서 아이디어가 추가되며 컨셉과,래퍼런스를 확실하게 틀을 잡았다 
 
 <details>
