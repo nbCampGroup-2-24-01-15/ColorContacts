@@ -65,8 +65,10 @@ private fun openGallery() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data!!
-                binding.ivAddContactProfileImg.setImageURI(selectedImageUri)
+                selectedImageUri = data?.data
+                val path = requireActivity().absolutelyPath(selectedImageUri!!)
+                file = File(path)
+                binding.ivAddContactProfileImg.load(selectedImageUri)
 
             }
         }
@@ -122,7 +124,7 @@ class CheckString {
 ```kotlin
 // 데이터 전달
 val user = User(
-img = selectedImageUri,
+img = file,
 backgroundImg = selectedBackgroundImageUri,
 name = binding.etAddContactName.text.toString(),
 phone = binding.etAddContactPhoneNumber.text.toString(),
@@ -143,7 +145,7 @@ UserList.userList.sortBy { it.name }
 
 
 ### 알람을 등록
-[Notification.kt](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Notification.md) 클래스내의 메소드를 이용
+[Notification](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/Notification.md) 클래스내의 메소드를 이용
 - setUserAlarm(user,requireContext())
     - 새로생성된 user 에 대한 알람을 등록
 

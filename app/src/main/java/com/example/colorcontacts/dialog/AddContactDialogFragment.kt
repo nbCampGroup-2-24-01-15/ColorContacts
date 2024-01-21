@@ -3,10 +3,12 @@ package com.example.colorcontacts.dialog
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
@@ -133,6 +135,8 @@ class AddContactDialogFragment() : DialogFragment() {
                 UserList.userList.add(user)
                 UserList.userList = MyData.sortContacts(UserList.userList).toMutableList()
 
+                // 실제 연락처 데이터에 업로드 하기
+                addUserToContacts(user)
                 dateUpdateListener?.onDataUpdate()
 
                 // 알람 등록
@@ -246,6 +250,51 @@ class AddContactDialogFragment() : DialogFragment() {
         //암시적 인텐트 이용
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryResultLauncher.launch(galleryIntent)
+    }
+
+
+    /**
+     *  TODO : 실제 연락처 추가하기
+     */
+    // 연락처에 문자열 값을 추가하는 함수
+    private fun addUserToContacts(user: User) {
+
+        // ContentResolver를 정의(DB 삽입,업데이트,삭제 같은 작업을 수행할수 있게 해줌)
+        val contentResolver = requireContext().contentResolver
+
+        // ContentValues 객체를 초기화(Key,value)
+        val contentValues = ContentValues()
+        contentValues.put(ContactsContract.RawContacts.ACCOUNT_TYPE, null as String?)
+        contentValues.put(ContactsContract.RawContacts.ACCOUNT_NAME, null as String?)
+
+        // Raw contact을 추가하고 contact ID를 가져옴
+        val rawContactUri: Uri? = contentResolver.insert(ContactsContract.RawContacts.CONTENT_URI, contentValues)
+        val rawContactId: Long = rawContactUri?.lastPathSegment?.toLongOrNull() ?: return
+
+
+
+        // 데이터 추가 부분
+
+        // 이름 추가
+        contentValues.clear()
+        contentValues.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+        contentValues.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+        contentValues.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, user.name)
+        contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
+
+        // 전화번호 추가
+        contentValues.clear()
+        contentValues.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+        contentValues.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+        contentValues.put(ContactsContract.CommonDataKinds.Phone.NUMBER, user.phone)
+        contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
+
+        // 이메일 추가
+        contentValues.clear()
+        contentValues.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+        contentValues.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
+        contentValues.put(ContactsContract.CommonDataKinds.Email.ADDRESS, user.email)
+        contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
     }
 
 

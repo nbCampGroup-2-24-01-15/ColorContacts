@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
 import com.example.colorcontacts.R
 
 class DialPadFragment : Fragment() {
@@ -21,9 +22,9 @@ class DialPadFragment : Fragment() {
     }
 
     override fun onResume() {
-        super.onResume()/*
-        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:010"))
-        startActivity(intent)*/
+        super.onResume()
+        val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
+        viewPager.currentItem = 1
     }
 
 }
