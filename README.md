@@ -7,7 +7,7 @@
    <br />
    <br />
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/actions/new">
-      <img alt="Tests Passing" src="https://img.shields.io/github/languages/top/nbCampGroup-2-24-01-15/ColorContacts?style=flat&logo=kotlin&logoColor=white" />
+      <img alt="Tests Passing" src="https://img.shields.io/github/languages/top/nbCampGroup-2-24-01-15/ColorContacts?style=flat&logo=kotlin&logoColor=white&color=800080" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/commits/dev/">
       <img alt="Tests Coverage" src="https://img.shields.io/github/commit-activity/m/nbCampGroup-2-24-01-15/ColorContacts" />
@@ -54,8 +54,17 @@
 <a>
    <img alt="kotlin" src = "https://img.shields.io/badge/Kotlin-%230095D5.svg?&style=for-the-badge&logo=kotlin&logoColor=white" />
   </a>
+  <a>
+   <img alt="Android Studio" src="https://img.shields.io/badge/Android_Studio-3DDC84.svg?&style=for-the-badge&logo=android-studio&logoColor=white" />
+  </a>
  <a>
    <img alt="Gradle" src = "https://img.shields.io/badge/Gradle-02303A.svg?&style=for-the-badge&logo=gradle&logoColor=white" />
+  </a>
+  <a href ="https://www.notion.so/SA-fa7aba8ca3604a76bef1b90c83093a69">
+   <img alt="Notion" src="https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=notion&logoColor=white" />
+  </a>
+  <a href="https://github.com/nbCampGroup-2-24-01-15/">
+   <img alt="GitHub" src="https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=github&logoColor=white" />
   </a>
 </p>
  <h3 align = "center">PreView</h3>
