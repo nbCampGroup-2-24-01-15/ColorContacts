@@ -83,7 +83,10 @@ class FavoriteAdapter(
                     val favorite = TagMember.memberChk(item.user.key)
                     if (favorite != null) {
                         if (favorite.img != null) {
-                            favorite.img?.let { star.load(it) }
+//                            favorite.img?.let { star.load(it) }
+                            Glide.with(itemView)
+                                .load(favorite.img)
+                                .into(star)
                         } else star.setImageResource(R.drawable.ic_detail_favorite_filled)
                     }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)

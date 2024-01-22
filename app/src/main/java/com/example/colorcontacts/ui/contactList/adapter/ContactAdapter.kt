@@ -104,8 +104,12 @@ class ContactAdapter(
                     if (favorite != null) {
                         if (favorite.img == null){
                             star.setImageResource(R.drawable.ic_detail_favorite_filled)
+                        } else {
+//                            favorite.img?.let { star.load(it) }
+                            Glide.with(itemView)
+                                .load(favorite.img)
+                                .into(star)
                         }
-                        favorite.img?.let { star.load(it) }
                     }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     favoritgo.setOnClickListener {
