@@ -49,6 +49,16 @@
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/DetailActivity.md">상세 페이지</a>
   </p>
 </p>
+ <h3 align = "center">PreView</h3>
+
+ <p align ="center">
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/7d7efb72-419c-46b0-8ae6-99843734318f" width="110" heigth="50" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/ce840980-3e44-4244-a91d-050bccbf811c" width="110" heigth="50" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/ba41a54c-6d8f-43eb-acc6-192c7d466e42" width="110" heigth="50" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/8be636a1-b831-402f-b128-bf64eb4094b3" width="110" heigth="50" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/be69ae9d-25f2-4f9d-b758-fd310e35ed42" width="110" heigth="50" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/de14e1bb-c0c5-4683-a767-451238226686" width="110" heigth="50" />
+</p>
 <p align = "center">
  
 <a>
@@ -67,17 +77,6 @@
    <img alt="GitHub" src="https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=github&logoColor=white" />
   </a>
 </p>
- <h3 align = "center">PreView</h3>
-
- <p align ="center">
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/7d7efb72-419c-46b0-8ae6-99843734318f" width="110" heigth="50" />
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/ce840980-3e44-4244-a91d-050bccbf811c" width="110" heigth="50" />
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/ba41a54c-6d8f-43eb-acc6-192c7d466e42" width="110" heigth="50" />
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/8be636a1-b831-402f-b128-bf64eb4094b3" width="110" heigth="50" />
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/be69ae9d-25f2-4f9d-b758-fd310e35ed42" width="110" heigth="50" />
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/de14e1bb-c0c5-4683-a767-451238226686" width="110" heigth="50" />
-</p>
-
 # 프로젝트 개요
 
 ## 1.프로젝트 팀원
