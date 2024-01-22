@@ -7,21 +7,21 @@
    <br />
    <br />
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/actions/new">
-      <img alt="Tests Passing" src="https://github.com/heesoo-park/TeamAssignment3_2/workflows/Test/badge.svg" />
+      <img alt="Tests Passing" src="https://img.shields.io/github/languages/top/nbCampGroup-2-24-01-15/ColorContacts?style=flat&logo=kotlin&logoColor=white&color=800080" />
     </a>
-    <a href="https://codecov.io/gh/anuraghazra/github-readme-stats">
-      <img alt="Tests Coverage" src="https://codecov.io/gh/heesoo-park/TeamAssignment3_2/branch/master/graph/badge.svg" />
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/commits/dev/">
+      <img alt="Tests Coverage" src="https://img.shields.io/github/commit-activity/m/nbCampGroup-2-24-01-15/ColorContacts" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/graphs/contributors">
       <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/nbCampGroup-2-24-01-15/ColorContacts" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/issues">
-      <img alt="Issues" src="https://img.shields.io/github/issues/nbCampGroup-2-24-01-15/ColorContacts?color=0088ff" />
+      <img alt="Issues" src="https://img.shields.io/github/issues/nbCampGroup-2-24-01-15/ColorContacts?color=yellow" />
     </a>
     <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/pulls">
-      <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/nbCampGroup-2-24-01-15/ColorContacts?color=0088ff" />
+      <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/nbCampGroup-2-24-01-15/ColorContacts?color=red" />
     </a>
-    <br />
+     <br />
     <br />
   </p>
   <p align="center">
@@ -38,16 +38,34 @@
   <p align="center">
     <a>페이지 상세 설명</a>
     <br />
-    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/Splash.md">인트로</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/Splash.md">인트로</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/ChooseProfileActivity.md">메인 페이지</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/MainActivity.md">메인 페이지</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/ChooseProfileActivity.md">연락처</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/ContactListFragment.md">연락처</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/MainlPageActivity.md">즐겨찾기</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/FavoriteFragment.md">즐겨찾기</a>
     ·
-    <a href="https://github.com/heesoo-park/TeamAssignment3_2/blob/main/ReadMeFiles/DetailPageActivity.md">상세 페이지</a>
+    <a href="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/DetailActivity.md">상세 페이지</a>
   </p>
+</p>
+<p align = "center">
+ 
+<a>
+   <img alt="kotlin" src = "https://img.shields.io/badge/Kotlin-%230095D5.svg?&style=for-the-badge&logo=kotlin&logoColor=white" />
+  </a>
+  <a>
+   <img alt="Android Studio" src="https://img.shields.io/badge/Android_Studio-3DDC84.svg?&style=for-the-badge&logo=android-studio&logoColor=white" />
+  </a>
+ <a>
+   <img alt="Gradle" src = "https://img.shields.io/badge/Gradle-02303A.svg?&style=for-the-badge&logo=gradle&logoColor=white" />
+  </a>
+  <a href ="https://www.notion.so/SA-fa7aba8ca3604a76bef1b90c83093a69">
+   <img alt="Notion" src="https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=notion&logoColor=white" />
+  </a>
+  <a href="https://github.com/nbCampGroup-2-24-01-15/">
+   <img alt="GitHub" src="https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=github&logoColor=white" />
+  </a>
 </p>
  <h3 align = "center">PreView</h3>
 
@@ -62,25 +80,25 @@
 
 # 프로젝트 개요
 
-## 프로젝트 팀원
+## 1.프로젝트 팀원
 심규상, 심수빈, 이상오, 최영정
 
-## 앱 이름
+## 2.앱 이름
 Color Contacts
 
-## 앱 이름의 의미
+## 3.앱 이름의 의미
 🎨 다채로운 색의 연락처📕 라는 뜻으로
 
 다양한 태그와⭐, 다양한 색을🌈 고르고 커스텀 할 수 있는 앱 입니다
 
-## 앱의 목적
+## 4.앱의 목적
 연락처의 인물들을 다양한 태그로 분류하고, 자신이 원하는대로 커스텀 하는것
 
-## 프로젝트 일정
+## 5.프로젝트 일정
 24/01/15 ~ 24/01/20
 
-## 프로젝트 기획
-자유롭게 아이디어 브레인스토밍을 하고 [브레인 스토밍](https://www.canva.com/design/DAF55l5LO04/qqUeBCckypKrerrXVGGTtw/edit?referrer=mind-maps-landing-page)
+## 6.프로젝트 기획
+자유롭게 아이디어 [브레인 스토밍](https://www.canva.com/design/DAF55l5LO04/qqUeBCckypKrerrXVGGTtw/edit?referrer=mind-maps-landing-page)을 하고
 어느정도 아이디어를 나눈뒤 Figma를 가지고 기본적인 레이아웃을 디자인하고 거기서 아이디어가 추가되며 컨셉과,래퍼런스를 확실하게 틀을 잡았다 
 
 <details>
@@ -93,7 +111,7 @@ Color Contacts
 
 </details>
 
-## 역할 분담
+## 7.역할 분담
 심규상 : 실제 폰에 있는 연락처 불러오기, ItemViewType 변경, Swipe-to-Action,RecyclerView.ItemAnimator, MotionLayout으로특수 효과 활용, View 색상 커스텀, 연락처 “ㄱ,ㄴ,ㄷ,ㄹ” 헤더 추가, 배경 설정으로 연락처 배경 이미지 추가
 
 심수빈 : TabLayout 와 ViewPager, 검색 기능, 다양한 태그의 즐겨찾기 추가, 상세 화면&수정화면에서 즐겨찾기 태그 추가 및 정보 업데이트, 다이얼 패드로 이동
@@ -338,6 +356,11 @@ PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
 # 후기
 
 심규상 : 시작전에 준비를 많이 했는데 팀원분들이 잘 따라줘서 고마웠고, 미처 생각하지못한 부족한부분을 채울 수 있어서 좋았습니다
+
 이상오 : 이번 프로젝트에서 역할 분담을 하고 데드라인을 정하면서 하니까 더 체계적인 프로젝트를 할 수 있었던것 같습니다. 막힌 부분이 있으면 각각 피드백해주시고 의사소통도 열심히 해주기도하시고, 프로젝트 진행에 있어서 열정적이라 많은 자극받고 갑니다.
+
 최영정 : 열심히 하시고 잘 하시는 분들을 보면서 많이 배웠고 도움도 많이 받을 수 있었습니다. 별 생각 없이 쓰던 기능을 직접 만들어 보려니까 생각보다 쉽지 않다는 걸 느꼈습니다. 협업을 할 때 전체적인 프로젝트 구조에 맞게 우선순위를 잘 정하는 게 중요하다는 것을 알았습니다.
-심수빈 : 역할 분담이나 깃 사용에 있어서 프로젝트 시작부터 규칙을 정하여 진행하다보니 프로젝트를 진행하며 큰 어려움이 없었던 것 같아 만족스러웠다. 다만, 이미지 관련 권한 문제와 같은 예상치 못 했던 문제를 겪으면서 기능면에서 추가하고 싶은 부분이 많았는데 문제를 해결하는데 시간이 생각보다 많이 걸리다보니 아쉬움이 있었다. 팀원들 모두 열심히 최선을 다하여 진행한 만큼 만족스러운 결과를 낼 수 있었고 프로젝트를 진행하며 많이 배우고 앞으로 더 열심히 해야겠다는 생각이 들었다.
+
+심수빈 : 역할 분담이나 깃 사용에 있어서 프로젝트 시작부터 규칙을 정하여 진행하다보니 프로젝트를 진행하며 큰 어려움이 없었던 것 같아 만족스러웠다.
+다만, 이미지 관련 권한 문제와 같은 예상치 못 했던 문제를 겪으면서 기능면에서 추가하고 싶은 부분이 많았는데 문제를 해결하는데 시간이 생각보다 많이 걸리다보니 아쉬움이 있었다. 
+팀원들 모두 열심히 최선을 다하여 진행한 만큼 만족스러운 결과를 낼 수 있었고 프로젝트를 진행하며 많이 배우고 앞으로 더 열심히 해야겠다는 생각이 들었다.

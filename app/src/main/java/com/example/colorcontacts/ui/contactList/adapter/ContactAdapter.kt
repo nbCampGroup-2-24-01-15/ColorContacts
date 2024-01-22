@@ -271,7 +271,7 @@ class ContactAdapter(
         init {
             itemView.setOnClickListener {
                 val item = filteredList[adapterPosition] as GridUser
-                //연락처 리스트 그리드뷰 아이템 클릭 시 앱 종료 해결
+
                 itemClick?.onClick(it, adapterPosition, item.user.key)
             }
         }

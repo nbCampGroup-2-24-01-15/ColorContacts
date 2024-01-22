@@ -18,9 +18,8 @@ class DataChangedListener(private val adapter: AdapterInterface?, private val bi
                 gridManager.spanSizeLookup = object :SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return when (adapter?.getItemViewType(position)){
-                            2 -> 4
-                            3 -> 4
-                            else -> 1
+                            0 -> 1
+                            else -> 4
                         }
                     }
 
