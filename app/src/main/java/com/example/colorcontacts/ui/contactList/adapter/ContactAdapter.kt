@@ -10,6 +10,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
 //import coil.load
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.ColorTheme
@@ -90,7 +91,12 @@ class ContactAdapter(
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
                     Log.d("file", "Adapterdata = ${item.user}")
-                    if (item.user.img != null) img.load(item.user.img)
+                    if (item.user.img != null) {
+//                        img.load(item.user.img)
+                        Glide.with(itemView)
+                            .load(item.user.img)
+                            .into(img)
+                    }
                     else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
@@ -135,7 +141,10 @@ class ContactAdapter(
                 Log.d("file", "Adapterdata = ${item.user}")
                 with((holder as GridViewHolder)) {
                     if (item.user.img != null) {
-                        img.load(item.user.img)
+//                        img.load(item.user.img)
+                        Glide.with(itemView)
+                            .load(item.user.img)
+                            .into(img)
                     }else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)

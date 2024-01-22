@@ -1,6 +1,5 @@
 package com.example.colorcontacts.ui.detail
 
-//import com.example.colorcontacts.dialog.DateUpdateListener
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
