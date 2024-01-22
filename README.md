@@ -139,8 +139,9 @@ Color Contacts
 요청이 완료되면 사용자의 연락처 데이터를 갱신한다
 
 ## [메인 페이지](https://github.com/nbCampGroup-2-24-01-15/ColorContacts/blob/dev/readme/MainActivity.md)
+
 <p align ="center">
- <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/a631dd83-0bfe-41d8-892a-d6820e99493a" width="150" heigth="70" />
+ <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/a81c952c-0e71-42a9-865f-f66b4797207f" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/fb19dcc6-bf27-4a59-b366-3babc72c99c3" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/4d011b31-44b6-4671-8f63-85f11c13dd56" width="150" heigth="70" />
  <img alt="" src ="https://github.com/nbCampGroup-2-24-01-15/ColorContacts/assets/116724657/ce840980-3e44-4244-a91d-050bccbf811c" width="150" heigth="70" />
