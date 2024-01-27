@@ -192,15 +192,18 @@ class AddContactDialogFragment() : DialogFragment() {
     // 텍스트가 변경될때 실행
     private fun setTextChangedListener() {
 
+        // phoneNumber 입력시 자동으로 하이픈 추가
+        editTexts[1].addTextChangedListener(PhoneNumberFormattingTextWatcher())
+
+
         //editTexts 유효성 검사
         editTexts.forEach { editText ->
             editText.addTextChangedListener {
+
                 validCheck(editText)
             }
         }
 
-        // phoneNumber 입력시 자동으로 하이픈 추가
-        editTexts[1].addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
     }
 

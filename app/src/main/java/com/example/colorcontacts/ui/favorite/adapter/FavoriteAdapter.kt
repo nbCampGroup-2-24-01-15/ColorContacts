@@ -1,5 +1,7 @@
 package com.example.colorcontacts.ui.favorite.adapter
 
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.ColorTheme
 import com.example.colorcontacts.data.TagMember
@@ -62,14 +65,28 @@ class FavoriteAdapter(
         when (val item = filteredList[position]) {
             is FavoriteViewType.FavoriteUser -> {
                 with(holder as ItemViewHolder) {
-                    if (item.user.img != null) img.load(item.user.img)
-                    else img.setImageResource(R.drawable.img_user_profile)
+                    Log.d("file", "FavoriteData = ${item.user}")
+                    if (item.user.img != null) {
+//                        img.load(item.user.img)
+                        Glide.with(itemView)
+//                            .load(Uri.parse(item.user.img.toString()))
+                            .load(item.user.img)
+                            .into(img)
+                    }
+                    else {
+                        img.setImageResource(R.drawable.img_user_profile)
+                    }
+                    Log.d("file", "FavoriteDataImg = ${item.user.img}")
+                    Log.d("file", "FavoriteDataImage = ${img.drawable}")
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     val favorite = TagMember.memberChk(item.user.key)
                     if (favorite != null) {
                         if (favorite.img != null) {
-                            favorite.img?.let { star.load(it) }
+//                            favorite.img?.let { star.load(it) }
+                            Glide.with(itemView)
+                                .load(favorite.img)
+                                .into(star)
                         } else star.setImageResource(R.drawable.ic_detail_favorite_filled)
                     }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
@@ -97,7 +114,14 @@ class FavoriteAdapter(
 
             is FavoriteViewType.FavoriteGrid -> {
                 with(holder as GridViewHolder) {
-                    img.load(item.user.img)
+//                    img.load(item.user.img)
+                    if (item.user.img != null) {
+//                        img.load(item.user.img)
+                        Glide.with(itemView)
+                            .load(item.user.img)
+                            .into(img)
+                    }
+                    else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
                     layout.setBackgroundColor(mColor.colorLinear)

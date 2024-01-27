@@ -90,6 +90,7 @@
                     android:id="@+id/iv_detail_add_photo"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
                     android:background="@drawable/custom_ripple_effect"
                     android:src="@drawable/ic_detail_new_photo"
                     android:visibility="invisible"

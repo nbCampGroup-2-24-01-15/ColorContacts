@@ -10,6 +10,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
 //import coil.load
 import com.example.colorcontacts.R
 import com.example.colorcontacts.data.ColorTheme
@@ -89,7 +90,13 @@ class ContactAdapter(
         when (val item = filteredList[position]) {
             is ContactViewType.ContactUser -> {
                 with((holder as ItemViewHolder)) {
-                    if (item.user.img != null) img.load(item.user.img)
+                    Log.d("file", "Adapterdata = ${item.user}")
+                    if (item.user.img != null) {
+//                        img.load(item.user.img)
+                        Glide.with(itemView)
+                            .load(item.user.img)
+                            .into(img)
+                    }
                     else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
@@ -97,8 +104,12 @@ class ContactAdapter(
                     if (favorite != null) {
                         if (favorite.img == null){
                             star.setImageResource(R.drawable.ic_detail_favorite_filled)
+                        } else {
+//                            favorite.img?.let { star.load(it) }
+                            Glide.with(itemView)
+                                .load(favorite.img)
+                                .into(star)
                         }
-                        favorite.img?.let { star.load(it) }
                     }
                     else star.setImageResource(R.drawable.ic_detail_favorite_outline)
                     favoritgo.setOnClickListener {
@@ -131,9 +142,13 @@ class ContactAdapter(
             }
 
             is GridUser -> {
+                Log.d("file", "Adapterdata = ${item.user}")
                 with((holder as GridViewHolder)) {
                     if (item.user.img != null) {
-                        img.load(item.user.img)
+//                        img.load(item.user.img)
+                        Glide.with(itemView)
+                            .load(item.user.img)
+                            .into(img)
                     }else img.setImageResource(R.drawable.img_user_profile)
                     name.text = item.user.name
                     name.setTextColor(mColor.colorFont)
@@ -150,6 +165,7 @@ class ContactAdapter(
             }
 
             is ContactViewType.MyProfile -> {
+                Log.d("file", "Adapterdata = ${item.user}")
                 with((holder as SelfHolder)) {
                     if (item.user.img != null) img.load(item.user.img)
                     else img.setImageResource(R.drawable.img_user_profile)
@@ -255,6 +271,7 @@ class ContactAdapter(
         init {
             itemView.setOnClickListener {
                 val item = filteredList[adapterPosition] as GridUser
+
                 itemClick?.onClick(it, adapterPosition, item.user.key)
             }
         }
